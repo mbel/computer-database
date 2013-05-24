@@ -6,8 +6,13 @@ import com.excilys.om.Company;
 
 public interface CompanyService {
 	
-	List<Company> getListCompany();
+	List<Company> findCompanies();
 
-	Company getCompanyById(int id);
+	Company findCompanyById(int id);
 
+	void delete(Company company);
+
+	void update(Company company);
+
+	void insert(Company company);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.excilys.om.Company;
 
-public class CompanyDaoImpl {
+public class CompanyDaoImpl implements CompanyDao{
 
 	private Connection con = null;
 	private PreparedStatement ptmt = null;
@@ -35,7 +35,7 @@ public class CompanyDaoImpl {
 		}
 	}
 	
-	public Company getCompanyById(int id) {
+	public Company findCompanyById(int id) {
 		Company company = null;
 		try {
 			String querystring = "SELECT * FROM company where id=?";
@@ -56,7 +56,7 @@ public class CompanyDaoImpl {
 		return company;		
 	}
 
-	public List<Company> getListCompany() {
+	public List<Company> findCompanies() {
 		Company company = null;
 		List<Company> lp = new ArrayList<Company>();
 		try {

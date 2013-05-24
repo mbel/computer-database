@@ -10,7 +10,7 @@ import java.util.List;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
 
-public class ComputerDaoImpl {
+public class ComputerDaoImpl implements ComputerDao{
 
 	private Connection con = null;
 	private PreparedStatement ptmt = null;
@@ -37,7 +37,7 @@ public class ComputerDaoImpl {
 		}
 	}
 
-	public List<Computer> getListComputers() {
+	public List<Computer> findComputers() {
 		Computer computer = null;
 		Company company = null;
 		List<Computer> lp = new ArrayList<Computer>();
@@ -52,7 +52,7 @@ public class ComputerDaoImpl {
 				computer.setName(rs.getString(2));
 				computer.setIntroduced(rs.getDate(3));
 				computer.setDiscontinued(rs.getDate(4));
-				company = companydi.getCompanyById(rs.getInt(5));
+				company = companydi.findCompanyById(rs.getInt(5));
 				computer.setCompany(company);
 				lp.add(computer);
 			}
@@ -87,16 +87,16 @@ public class ComputerDaoImpl {
 		return -1;
 	}
 
-	public List<Computer> getListComputers(int pagination) {
+	public List<Computer> findComputers(int pagination) {
 		Computer computer = null;
 		Company company = null;
 		List<Computer> lp = new ArrayList<Computer>();
 		try {
-			String querystring = "SELECT * FROM computer limit ?,?";
+			String querystring = "SELECT * FROM computer LIMIT ?,10";
 			con = getConnection();
 			ptmt = con.prepareStatement(querystring);
-			ptmt.setInt(1, pagination * 10);
-			ptmt.setInt(2, (pagination+1) * 10);
+			int start = pagination * 10;
+			ptmt.setInt(1, start);
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
 				computer = new Computer();
@@ -104,7 +104,7 @@ public class ComputerDaoImpl {
 				computer.setName(rs.getString(2));
 				computer.setIntroduced(rs.getDate(3));
 				computer.setDiscontinued(rs.getDate(4));
-				company = companydi.getCompanyById(rs.getInt(5));
+				company = companydi.findCompanyById(rs.getInt(5));
 				computer.setCompany(company);
 				lp.add(computer);
 			}
@@ -114,6 +114,50 @@ public class ComputerDaoImpl {
 			closeConnection();
 		}
 		return lp;
+	}
+
+	public Computer findComputerById(int computer_id) {
+		Computer computer = null;
+		Company company = null;
+		try {
+			String querystring = "SELECT * FROM computer where id=?";
+			con = getConnection();
+			ptmt = con.prepareStatement(querystring);
+			ptmt.setInt(1, computer_id);
+			rs = ptmt.executeQuery();
+			if (rs.next()) {
+				computer = new Computer();
+				computer.setId(rs.getLong(1));
+				computer.setName(rs.getString(2));
+				computer.setIntroduced(rs.getDate(3));
+				computer.setDiscontinued(rs.getDate(4));
+				company = companydi.findCompanyById(rs.getInt(5));
+				computer.setCompany(company);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
+		return computer;		
+	}
+
+	@Override
+	public void delete(Computer computer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Computer computer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insert(Computer computer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

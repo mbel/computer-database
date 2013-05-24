@@ -5,11 +5,17 @@ import java.util.List;
 import com.excilys.om.Computer;
 
 public interface ComputerService {
-	
-	public List<Computer> getListComputers() ;
 
-	public int countComputers();
+	int countComputers();
 
-	public List<Computer> getListComputers(int p);
+	List<Computer> findComputers(int p);
+
+	Computer findComputerById(int computer_id);
+
+	void delete(Computer computer);
+
+	void update(Computer computer);
+
+	void insert(Computer computer);
 
 }

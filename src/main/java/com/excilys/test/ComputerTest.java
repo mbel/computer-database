@@ -10,7 +10,7 @@ public class ComputerTest {
 
 	public static void main(String[] args) {
 		ComputerDaoImpl computerDAO = new ComputerDaoImpl();
-		List<Computer> lp = computerDAO.getListComputers();
+		List<Computer> lp = computerDAO.findComputers();
 		System.out.println(lp);
 	}
 

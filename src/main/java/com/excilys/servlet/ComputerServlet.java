@@ -42,7 +42,7 @@ public class ComputerServlet extends HttpServlet {
 			p = Integer.parseInt(request.getParameter("p"));
 			p++;
 		}
-		List<Computer> lc = computersi.getListComputers(p);
+		List<Computer> lc = computersi.findComputers(p);
 		request.setAttribute("p", p);
 		System.out.println(lc);
 		request.setAttribute("lc", lc);

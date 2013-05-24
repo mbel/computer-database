@@ -31,7 +31,7 @@
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
-			<a class="btn success" id="add" href="/computers/new">Add a new
+			<a class="btn success" id="add" href="/computer-database/new">Add a new
 				computer</a>
 		</div>
 		<table class="computers zebra-striped">
@@ -39,19 +39,19 @@
 				<tr>
 
 					<th class="name header headerSortDown"><a
-						href="/computers?o=desc">Computer name</a></th>
+						href="/computer-database/computer?o=desc">Computer name</a></th>
 
 
 					<th class="introduced header "><a
-						href="/computers?s=introduced">Introduced</a></th>
+						href="/computer-database/computer?s=introduced">Introduced</a></th>
 
 
 					<th class="discontinued header "><a
-						href="/computers?s=discontinued">Discontinued</a></th>
+						href="/computer-database/computer?s=discontinued">Discontinued</a></th>
 
 
 					<th class="company_name header "><a
-						href="/computers?s=company.name">Company</a></th>
+						href="/computer-database/computer?s=company.name">Company</a></th>
 
 				</tr>
 			</thead>
@@ -64,7 +64,7 @@
 						request.setAttribute("computer", computer);
 				%>
 				<tr>
-					<td><a href="/computers/${computer.id}">${computer.name}</a></td>
+					<td><a href="/computer-database/SingleComputer?id=${computer.id}">${computer.name}</a></td>
 					<td>${computer.introduced}</td>
 					<td>${computer.discontinued}</td>
 					<td>${computer.company.name}</td>

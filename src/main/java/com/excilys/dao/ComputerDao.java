@@ -6,10 +6,18 @@ import com.excilys.om.Computer;
 
 public interface ComputerDao {
 
-	List<Computer> getListComputers();
+	List<Computer> findComputers();
 	
-	List<Computer> getListComputers(int p);
-
 	int countComputers();
+
+	List<Computer> findComputers(int p);
+
+	Computer findComputerById(int computer_id);
+
+	void delete(Computer computer);
+
+	void update(Computer computer);
+
+	void insert(Computer computer);
 
 }
