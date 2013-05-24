@@ -41,10 +41,11 @@ public class SingleComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Company> lcany = companysi.findCompanies();
-		int company_choose = Integer.parseInt(request.getParameter("id"));
-		Computer computer = computersi.findComputerById(company_choose);
+		int computer_choose = Integer.parseInt(request.getParameter("id"));
+		Computer computer = computersi.findComputerById(computer_choose);
 		request.setAttribute("lcany", lcany);
-		request.setAttribute("company_choose", computer.getName());
+		request.setAttribute("computer_choose", computer.getName());
+		request.setAttribute("computer_id", computer.getId());
 
 		request.getRequestDispatcher("singlecomputer.jsp").forward(request, response);
 	}

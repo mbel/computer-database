@@ -25,7 +25,7 @@
 	<section id="main">
 		<h1 id="homeTitle">${nbComputer} computers found</h1>
 		<div id="actions">
-			<form action="/computers?o=desc" method="GET">
+			<form action="/computer-database/computer?o=desc" method="GET">
 				<input type="search" id="searchbox" name="f" value=""
 					placeholder="Filter by computer name..."> <input
 					type="submit" id="searchsubmit" value="Filter by name"

@@ -2,14 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.excilys.om.Company"%>
 <%@ page import="java.util.*"%>
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,13 +22,13 @@
 
 	<section id="main">
 		<h1>Edit computer</h1>
-		<form action="/computers/7" method="POST">
+		<form action="/computer-database/save?id=${computer_id}" method="POST">
 			<fieldset>
 
 				<div class="clearfix ">
 					<label for="name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name" value="${company_choose}">
+						<input type="text" id="name" name="name" value="${computer_choose}">
 						<span class="help-inline">Required</span>
 					</div>
 				</div>
@@ -69,8 +61,10 @@
 					for (int i = 0; i < lcany.size(); i++) {
 						Company company = lcany.get(i);
 						request.setAttribute("company", company.getName());
+						request.setAttribute("companyid", company.getId());
+
 				%>
-							<option value="29">${company}</option>
+							<option value="${companyid}">${company}</option>
 		<% } %>
 
 						</select> <span class="help-inline"></span>
@@ -79,10 +73,10 @@
 			</fieldset>
 			<div class="actions">
 				<input type="submit" value="Save this computer" class="btn primary">
-				or <a href="/computers" class="btn">Cancel</a>
+				or <a href="/computer-database/" class="btn">Cancel</a>
 			</div>
 </form>
-	<form action="/computers/7/delete" method="POST" class="topRight">
+	<form action="/computer-database/delete?id=${computer_choose}" method="POST" class="topRight">
 			<input type="submit" value="Delete this computer" class="btn danger">
 		</form>
 </section>
