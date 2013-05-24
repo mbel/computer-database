@@ -1,26 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-
-
-
-
-
-
-
-
-
-
+<%@ page import="com.excilys.om.Computer"%>
+<%@ page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Computers database</title>
 <link rel="stylesheet" type="text/css" media="screen"
-	href="/css/bootstrap.min.css">
+	href="./css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" media="screen"
-	href="/css/main.css">
+	href="./css/main.css">
 </head>
 <body>
+
 
 	<header class="topbar">
 		<h1 class="fill">
@@ -29,8 +21,9 @@
 		</h1>
 	</header>
 
+
 	<section id="main">
-		<h1 id="homeTitle">574 computers found</h1>
+		<h1 id="homeTitle">${nbComputer} computers found</h1>
 		<div id="actions">
 			<form action="/computers?o=desc" method="GET">
 				<input type="search" id="searchbox" name="f" value=""
@@ -63,74 +56,29 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td><a href="/computers/381">ACE</a></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-				</tr>
-				<tr>
-					<td><a href="/computers/501">AN/FSQ-32</a></td>
-					<td>01 janv. 1960</td>
-					<td><em>-</em></td>
-					<td>IBM</td>
-				</tr>
-				<tr>
-					<td><a href="/computers/500">AN/FSQ-7</a></td>
-					<td>01 janv. 1958</td>
-					<td><em>-</em></td>
-					<td>IBM</td>
-				</tr>
-				<tr>
-					<td><a href="/computers/388">APEXC</a></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-				</tr>
-				<tr>
-					<td><a href="/computers/355">ARRA</a></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-				</tr>
 
+				<%
+					List<Computer> lc = (List<Computer>)request.getAttribute("lc");
+					for (int i = 0; i < lc.size(); i++) {
+						Computer computer = lc.get(i);
+						request.setAttribute("computer", computer);
+				%>
 				<tr>
-					<td><a href="/computers/385">ASCI Blue Mountain</a></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
+					<td><a href="/computers/${computer.id}">${computer.name}</a></td>
+					<td>${computer.introduced}</td>
+					<td>${computer.discontinued}</td>
+					<td>${computer.company.name}</td>
 				</tr>
-				<tr>
-					<td><a href="/computers/313">ASCI Blue Pacific</a></td>
-					<td>01 janv. 1998</td>
-					<td><em>-</em></td>
-					<td>IBM</td>
-				</tr>
-				<tr>
-					<td><a href="/computers/384">ASCI Purple</a></td>
-					<td>01 janv. 2005</td>
-					<td><em>-</em></td>
-					<td>IBM</td>
-				</tr>
-				<tr>
-					<td><a href="/computers/382">ASCI Red</a></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-				</tr>
-				<tr>
-					<td><a href="/computers/383">ASCI Thors Hammer</a></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-					<td><em>-</em></td>
-				</tr>
+				<%
+					}
+				%>
 			</tbody>
 		</table>
 		<div id="pagination" class="pagination">
 			<ul>
 				<li class="prev disabled"><a>&larr; Previous</a></li>
-				<li class="current"><a>Displaying 1 to 10 of 574</a></li>
-				<li class="next"><a href="/computers?p=1">Next &rarr;</a></li>
+				<li class="current"><a>Displaying ${p*10} to ${(p+1)*10} of ${nbComputer}</a></li>
+				<li class="next"><a href="/computer-database/computer?p=${p}">Next &rarr;</a></li>
 			</ul>
 		</div>
 	</section>

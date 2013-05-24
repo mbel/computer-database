@@ -1,56 +1,46 @@
 package com.excilys.om;
 
+import java.sql.Date;
+
 public class Computer {
 
 	private long id;
-	private String nom;
-	private String code_ean;
-	private String description;
-	private String lien_photo;
-	private long prix;
-
+	private String name;	
+	private Date introduced;
+	private Date discontinued;
+	private Company company;
 	
-	@Override
-	public String toString() {
-		return "Produit [id=" + id + ", nom=" + nom + ", code_ean=" + code_ean
-				+ ", description=" + description + ", lien_photo=" + lien_photo
-				+ ", prix=" + prix + "]";
+	public String getName() {
+		return name;
 	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Date getIntroduced() {
+		return introduced;
+	}
+	public void setIntroduced(Date introduced) {
+		this.introduced = introduced;
+	}
+	public Date getDiscontinued() {
+		return discontinued;
+	}
+	public void setDiscontinued(Date discontinued) {
+		this.discontinued = discontinued;
+	}
+
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getNom() {
-		return nom;
+	public Company getCompany() {
+		return company;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
-	public String getCode_ean() {
-		return code_ean;
-	}
-	public void setCode_ean(String code_ean) {
-		this.code_ean = code_ean;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getLien_photo() {
-		return lien_photo;
-	}
-	public void setLien_photo(String lien_photo) {
-		this.lien_photo = lien_photo;
-	}
-	public long getPrix() {
-		return prix;
-	}
-	public void setPrix(long prix) {
-		this.prix = prix;
-	}
-
+	
+	
 }

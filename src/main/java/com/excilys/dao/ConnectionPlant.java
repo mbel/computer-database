@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionPlant {
 
 	String driverClassName = "com.mysql.jdbc.Driver";
-	String connectionUrl = "jdbc:mysql://localhost/miniProjet";
+	String connectionUrl = "jdbc:mysql://localhost/miniprojet";
 	String dbUser = "root";
 	String dbPwd = "root";
 
