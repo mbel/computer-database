@@ -48,4 +48,9 @@ public class ComputerServiceImpl implements ComputerService{
 		computerdi.insert(computer);		
 	}
 
+	@Override
+	public void deleteComputerById(int computer_id) {
+		computerdi.deleteComputerById(computer_id);		
+	}
+
 }

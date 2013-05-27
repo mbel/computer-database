@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.excilys.om.Company"%>
+<%@ page import="com.excilys.om.Computer"%>
 <%@ page import="java.util.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,13 +25,14 @@
 
 	<section id="main">
 		<h1>Edit computer</h1>
-		<form action="/computer-database/save?id=${computer_id}" method="POST">
+		<form action="/computer-database/SaveComputer?id=${computer.id}"
+			method="POST">
 			<fieldset>
 
 				<div class="clearfix ">
 					<label for="name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name" value="${computer_choose}">
+						<input type="text" id="name" name="name" value="${computer.name}">
 						<span class="help-inline">Required</span>
 					</div>
 				</div>
@@ -36,8 +40,9 @@
 				<div class="clearfix ">
 					<label for="introduced">Introduced date</label>
 					<div class="input">
-						<input type="text" id="introduced" name="introduced" value="">
-						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+						<input type="text" id="introduced" name="introduced"
+							value="${computer.introduced}"> <span class="help-inline">Date
+							(&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
@@ -45,28 +50,29 @@
 				<div class="clearfix ">
 					<label for="discontinued">Discontinued date</label>
 					<div class="input">
-						<input type="text" id="discontinued" name="discontinued" value="">
-						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+						<input type="text" id="discontinued" name="discontinued"
+							value="${computer.discontinued}"> <span
+							class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
 				<div class="clearfix ">
 					<label for="company_id">Company</label>
 					<div class="input">
-						<select id="company_id" name="company.id">
-							<option class="blank" value="">-- Choose a company --</option>
-
-		<%
-					List<Company> lcany = (List<Company>)request.getAttribute("lcany");
-					for (int i = 0; i < lcany.size(); i++) {
-						Company company = lcany.get(i);
-						request.setAttribute("company", company.getName());
-						request.setAttribute("companyid", company.getId());
-
-				%>
-							<option value="${companyid}">${company}</option>
-		<% } %>
-
+						<select id="company_id" name="company_id">
+							<c:choose>
+								<c:when test="${computer.company != null}">
+									<option class="blank" value="${computer.company.id}">
+										${computer.company.name}</option>
+								</c:when>
+								<c:otherwise>
+									<option class="blank" value="${computer.company.id}">--
+										Choose a company --</option>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="company" items="${lcany}">
+								<option value="${company.id}">${company.name}</option>
+							</c:forEach>
 						</select> <span class="help-inline"></span>
 					</div>
 				</div>
@@ -75,11 +81,12 @@
 				<input type="submit" value="Save this computer" class="btn primary">
 				or <a href="/computer-database/" class="btn">Cancel</a>
 			</div>
-</form>
-	<form action="/computer-database/delete?id=${computer_choose}" method="POST" class="topRight">
+		</form>
+		<form action="/computer-database/DeleteComputer?id=${computer.id}"
+			method="POST" class="topRight">
 			<input type="submit" value="Delete this computer" class="btn danger">
 		</form>
-</section>
+	</section>
 </body>
 </html>
 

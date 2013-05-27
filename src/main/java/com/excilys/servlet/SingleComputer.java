@@ -44,9 +44,7 @@ public class SingleComputer extends HttpServlet {
 		int computer_choose = Integer.parseInt(request.getParameter("id"));
 		Computer computer = computersi.findComputerById(computer_choose);
 		request.setAttribute("lcany", lcany);
-		request.setAttribute("computer_choose", computer.getName());
-		request.setAttribute("computer_id", computer.getId());
-
+		request.setAttribute("computer", computer);
 		request.getRequestDispatcher("singlecomputer.jsp").forward(request, response);
 	}
 

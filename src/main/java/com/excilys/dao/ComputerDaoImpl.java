@@ -10,7 +10,7 @@ import java.util.List;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
 
-public class ComputerDaoImpl implements ComputerDao{
+public class ComputerDaoImpl implements ComputerDao {
 
 	private Connection con = null;
 	private PreparedStatement ptmt = null;
@@ -18,7 +18,7 @@ public class ComputerDaoImpl implements ComputerDao{
 	private CompanyDaoImpl companydi = new CompanyDaoImpl();
 
 	private Connection getConnection() throws SQLException {
-		con = ConnectionPlant.getInstance().getConnection();
+		con = ConnectionFact.getInstance().getConnection();
 		return con;
 	}
 
@@ -70,7 +70,7 @@ public class ComputerDaoImpl implements ComputerDao{
 				String querystring = "SELECT COUNT(*) FROM computer";
 				con = getConnection();
 				ptmt = con.prepareStatement(querystring);
-				
+
 				ResultSet rs = ptmt.executeQuery(querystring);
 				if (rs.next()) {
 					return rs.getInt("COUNT(*)");
@@ -139,25 +139,74 @@ public class ComputerDaoImpl implements ComputerDao{
 		} finally {
 			closeConnection();
 		}
-		return computer;		
+		return computer;
 	}
 
 	@Override
 	public void delete(Computer computer) {
-		// TODO Auto-generated method stub
-		
+		String querystring = "DELETE from computer WHERE id = ?";
+		try {
+			con = getConnection();
+			ptmt = con.prepareStatement(querystring);
+			ptmt.setLong(1, computer.getId());
+			ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
 	}
 
 	@Override
 	public void update(Computer computer) {
-		// TODO Auto-generated method stub
-		
+		String querystring = "update computer set name=?,introduced=?,discontinued=?,company_id=? where id=?";
+		try {
+			con = getConnection();
+			ptmt = con.prepareStatement(querystring);
+			ptmt.setString(1, computer.getName());
+			ptmt.setDate(2, computer.getIntroduced());
+			ptmt.setDate(3, computer.getDiscontinued());
+			ptmt.setLong(4, computer.getCompany().getId());
+			ptmt.setLong(4, computer.getId());
+			ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
 	}
 
 	@Override
 	public void insert(Computer computer) {
-		// TODO Auto-generated method stub
-		
+		String querystring = "insert into computer values(?,?,?,?)";
+		try {
+			con = getConnection();
+			ptmt = con.prepareStatement(querystring);
+			ptmt.setString(1, computer.getName());
+			ptmt.setDate(2, computer.getIntroduced());
+			ptmt.setDate(3, computer.getDiscontinued());
+			ptmt.setLong(4, computer.getCompany().getId());
+			ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
+	}
+
+	@Override
+	public void deleteComputerById(int computer_id) {
+		String querystring = "DELETE from computer WHERE id = ?";
+		try {
+			con = getConnection();
+			ptmt = con.prepareStatement(querystring);
+			ptmt.setInt(1, computer_id);
+			ptmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
 	}
 
 }

@@ -16,7 +16,7 @@ public class CompanyDaoImpl implements CompanyDao{
 	private ResultSet rs = null;
 	
 	private Connection getConnection() throws SQLException {
-		con = ConnectionPlant.getInstance().getConnection();
+		con = ConnectionFact.getInstance().getConnection();
 		return con;
 	}
 

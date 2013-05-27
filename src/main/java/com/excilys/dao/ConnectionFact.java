@@ -4,16 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionPlant {
+public class ConnectionFact {
 
 	String driverClassName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost/miniprojet";
 	String dbUser = "root";
 	String dbPwd = "root";
 
-	private static ConnectionPlant connectionFactory = null;
+	private static ConnectionFact connectionFactory = null;
 
-	private ConnectionPlant() {
+	private ConnectionFact() {
 		try {
 			Class.forName(driverClassName);
 		} catch (ClassNotFoundException e) {
@@ -27,9 +27,9 @@ public class ConnectionPlant {
 		return conn;
 	}
 
-	public static ConnectionPlant getInstance() {
+	public static ConnectionFact getInstance() {
 		if (connectionFactory == null) {
-			connectionFactory = new ConnectionPlant();
+			connectionFactory = new ConnectionFact();
 		}
 		return connectionFactory;
 	}

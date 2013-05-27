@@ -20,4 +20,6 @@ public interface ComputerDao {
 
 	void insert(Computer computer);
 
+	void deleteComputerById(int computer_id);
+
 }

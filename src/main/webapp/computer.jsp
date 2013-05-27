@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.excilys.om.Computer"%>
 <%@ page import="java.util.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +33,8 @@
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
-			<a class="btn success" id="add" href="/computer-database/new">Add a new
-				computer</a>
+			<a class="btn success" id="add" href="/computer-database/new">Add
+				a new computer</a>
 		</div>
 		<table class="computers zebra-striped">
 			<thead>
@@ -56,29 +58,24 @@
 				</tr>
 			</thead>
 			<tbody>
-
-				<%
-					List<Computer> lc = (List<Computer>)request.getAttribute("lc");
-					for (int i = 0; i < lc.size(); i++) {
-						Computer computer = lc.get(i);
-						request.setAttribute("computer", computer);
-				%>
-				<tr>
-					<td><a href="/computer-database/SingleComputer?id=${computer.id}">${computer.name}</a></td>
-					<td>${computer.introduced}</td>
-					<td>${computer.discontinued}</td>
-					<td>${computer.company.name}</td>
-				</tr>
-				<%
-					}
-				%>
+				<c:forEach var="computer" items="${lc}">
+					<tr>
+						<td><a
+							href="/computer-database/SingleComputer?id=${computer.id}">${computer.name}</a></td>
+						<td>${computer.introduced}</td>
+						<td>${computer.discontinued}</td>
+						<td>${computer.company.name}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		<div id="pagination" class="pagination">
 			<ul>
 				<li class="prev disabled"><a>&larr; Previous</a></li>
-				<li class="current"><a>Displaying ${p*10} to ${(p+1)*10} of ${nbComputer}</a></li>
-				<li class="next"><a href="/computer-database/computer?p=${p}">Next &rarr;</a></li>
+				<li class="current"><a>Displaying ${p*10} to ${(p+1)*10} of
+						${nbComputer}</a></li>
+				<li class="next"><a href="/computer-database/computer?p=${p}">Next
+						&rarr;</a></li>
 			</ul>
 		</div>
 	</section>
