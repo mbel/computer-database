@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computers database</title>
+<title>Add Computer</title>
 <link rel="stylesheet" type="text/css" media="screen"
 	href="./css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" media="screen"
@@ -25,24 +25,22 @@
 
 	<section id="main">
 		<h1>Edit computer</h1>
-		<form action="/computer-database/SaveComputer?id=${computer.id}"
-			method="POST">
+		<form action="/computer-database/SaveComputer?id=-1" method="POST">
 			<fieldset>
 
 				<div class="clearfix ">
 					<label for="name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name" required="true"
-							value="${computer.name}"> <span class="help-inline">Required</span>
+						<input type="text" id="name" name="name" required="true" value=""> <span
+							class="help-inline">Required</span>
 					</div>
 				</div>
 
 				<div class="clearfix ">
 					<label for="introduced">Introduced date</label>
 					<div class="input">
-						<input type="text" id="introduced" name="introduced"
-							value="${computer.introduced}"> <span class="help-inline">Date
-							(&#x27;yyyy-MM-dd&#x27;)</span>
+						<input type="text" id="introduced" name="introduced" value="">
+						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
@@ -50,9 +48,8 @@
 				<div class="clearfix ">
 					<label for="discontinued">Discontinued date</label>
 					<div class="input">
-						<input type="text" id="discontinued" name="discontinued"
-							value="${computer.discontinued}"> <span
-							class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+						<input type="text" id="discontinued" name="discontinued" value="">
+						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
@@ -82,11 +79,6 @@
 				or <a href="/computer-database/" class="btn">Cancel</a>
 			</div>
 		</form>
-		<form action="/computer-database/DeleteComputer?id=${computer.id}"
-			method="POST" class="topRight">
-			<input type="submit" value="Delete this computer" class="btn danger">
-		</form>
 	</section>
 </body>
 </html>
-

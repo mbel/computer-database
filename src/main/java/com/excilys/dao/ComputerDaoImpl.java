@@ -167,7 +167,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			ptmt.setDate(2, computer.getIntroduced());
 			ptmt.setDate(3, computer.getDiscontinued());
 			ptmt.setLong(4, computer.getCompany().getId());
-			ptmt.setLong(4, computer.getId());
+			ptmt.setLong(5, computer.getId());
 			ptmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	@Override
 	public void insert(Computer computer) {
-		String querystring = "insert into computer values(?,?,?,?)";
+		String querystring = "insert into computer(name,introduced,discontinued,company_id) values(?,?,?,?)";
 		try {
 			con = getConnection();
 			ptmt = con.prepareStatement(querystring);

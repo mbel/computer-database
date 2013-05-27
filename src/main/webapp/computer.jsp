@@ -33,7 +33,7 @@
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
-			<a class="btn success" id="add" href="/computer-database/new">Add
+			<a class="btn success" id="add" href="/computer-database/AddComputer">Add
 				a new computer</a>
 		</div>
 		<table class="computers zebra-striped">

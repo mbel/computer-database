@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.om.Company;
 import com.excilys.om.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.CompanyServiceImpl;
@@ -42,6 +43,7 @@ public class SaveComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 	}
 
 	/**
@@ -51,22 +53,38 @@ public class SaveComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int computer_id = Integer.parseInt(request.getParameter("id"));
-		Computer computer = computersi.findComputerById(computer_id);
-		computer.setName(request.getParameter("name"));
+		if (computer_id == -1) {
+			computersi.insert(GenerateComputer(request, new Computer()));
+		} else {
+			Computer computer = computersi.findComputerById(computer_id);
+			computersi.update(GenerateComputer(request, computer));
+		}
+		response.sendRedirect("computer");
+	}
+
+	private Computer GenerateComputer(HttpServletRequest request,
+			Computer computer) {
+		computer.setName(request.getParameter("name").toString());
 		String introducedDate = request.getParameter("introduced");
 		if (!"".equals(introducedDate))
 			computer.setIntroduced(new java.sql.Date(stringToDate(
 					introducedDate).getTime()));
+		else
+			computer.setIntroduced(null);
 		String discontinuedDate = request.getParameter("discontinued");
 		if (!"".equals(discontinuedDate))
 			computer.setDiscontinued(new java.sql.Date(stringToDate(
 					discontinuedDate).getTime()));
+		else
+			computer.setDiscontinued(null);
 		String company_id = request.getParameter("company_id");
+		System.out.println(company_id);
 		if (!"".equals(company_id))
 			computer.setCompany(companysi.findCompanyById(Integer
-					.parseInt(request.getParameter("company_id"))));
-		System.out.println(computer);
-		response.sendRedirect("computer");
+					.parseInt(company_id)));
+		else
+			computer.setCompany(new Company());
+		return computer;
 	}
 
 	private static Date stringToDate(String sDate) {
