@@ -20,4 +20,6 @@ public interface ComputerService {
 
 	void deleteComputerById(int computer_id);
 
+	List<Computer> findComputers(int p, String search);
+
 }

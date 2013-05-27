@@ -5,12 +5,14 @@ import java.util.List;
 import com.excilys.om.Computer;
 
 public interface ComputerDao {
-
-	List<Computer> findComputers();
 	
+	List<Computer> findComputers();
+
 	int countComputers();
 
 	List<Computer> findComputers(int p);
+
+	List<Computer> findComputers(int p, String search);
 
 	Computer findComputerById(int computer_id);
 

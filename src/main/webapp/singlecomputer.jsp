@@ -18,8 +18,7 @@
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="/"> Play 2.0 sample application &mdash; Computer
-				database </a>
+			<a href="/computer-database/">My Computer database </a>
 		</h1>
 	</header>
 

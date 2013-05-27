@@ -18,13 +18,13 @@
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="/"> Play 2.0 sample application &mdash; Computer
+			<a href="/computer-database/">My Computer
 				database </a>
 		</h1>
 	</header>
 
 	<section id="main">
-		<h1>Edit computer</h1>
+		<h1>Add computer</h1>
 		<form action="/computer-database/SaveComputer?id=-1" method="POST">
 			<fieldset>
 

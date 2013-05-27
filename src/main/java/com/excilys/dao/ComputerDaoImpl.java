@@ -87,6 +87,36 @@ public class ComputerDaoImpl implements ComputerDao {
 		return -1;
 	}
 
+	@Override
+	public List<Computer> findComputers(int pagination, String search) {
+		Computer computer = null;
+		Company company = null;
+		List<Computer> lp = new ArrayList<Computer>();
+		try {
+			String querystring = "SELECT * FROM computer where name like ? LIMIT ?,10 ";
+			con = getConnection();
+			ptmt = con.prepareStatement(querystring);
+			ptmt.setString(1,"%"+ search + "%");
+			ptmt.setInt(2, pagination * 10);
+			rs = ptmt.executeQuery();
+			while (rs.next()) {
+				computer = new Computer();
+				computer.setId(rs.getLong(1));
+				computer.setName(rs.getString(2));
+				computer.setIntroduced(rs.getDate(3));
+				computer.setDiscontinued(rs.getDate(4));
+				company = companydi.findCompanyById(rs.getInt(5));
+				computer.setCompany(company);
+				lp.add(computer);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
+		return lp;
+	}
+
 	public List<Computer> findComputers(int pagination) {
 		Computer computer = null;
 		Company company = null;

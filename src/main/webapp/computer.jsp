@@ -18,8 +18,7 @@
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="/"> Play 2.0 sample application &mdash; Computer
-				database </a>
+			<a href="/computer-database/">My Computer database </a>
 		</h1>
 	</header>
 
@@ -27,7 +26,7 @@
 	<section id="main">
 		<h1 id="homeTitle">${nbComputer} computers found</h1>
 		<div id="actions">
-			<form action="/computer-database/computer?o=desc" method="GET">
+			<form action="/computer-database/computer?s=true" method="GET">
 				<input type="search" id="searchbox" name="f" value=""
 					placeholder="Filter by computer name..."> <input
 					type="submit" id="searchsubmit" value="Filter by name"
@@ -41,20 +40,14 @@
 				<tr>
 
 					<th class="name header headerSortDown"><a
-						href="/computer-database/computer?o=desc">Computer name</a></th>
-
-
+						href="/computer-database/${sessionScope.ss.computer}">Computer
+							name</a></th>
 					<th class="introduced header "><a
-						href="/computer-database/computer?s=introduced">Introduced</a></th>
-
-
+						href="/computer-database/${sessionScope.ss.introduced}">Introduced</a></th>
 					<th class="discontinued header "><a
-						href="/computer-database/computer?s=discontinued">Discontinued</a></th>
-
-
+						href="/computer-database/${sessionScope.ss.discontinued}">Discontinued</a></th>
 					<th class="company_name header "><a
-						href="/computer-database/computer?s=company.name">Company</a></th>
-
+						href="/computer-database/${sessionScope.ss.company}">Company</a></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -71,7 +64,11 @@
 		</table>
 		<div id="pagination" class="pagination">
 			<ul>
-				<li class="prev disabled"><a>&larr; Previous</a></li>
+				<c:if test="${p ne 0}">
+					<li class="prev"><a
+						href="/computer-database/computer?p=${p}&r=true">&larr;
+							Previous</a></li>
+				</c:if>
 				<li class="current"><a>Displaying ${p*10} to ${(p+1)*10} of
 						${nbComputer}</a></li>
 				<li class="next"><a href="/computer-database/computer?p=${p}">Next
