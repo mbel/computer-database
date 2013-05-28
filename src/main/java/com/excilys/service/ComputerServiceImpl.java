@@ -24,16 +24,6 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public List<Computer> findComputers(int p) {
-		return computerdi.findComputers(p);
-	}
-
-	@Override
-	public List<Computer> findComputers(int p, String search) {
-		return computerdi.findComputers(p, search);
-	}
-
-	@Override
 	public Computer findComputerById(int computer_id) {
 		return computerdi.findComputerById(computer_id);
 	}
@@ -58,4 +48,10 @@ public class ComputerServiceImpl implements ComputerService {
 		computerdi.deleteComputerById(computer_id);
 	}
 
+	@Override
+	public List<Computer> findOrderByComputers(int p, int req, String orderBy,
+			String search) {
+		return computerdi.findOrderByComputers(p, req, orderBy, search);
+
+	}
 }

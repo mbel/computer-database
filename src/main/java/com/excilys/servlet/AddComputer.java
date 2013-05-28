@@ -10,11 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.om.Company;
-import com.excilys.om.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.CompanyServiceImpl;
-import com.excilys.service.ComputerService;
-import com.excilys.service.ComputerServiceImpl;
 
 /**
  * Servlet implementation class AddComputer
@@ -24,7 +21,6 @@ public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private CompanyService companysi;
-	private ComputerService computersi;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -32,7 +28,6 @@ public class AddComputer extends HttpServlet {
 	public AddComputer() {
 		super();
 		companysi = new CompanyServiceImpl();
-		computersi = new ComputerServiceImpl();
 	}
 
 	/**

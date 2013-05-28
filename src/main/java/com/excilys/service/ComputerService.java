@@ -8,8 +8,6 @@ public interface ComputerService {
 
 	int countComputers();
 
-	List<Computer> findComputers(int p);
-
 	Computer findComputerById(int computer_id);
 
 	void delete(Computer computer);
@@ -20,6 +18,7 @@ public interface ComputerService {
 
 	void deleteComputerById(int computer_id);
 
-	List<Computer> findComputers(int p, String search);
+	List<Computer> findOrderByComputers(int p, int req, String orderBy,
+			String search);
 
 }

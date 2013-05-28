@@ -2,6 +2,10 @@ package com.excilys.om;
 
 public class Company {
 
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", name=" + name + "]";
+	}
 	private long id;
 	private String name;
 	public long getId() {

@@ -22,7 +22,6 @@
 		</h1>
 	</header>
 
-
 	<section id="main">
 		<h1 id="homeTitle">${nbComputer} computers found</h1>
 		<div id="actions">
@@ -40,14 +39,14 @@
 				<tr>
 
 					<th class="name header headerSortDown"><a
-						href="/computer-database/${sessionScope.ss.computer}">Computer
+						href="/computer-database/computer?${sessionScope.ss.computer}">Computer
 							name</a></th>
 					<th class="introduced header "><a
-						href="/computer-database/${sessionScope.ss.introduced}">Introduced</a></th>
+						href="/computer-database/computer?${sessionScope.ss.introduced}">Introduced</a></th>
 					<th class="discontinued header "><a
-						href="/computer-database/${sessionScope.ss.discontinued}">Discontinued</a></th>
+						href="/computer-database/computer?${sessionScope.ss.discontinued}">Discontinued</a></th>
 					<th class="company_name header "><a
-						href="/computer-database/${sessionScope.ss.company}">Company</a></th>
+						href="/computer-database/computer?${sessionScope.ss.company}">Company</a></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -71,7 +70,8 @@
 				</c:if>
 				<li class="current"><a>Displaying ${p*10} to ${(p+1)*10} of
 						${nbComputer}</a></li>
-				<li class="next"><a href="/computer-database/computer?p=${p}">Next
+				<li class="next"><a
+					href="/computer-database/computer?p=${p}&${sessionScope.ss.current}">Next
 						&rarr;</a></li>
 			</ul>
 		</div>

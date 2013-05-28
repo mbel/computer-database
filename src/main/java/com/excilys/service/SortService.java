@@ -2,22 +2,29 @@ package com.excilys.service;
 
 public class SortService {
 
-	public static final String COMPUTER_ASC = "computer";
-	public static final String COMPUTER_DESC = "computer?o=desc";
+	public static final String COMPUTER_ASC = "";
+	public static final String COMPUTER_DESC = "o=desc";
 
-	public static final String INTRODUCED_ASC = "computer?s=introduced";
-	public static final String INTRODUCED_DESC = "computer?s=introduced&o=desc";
+	public static final String INTRODUCED_ASC = "s=introduced";
+	public static final String INTRODUCED_DESC = "s=introduced&o=desc";
 
-	public static final String DISCONTINUED_ASC = "computer?s=discontinued";
-	public static final String DISCONTINUED_DESC = "computer?s=discontinued&o=desc";
+	public static final String DISCONTINUED_ASC = "s=discontinued";
+	public static final String DISCONTINUED_DESC = "s=discontinued&o=desc";
 
-	public static final String COMPANY_ASC = "computer?s=company.name";
-	public static final String COMPANY_DESC = "computer?s=company.name&o=desc";
+	public static final String COMPANY_ASC = "s=company.name";
+	public static final String COMPANY_DESC = "s=company.name&o=desc";
 
 	private String computer;
 	private String introduced;
 	private String discontinued;
 	private String company;
+
+	private int req;
+
+	private String order;
+	private String by;
+	private String search;
+	private String current;
 
 	public SortService() {
 		this.computer = COMPUTER_ASC;
@@ -30,8 +37,8 @@ public class SortService {
 		return computer;
 	}
 
-	public void setComputer(String computer) {
-		this.computer = (this.computer.equals(COMPUTER_ASC)) ? COMPUTER_DESC
+	public String setComputer() {
+		return this.computer = (this.computer.equals(COMPUTER_ASC)) ? COMPUTER_DESC
 				: COMPUTER_ASC;
 	}
 
@@ -39,8 +46,8 @@ public class SortService {
 		return introduced;
 	}
 
-	public void setIntroduced(String introduced) {
-		this.introduced = (this.introduced.equals(INTRODUCED_ASC)) ? INTRODUCED_DESC
+	public String setIntroduced() {
+		return this.introduced = (this.introduced.equals(INTRODUCED_ASC)) ? INTRODUCED_DESC
 				: INTRODUCED_ASC;
 	}
 
@@ -48,8 +55,8 @@ public class SortService {
 		return discontinued;
 	}
 
-	public void setDiscontinued(String discontinued) {
-		this.discontinued = (this.discontinued.equals(DISCONTINUED_ASC)) ? DISCONTINUED_DESC
+	public String setDiscontinued() {
+		return this.discontinued = (this.discontinued.equals(DISCONTINUED_ASC)) ? DISCONTINUED_DESC
 				: DISCONTINUED_ASC;
 	}
 
@@ -57,26 +64,72 @@ public class SortService {
 		return company;
 	}
 
-	public void setCompany(String company) {
-		this.company = (this.company.equals(COMPANY_ASC)) ? COMPANY_DESC
+	public String setCompany() {
+		return this.company = (this.company.equals(COMPANY_ASC)) ? COMPANY_DESC
 				: COMPANY_ASC;
 	}
 
-	public void set(String sortString) {
-		switch (sortString) {
-		case "computer":
-			setComputer(sortString);
-			break;
-		case "introduced":
-			setIntroduced(sortString);
-			break;
-		case "discontinued":
-			setDiscontinued(sortString);
-			break;
-		case "company":
-			setCompany(sortString);
-			break;
+	public String set() {
+		if (by == null) {
+			by = "name";
 		}
+		String sortString = by;
+		switch (sortString) {
+		case "introduced":
+			setReq(2);
+			return setIntroduced();
+		case "discontinued":
+			setReq(2);
+			return setDiscontinued();
+		case "company.name":
+			setReq(3);
+			return setCompany();
+		default:
+			setReq(2);
+			return setComputer();
+		}
+	}
+
+	public String getBy() {
+		return by;
+	}
+
+	public void setBy(String by) {
+		this.by = by;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public int getReq() {
+		if (order != null)
+			req *= -1;
+		return req;
+	}
+
+	public void setReq(int req) {
+		this.req = req;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public String getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(String current) {
+		this.current = current;
 	}
 
 }

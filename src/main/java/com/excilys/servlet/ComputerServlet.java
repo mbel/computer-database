@@ -38,22 +38,28 @@ public class ComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int p = 0;
-		SortService ss = (SortService) request.getSession().getAttribute("ss");
-		if (ss == null)
-			ss = new SortService();
-		if (request.getParameter("s") != null)
-			ss.set(request.getParameter("s"));
+		SortService sortService = (SortService) request.getSession()
+				.getAttribute("ss");
+		if (sortService == null)
+			sortService = new SortService();
+
 		if (request.getParameter("p") != null) {
 			p = Integer.parseInt(request.getParameter("p"));
 			if (request.getParameter("r") != null)
 				p--;
 			else
 				p++;
+		} else {
+			sortService.setBy(request.getParameter("s"));
+			sortService.setOrder(request.getParameter("o"));
+			sortService.setSearch(request.getParameter("f"));
+			sortService.setCurrent(sortService.set());
 		}
-		List<Computer> lc = (request.getParameter("f") != null) ? computersi
-				.findComputers(p, request.getParameter("f")) : computersi
-				.findComputers(p);
-		request.getSession().setAttribute("ss", ss);
+
+		List<Computer> lc = computersi.findOrderByComputers(p,
+				sortService.getReq(), sortService.getBy(),
+				sortService.getSearch());
+		request.getSession().setAttribute("ss", sortService);
 		request.setAttribute("p", p);
 		request.setAttribute("lc", lc);
 		request.setAttribute("nbComputer", computersi.countComputers());
