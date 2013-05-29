@@ -28,15 +28,15 @@
 			method="POST">
 			<fieldset>
 
-				<div class="clearfix ">
+				<div class="clearfix ${us.error_name}">
 					<label for="name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name" required="true"
+						<input type="text" id="name" name="name"
 							value="${computer.name}"> <span class="help-inline">Required</span>
 					</div>
 				</div>
 
-				<div class="clearfix ">
+				<div class="clearfix ${us.error_introducted}">
 					<label for="introduced">Introduced date</label>
 					<div class="input">
 						<input type="text" id="introduced" name="introduced"
@@ -46,7 +46,7 @@
 				</div>
 
 
-				<div class="clearfix ">
+				<div class="clearfix ${us.error_discontinued}">
 					<label for="discontinued">Discontinued date</label>
 					<div class="input">
 						<input type="text" id="discontinued" name="discontinued"
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 
-				<div class="clearfix ">
+				<div class="clearfix">
 					<label for="company_id">Company</label>
 					<div class="input">
 						<select id="company_id" name="company_id">

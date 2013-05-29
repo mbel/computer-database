@@ -18,8 +18,7 @@
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="/computer-database/">My Computer
-				database </a>
+			<a href="/computer-database/">My Computer database </a>
 		</h1>
 	</header>
 
@@ -28,15 +27,15 @@
 		<form action="/computer-database/SaveComputer?id=-1" method="POST">
 			<fieldset>
 
-				<div class="clearfix ">
+				<div class="clearfix ${us.error_name}">
 					<label for="name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name" required="true" value=""> <span
+						<input type="text" id="name" name="name" value=""> <span
 							class="help-inline">Required</span>
 					</div>
 				</div>
 
-				<div class="clearfix ">
+				<div class="clearfix ${us.error_introducted}">
 					<label for="introduced">Introduced date</label>
 					<div class="input">
 						<input type="text" id="introduced" name="introduced" value="">
@@ -45,7 +44,7 @@
 				</div>
 
 
-				<div class="clearfix ">
+				<div class="clearfix  ${us.error_discontinued}">
 					<label for="discontinued">Discontinued date</label>
 					<div class="input">
 						<input type="text" id="discontinued" name="discontinued" value="">

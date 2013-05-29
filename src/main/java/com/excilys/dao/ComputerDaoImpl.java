@@ -80,7 +80,6 @@ public class ComputerDaoImpl implements ComputerDao {
 			try {
 				con = getConnection();
 				ptmt = con.prepareStatement(COUNT);
-
 				ResultSet rs = ptmt.executeQuery(COUNT);
 				if (rs.next()) {
 					return rs.getInt(COUNT_PARAM);

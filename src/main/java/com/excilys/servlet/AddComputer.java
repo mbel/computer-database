@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.om.Company;
 import com.excilys.service.CompanyService;
 import com.excilys.service.CompanyServiceImpl;
+import com.excilys.service.UtilsService;
 
 /**
  * Servlet implementation class AddComputer
@@ -36,8 +37,13 @@ public class AddComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		UtilsService utilsService = (UtilsService) request.getSession()
+				.getAttribute("us");
+		if (utilsService == null)
+			utilsService = new UtilsService();
 		List<Company> lcany = companysi.findCompanies();
 		request.setAttribute("lcany", lcany);
+		request.getSession().setAttribute("us", utilsService);
 		request.getRequestDispatcher("newcomputer.jsp").forward(request,
 				response);
 	}
@@ -48,7 +54,6 @@ public class AddComputer extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }
