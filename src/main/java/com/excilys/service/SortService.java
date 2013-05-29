@@ -38,6 +38,9 @@ public class SortService {
 	}
 
 	public String setComputer() {
+		this.introduced = INTRODUCED_ASC;
+		this.discontinued = DISCONTINUED_ASC;
+		this.company = COMPANY_ASC;
 		return this.computer = (this.computer.equals(COMPUTER_ASC)) ? COMPUTER_DESC
 				: COMPUTER_ASC;
 	}
@@ -47,6 +50,9 @@ public class SortService {
 	}
 
 	public String setIntroduced() {
+		this.computer = COMPUTER_ASC;
+		this.discontinued = DISCONTINUED_ASC;
+		this.company = COMPANY_ASC;
 		return this.introduced = (this.introduced.equals(INTRODUCED_ASC)) ? INTRODUCED_DESC
 				: INTRODUCED_ASC;
 	}
@@ -56,6 +62,9 @@ public class SortService {
 	}
 
 	public String setDiscontinued() {
+		this.computer = COMPUTER_ASC;
+		this.introduced = INTRODUCED_ASC;
+		this.company = COMPANY_ASC;
 		return this.discontinued = (this.discontinued.equals(DISCONTINUED_ASC)) ? DISCONTINUED_DESC
 				: DISCONTINUED_ASC;
 	}
@@ -65,6 +74,9 @@ public class SortService {
 	}
 
 	public String setCompany() {
+		this.computer = COMPUTER_ASC;
+		this.introduced = INTRODUCED_ASC;
+		this.discontinued = DISCONTINUED_ASC;
 		return this.company = (this.company.equals(COMPANY_ASC)) ? COMPANY_DESC
 				: COMPANY_ASC;
 	}

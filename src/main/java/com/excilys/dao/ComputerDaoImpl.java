@@ -18,6 +18,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	private PreparedStatement ptmt = null;
 	private ResultSet rs = null;
 	private CompanyDaoImpl companydi = new CompanyDaoImpl();
+	private int currentCount;
 
 	private static Map<Integer, String> mapQuery = new HashMap<>();
 
@@ -215,11 +216,24 @@ public class ComputerDaoImpl implements ComputerDao {
 				computer.setCompany(company);
 				lp.add(computer);
 			}
+			ptmt = con.prepareStatement(ROW_CPT);
+			rs = ptmt.executeQuery();
+			if (rs.next()) {
+				setCurrentCount(rs.getInt("cpt"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			closeConnection();
 		}
 		return lp;
+	}
+
+	public int getCurrentCount() {
+		return currentCount;
+	}
+
+	public void setCurrentCount(int currentCount) {
+		this.currentCount = currentCount;
 	}
 }

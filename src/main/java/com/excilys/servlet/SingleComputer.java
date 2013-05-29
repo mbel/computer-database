@@ -49,6 +49,7 @@ public class SingleComputer extends HttpServlet {
 		List<Company> lcany = companysi.findCompanies();
 		int computer_choose = Integer.parseInt(request.getParameter("id"));
 		Computer computer = computersi.findComputerById(computer_choose);
+		utilsService.setMessaj(UtilsService.UPDATED);
 		request.setAttribute("lcany", lcany);
 		request.setAttribute("computer", computer);
 		request.getSession().setAttribute("us", utilsService);

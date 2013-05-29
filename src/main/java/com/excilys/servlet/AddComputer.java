@@ -43,6 +43,7 @@ public class AddComputer extends HttpServlet {
 			utilsService = new UtilsService();
 		List<Company> lcany = companysi.findCompanies();
 		request.setAttribute("lcany", lcany);
+		utilsService.setMessaj(UtilsService.CREATED);
 		request.getSession().setAttribute("us", utilsService);
 		request.getRequestDispatcher("newcomputer.jsp").forward(request,
 				response);

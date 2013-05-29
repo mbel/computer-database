@@ -13,6 +13,7 @@ import com.excilys.om.Computer;
 import com.excilys.service.ComputerService;
 import com.excilys.service.ComputerServiceImpl;
 import com.excilys.service.SortService;
+import com.excilys.service.UtilsService;
 
 /**
  * Servlet implementation class ComputerServlet
@@ -38,6 +39,10 @@ public class ComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int p = 0;
+		UtilsService utilsService = (UtilsService) request.getSession()
+				.getAttribute("us");
+		if (utilsService == null)
+			utilsService = new UtilsService();
 		SortService sortService = (SortService) request.getSession()
 				.getAttribute("ss");
 		if (sortService == null)
@@ -59,10 +64,13 @@ public class ComputerServlet extends HttpServlet {
 		List<Computer> lc = computersi.findOrderByComputers(p,
 				sortService.getReq(), sortService.getBy(),
 				sortService.getSearch());
+
 		request.getSession().setAttribute("ss", sortService);
+		request.getSession().removeAttribute("us");
+		request.setAttribute("us", utilsService);
 		request.setAttribute("p", p);
 		request.setAttribute("lc", lc);
-		request.setAttribute("nbComputer", computersi.countComputers());
+		request.setAttribute("nbComputer", computersi.getCurrentCount());
 		request.getRequestDispatcher("computer.jsp").forward(request, response);
 	}
 

@@ -52,6 +52,10 @@ public class ComputerServiceImpl implements ComputerService {
 	public List<Computer> findOrderByComputers(int p, int req, String orderBy,
 			String search) {
 		return computerdi.findOrderByComputers(p, req, orderBy, search);
-
 	}
+
+	public int getCurrentCount() {
+		return computerdi.getCurrentCount();
+	}
+
 }

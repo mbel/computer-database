@@ -65,6 +65,8 @@ public class SaveComputer extends HttpServlet {
 					&& "".equals(utilsService.getError_introducted())
 					&& "".equals(utilsService.getError_discontinued())) {
 				computersi.insert(cp);
+				utilsService.setComp(cp.getName());
+				utilsService.setMaj(true);
 			} else {
 				redirect = "AddComputer?id=-1";
 			}
@@ -75,6 +77,8 @@ public class SaveComputer extends HttpServlet {
 					&& "".equals(utilsService.getError_introducted())
 					&& "".equals(utilsService.getError_discontinued())) {
 				computersi.update(cp);
+				utilsService.setComp(cp.getName());
+				utilsService.setMaj(true);
 			} else {
 				redirect = "SingleComputer?id=" + computer.getId();
 			}

@@ -21,4 +21,6 @@ public interface ComputerService {
 	List<Computer> findOrderByComputers(int p, int req, String orderBy,
 			String search);
 
+	int getCurrentCount();
+
 }

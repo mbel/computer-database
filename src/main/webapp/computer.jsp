@@ -24,6 +24,14 @@
 
 	<section id="main">
 		<h1 id="homeTitle">${nbComputer} computers found</h1>
+
+		<c:if test="${us.maj}">
+			<div class="alert-message warning">
+				<strong>Done!</strong> Computer ${us.comp} has been ${us.messaj}
+			</div>
+		</c:if>
+
+
 		<div id="actions">
 			<form action="/computer-database/computer?s=true" method="GET">
 				<input type="search" id="searchbox" name="f" value=""
@@ -39,14 +47,14 @@
 				<tr>
 
 					<th class="name header headerSortDown"><a
-						href="/computer-database/computer?${sessionScope.ss.computer}">Computer
+						href="/computer-database/computer?${ss.computer}">Computer
 							name</a></th>
 					<th class="introduced header "><a
-						href="/computer-database/computer?${sessionScope.ss.introduced}">Introduced</a></th>
+						href="/computer-database/computer?${ss.introduced}">Introduced</a></th>
 					<th class="discontinued header "><a
-						href="/computer-database/computer?${sessionScope.ss.discontinued}">Discontinued</a></th>
+						href="/computer-database/computer?${ss.discontinued}">Discontinued</a></th>
 					<th class="company_name header "><a
-						href="/computer-database/computer?${sessionScope.ss.company}">Company</a></th>
+						href="/computer-database/computer?${ss.company}">Company</a></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -63,16 +71,34 @@
 		</table>
 		<div id="pagination" class="pagination">
 			<ul>
-				<c:if test="${p ne 0}">
-					<li class="prev"><a
-						href="/computer-database/computer?p=${p}&r=true">&larr;
-							Previous</a></li>
-				</c:if>
-				<li class="current"><a>Displaying ${p*10} to ${(p+1)*10} of
-						${nbComputer}</a></li>
-				<li class="next"><a
-					href="/computer-database/computer?p=${p}&${sessionScope.ss.current}">Next
-						&rarr;</a></li>
+				<c:choose>
+					<c:when test="${p ne 0}">
+						<li class="prev"><a
+							href="/computer-database/computer?p=${p}&r=true">&larr;
+								Previous</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="prev disabled"><a>&larr; Previous</a></li>
+					</c:otherwise>
+				</c:choose>
+
+
+
+				<c:choose>
+					<c:when test="${(p+1)*10 < nbComputer}">
+						<li class="current"><a>Displaying ${p*10} to ${(p+1)*10}
+								of ${nbComputer}</a></li>
+						<li class="next"><a
+							href="/computer-database/computer?p=${p}&${ss.current}">Next
+								&rarr;</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="current"><a>Displaying ${p*10} to
+								${nbComputer} of ${nbComputer}</a></li>
+						<li class="prev disabled"><a>Next &rarr;</a></li>
+					</c:otherwise>
+				</c:choose>
+
 			</ul>
 		</div>
 	</section>

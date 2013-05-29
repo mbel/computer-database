@@ -10,13 +10,15 @@ public interface ComputerDao {
 	String COUNT = "SELECT COUNT(*) FROM computer";
 	String COUNT_PARAM = "COUNT(*)";
 
-	String SELECT_ORDER_BY = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s order by ISNULL(%s),%s LIMIT ?,10 ";
-	String SELECT_ORDER_BY_DESC = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s order by ISNULL(%s),%s DESC LIMIT ?,10 ";
+	String SELECT_ORDER_BY = "SELECT SQL_CALC_FOUND_ROWS c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s order by ISNULL(%s),%s LIMIT ?,10 ";
+	String SELECT_ORDER_BY_DESC = "SELECT SQL_CALC_FOUND_ROWS c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s order by ISNULL(%s),%s DESC LIMIT ?,10 ";
 
-	String SELECT_ORDER_BY_JOIN = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s left join company on (company.id=c.company_id) order by ISNULL(%s),%s  LIMIT ?,10 ";
-	String SELECT_ORDER_BY_DESC_JOIN = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s left join company on (company.id=c.company_id) order by ISNULL(%s),%s  DESC LIMIT ?,10 ";
+	String SELECT_ORDER_BY_JOIN = "SELECT SQL_CALC_FOUND_ROWS c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s left join company on (company.id=c.company_id) order by ISNULL(%s),%s  LIMIT ?,10 ";
+	String SELECT_ORDER_BY_DESC_JOIN = "SELECT SQL_CALC_FOUND_ROWS c.id,c.name,c.introduced,c.discontinued,c.company_id FROM computer c %s left join company on (company.id=c.company_id) order by ISNULL(%s),%s  DESC LIMIT ?,10 ";
 
 	String SEARCH = "where name like ?";
+
+	String ROW_CPT = "SELECT FOUND_ROWS() as cpt";
 
 	String SELECT_BY_ID = "SELECT * FROM computer where id=?";
 	String DELETE = "DELETE from computer WHERE id = ?";
@@ -41,4 +43,5 @@ public interface ComputerDao {
 	List<Computer> findOrderByComputers(int p, int req, String orderBy,
 			String search);
 
+	int getCurrentCount();
 }
