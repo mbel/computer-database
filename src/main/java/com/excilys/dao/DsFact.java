@@ -7,37 +7,37 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public enum DsFactory {
+public enum DsFact {
 
 	INSTANCE;
 
 	private DataSource ds;
-	private ThreadLocal<Connection> conn;
+	private ThreadLocal<Connection> con;
 
-	private DsFactory() {
-		conn = new ThreadLocal<Connection>();
+	private DsFact() {
+		con = new ThreadLocal<Connection>();
 		try {
-			InitialContext cxt = new InitialContext();
-			ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/miniprojet");
+			InitialContext context = new InitialContext();
+			ds = (DataSource) context.lookup("java:/comp/env/jdbc/miniprojet");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public Connection getConnectionThread() throws SQLException {
-		Connection c = conn.get();
+		Connection c = con.get();
 		if (c == null)
-			conn.set(c = ds.getConnection());
+			con.set(c = ds.getConnection());
 		return c;
 	}
 
 	public void closeConnection() {
 		try {
-			conn.get().close();
+			con.get().close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		conn.remove();
+		con.remove();
 	}
 
 }

@@ -75,7 +75,7 @@
 			</fieldset>
 			<div class="actions">
 				<input type="submit" value="Save this computer" class="btn primary">
-				or <a href="/computer-database/" class="btn">Cancel</a>
+				or <a href="/computer-database/computer" class="btn">Cancel</a>
 			</div>
 		</form>
 	</section>

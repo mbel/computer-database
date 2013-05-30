@@ -18,7 +18,7 @@ public class CompanyDaoImpl implements CompanyDao {
 
 
 	private Connection getConnection() throws SQLException {
-		con = DsFactory.INSTANCE.getConnectionThread();
+		con = DsFact.INSTANCE.getConnectionThread();
 		return con;
 	}
 

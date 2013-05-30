@@ -18,7 +18,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	private Connection con = null;
 
 	private Connection getConnection() throws SQLException {
-		con = DsFactory.INSTANCE.getConnectionThread();
+		con = DsFact.INSTANCE.getConnectionThread();
 		return con;
 	}
 
@@ -28,6 +28,8 @@ public class ComputerDaoImpl implements ComputerDao {
 				rs.close();
 			if (ptmt != null)
 				ptmt.close();
+			if (con != null)
+				DsFact.INSTANCE.closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

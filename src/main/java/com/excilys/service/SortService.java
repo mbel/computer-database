@@ -21,11 +21,14 @@ public class SortService {
 	private String introduced;
 	private String discontinued;
 	private String company;
-
 	private String computer_header;
 	private String introduced_header;
 	private String discontinued_header;
 	private String company_header;
+	private String order;
+	private String by;
+	private String search;
+	private String current;
 
 	public String getComputer_header() {
 		return computer_header;
@@ -58,13 +61,6 @@ public class SortService {
 	public void setCompany_header(String company_header) {
 		this.company_header = company_header;
 	}
-
-	private String req;
-
-	private String order;
-	private String by;
-	private String search;
-	private String current;
 
 	public SortService() {
 		this.computer = COMPUTER_ASC;
@@ -197,10 +193,6 @@ public class SortService {
 		if (order != null)
 			return "DESC";
 		return "ASC";
-	}
-
-	public void setReq(String req) {
-		this.req = req;
 	}
 
 	public String getSearch() {
