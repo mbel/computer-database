@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+     <Resource 
+               type="javax.sql.DataSource"
+               name="jdbc/miniprojet" 
+               factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+               driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost/miniprojet" 
+               username="root"
+               password="root"
+               initialSize="0"
+               maxActive="80" 
+               maxIdle = "30" 
+               minIdle="20"
+               timeBetweenEvictionRunsMillis="30000"
+               minEvictableIdleTimeMillis="60000"
+               testOnBorrow="true"
+               validationQuery="SELECT 1" 
+               validationInterval="30000" 
+               removeAbandoned="true"
+               removeAbandonedTimeout="60" 
+               logAbandoned="true" 
+               abandonWhenPercentageFull="60"
+               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer"/>
+</Context>
+

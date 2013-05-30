@@ -5,6 +5,7 @@ public class UtilsService {
 	public static final String ERROR = "error";
 	public static final String UPDATED = "updated";
 	public static final String CREATED = "created";
+	public static final String DELETED = "deleted";
 
 	private String error_name = "";
 	private String error_introducted = "";

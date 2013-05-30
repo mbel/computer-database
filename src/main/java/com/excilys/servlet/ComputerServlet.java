@@ -24,6 +24,7 @@ public class ComputerServlet extends HttpServlet {
 
 	private ComputerService computersi;
 
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -38,6 +39,7 @@ public class ComputerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		int p = 0;
 		UtilsService utilsService = (UtilsService) request.getSession()
 				.getAttribute("us");

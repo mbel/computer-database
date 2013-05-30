@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.service.ComputerService;
 import com.excilys.service.ComputerServiceImpl;
+import com.excilys.service.UtilsService;
 
 /**
  * Servlet implementation class DeleteComputer
@@ -43,8 +44,17 @@ public class DeleteComputer extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		UtilsService utilsService = (UtilsService) request.getSession()
+				.getAttribute("us");
+		if (utilsService == null)
+			utilsService = new UtilsService();
 		int computer_id = Integer.parseInt(request.getParameter("id"));
+		utilsService.setMessaj(UtilsService.DELETED);
+		utilsService
+				.setComp(computersi.findComputerById(computer_id).getName());
+		utilsService.setMaj(true);
 		computersi.deleteComputerById(computer_id);
+		request.getSession().setAttribute("us", utilsService);
 		response.sendRedirect("computer");
 	}
 

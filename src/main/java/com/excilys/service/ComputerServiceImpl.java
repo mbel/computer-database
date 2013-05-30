@@ -14,15 +14,6 @@ public class ComputerServiceImpl implements ComputerService {
 		computerdi = new ComputerDaoImpl();
 	}
 
-	public List<Computer> findComputers() {
-		return computerdi.findComputers();
-	}
-
-	@Override
-	public int countComputers() {
-		return computerdi.countComputers();
-	}
-
 	@Override
 	public Computer findComputerById(int computer_id) {
 		return computerdi.findComputerById(computer_id);
@@ -49,7 +40,7 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public List<Computer> findOrderByComputers(int p, int req, String orderBy,
+	public List<Computer> findOrderByComputers(int p, String req, String orderBy,
 			String search) {
 		return computerdi.findOrderByComputers(p, req, orderBy, search);
 	}

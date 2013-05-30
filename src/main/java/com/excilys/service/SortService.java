@@ -14,12 +14,52 @@ public class SortService {
 	public static final String COMPANY_ASC = "s=company.name";
 	public static final String COMPANY_DESC = "s=company.name&o=desc";
 
+	public static final String HEADER_DOWN = "headerSortDown";
+	public static final String HEADER_UP = "headerSortUp";
+
 	private String computer;
 	private String introduced;
 	private String discontinued;
 	private String company;
 
-	private int req;
+	private String computer_header;
+	private String introduced_header;
+	private String discontinued_header;
+	private String company_header;
+
+	public String getComputer_header() {
+		return computer_header;
+	}
+
+	public void setComputer_header(String computer_header) {
+		this.computer_header = computer_header;
+	}
+
+	public String getIntroduced_header() {
+		return introduced_header;
+	}
+
+	public void setIntroduced_header(String introduced_header) {
+		this.introduced_header = introduced_header;
+	}
+
+	public String getDiscontinued_header() {
+		return discontinued_header;
+	}
+
+	public void setDiscontinued_header(String discontinued_header) {
+		this.discontinued_header = discontinued_header;
+	}
+
+	public String getCompany_header() {
+		return company_header;
+	}
+
+	public void setCompany_header(String company_header) {
+		this.company_header = company_header;
+	}
+
+	private String req;
 
 	private String order;
 	private String by;
@@ -41,8 +81,17 @@ public class SortService {
 		this.introduced = INTRODUCED_ASC;
 		this.discontinued = DISCONTINUED_ASC;
 		this.company = COMPANY_ASC;
-		return this.computer = (this.computer.equals(COMPUTER_ASC)) ? COMPUTER_DESC
-				: COMPUTER_ASC;
+		setIntroduced_header("");
+		setDiscontinued_header("");
+		setCompany_header("");
+		if (this.computer.equals(COMPUTER_ASC)) {
+			setComputer_header(HEADER_DOWN);
+			this.computer = COMPUTER_DESC;
+		} else {
+			setComputer_header(HEADER_UP);
+			this.computer = COMPUTER_ASC;
+		}
+		return this.computer;
 	}
 
 	public String getIntroduced() {
@@ -53,8 +102,17 @@ public class SortService {
 		this.computer = COMPUTER_ASC;
 		this.discontinued = DISCONTINUED_ASC;
 		this.company = COMPANY_ASC;
-		return this.introduced = (this.introduced.equals(INTRODUCED_ASC)) ? INTRODUCED_DESC
-				: INTRODUCED_ASC;
+		setComputer_header("");
+		setDiscontinued_header("");
+		setCompany_header("");
+		if (this.introduced.equals(INTRODUCED_ASC)) {
+			setIntroduced_header(HEADER_DOWN);
+			this.introduced = INTRODUCED_DESC;
+		} else {
+			setIntroduced_header(HEADER_UP);
+			this.introduced = INTRODUCED_ASC;
+		}
+		return this.introduced;
 	}
 
 	public String getDiscontinued() {
@@ -65,8 +123,17 @@ public class SortService {
 		this.computer = COMPUTER_ASC;
 		this.introduced = INTRODUCED_ASC;
 		this.company = COMPANY_ASC;
-		return this.discontinued = (this.discontinued.equals(DISCONTINUED_ASC)) ? DISCONTINUED_DESC
-				: DISCONTINUED_ASC;
+		setIntroduced_header("");
+		setComputer_header("");
+		setCompany_header("");
+		if (this.discontinued.equals(DISCONTINUED_ASC)) {
+			setDiscontinued_header(HEADER_DOWN);
+			this.discontinued = DISCONTINUED_DESC;
+		} else {
+			setDiscontinued_header(HEADER_UP);
+			this.discontinued = DISCONTINUED_ASC;
+		}
+		return this.discontinued;
 	}
 
 	public String getCompany() {
@@ -77,27 +144,35 @@ public class SortService {
 		this.computer = COMPUTER_ASC;
 		this.introduced = INTRODUCED_ASC;
 		this.discontinued = DISCONTINUED_ASC;
-		return this.company = (this.company.equals(COMPANY_ASC)) ? COMPANY_DESC
-				: COMPANY_ASC;
+		setIntroduced_header("");
+		setDiscontinued_header("");
+		setComputer_header("");
+		if (this.company.equals(COMPANY_ASC)) {
+			setCompany_header(HEADER_DOWN);
+			this.company = COMPANY_DESC;
+		} else {
+			setCompany_header(HEADER_UP);
+			this.company = COMPANY_ASC;
+		}
+		return this.company;
 	}
 
 	public String set() {
 		if (by == null) {
-			by = "name";
+			by = "c.name";
 		}
 		String sortString = by;
 		switch (sortString) {
 		case "introduced":
-			setReq(2);
+			setBy("c.introduced");
 			return setIntroduced();
 		case "discontinued":
-			setReq(2);
+			setBy("c.discontinued");
 			return setDiscontinued();
 		case "company.name":
-			setReq(3);
+			setBy("cy.name");
 			return setCompany();
 		default:
-			setReq(2);
 			return setComputer();
 		}
 	}
@@ -118,13 +193,13 @@ public class SortService {
 		this.order = order;
 	}
 
-	public int getReq() {
+	public String getReq() {
 		if (order != null)
-			req *= -1;
-		return req;
+			return "DESC";
+		return "ASC";
 	}
 
-	public void setReq(int req) {
+	public void setReq(String req) {
 		this.req = req;
 	}
 

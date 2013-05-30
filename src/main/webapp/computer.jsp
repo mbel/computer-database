@@ -46,14 +46,14 @@
 			<thead>
 				<tr>
 
-					<th class="name header headerSortDown"><a
+					<th class="name header ${ss.computer_header}"><a
 						href="/computer-database/computer?${ss.computer}">Computer
 							name</a></th>
-					<th class="introduced header "><a
+					<th class="introduced header ${ss.introduced_header}"><a
 						href="/computer-database/computer?${ss.introduced}">Introduced</a></th>
-					<th class="discontinued header "><a
+					<th class="discontinued header ${ss.discontinued_header}"><a
 						href="/computer-database/computer?${ss.discontinued}">Discontinued</a></th>
-					<th class="company_name header "><a
+					<th class="company_name header ${ss.company_header}"><a
 						href="/computer-database/computer?${ss.company}">Company</a></th>
 				</tr>
 			</thead>

@@ -9,14 +9,16 @@ import java.util.List;
 
 import com.excilys.om.Company;
 
-public class CompanyDaoImpl implements CompanyDao{
+public class CompanyDaoImpl implements CompanyDao {
 
 	private Connection con = null;
 	private PreparedStatement ptmt = null;
 	private ResultSet rs = null;
-	
+
+
+
 	private Connection getConnection() throws SQLException {
-		con = ConnectionFact.getInstance().getConnection();
+		con = DsFactory.INSTANCE.getConnectionThread();
 		return con;
 	}
 
@@ -34,18 +36,17 @@ public class CompanyDaoImpl implements CompanyDao{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Company findCompanyById(int id) {
 		Company company = null;
 		try {
-			String querystring = "SELECT * FROM company where id=?";
 			con = getConnection();
-			ptmt = con.prepareStatement(querystring);
+			ptmt = con.prepareStatement(SELECT_COMPANY_BY_ID);
 			ptmt.setInt(1, id);
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
 				company = new Company();
-				company.setId(rs.getLong(1));
+				company.setId(rs.getInt(1));
 				company.setName(rs.getString(2));
 			}
 		} catch (SQLException e) {
@@ -53,21 +54,20 @@ public class CompanyDaoImpl implements CompanyDao{
 		} finally {
 			closeConnection();
 		}
-		return company;		
+		return company;
 	}
 
 	public List<Company> findCompanies() {
 		Company company = null;
 		List<Company> lp = new ArrayList<Company>();
 		try {
-			String querystring = "SELECT * FROM company";
 			con = getConnection();
-			ptmt = con.prepareStatement(querystring);
+			ptmt = con.prepareStatement(SELECT_COMPANY);
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
 				company = new Company();
-				company.setId(rs.getLong(1));
-				company.setName(rs.getString(2));
+				company.setId(rs.getInt("id"));
+				company.setName(rs.getString("name"));
 				lp.add(company);
 			}
 		} catch (SQLException e) {
@@ -77,5 +77,5 @@ public class CompanyDaoImpl implements CompanyDao{
 		}
 		return lp;
 	}
-	
+
 }

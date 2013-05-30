@@ -5,33 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
 
-	private Connection con = null;
 	private PreparedStatement ptmt = null;
 	private ResultSet rs = null;
-	private CompanyDaoImpl companydi = new CompanyDaoImpl();
 	private int currentCount;
-
-	private static Map<Integer, String> mapQuery = new HashMap<>();
-
-	static {
-		mapQuery.put(2, SELECT_ORDER_BY);
-		mapQuery.put(-2, SELECT_ORDER_BY_DESC);
-		mapQuery.put(3, SELECT_ORDER_BY_JOIN);
-		mapQuery.put(-3, SELECT_ORDER_BY_DESC_JOIN);
-
-	}
+	private Connection con = null;
 
 	private Connection getConnection() throws SQLException {
-		con = ConnectionFact.getInstance().getConnection();
+		con = DsFactory.INSTANCE.getConnectionThread();
 		return con;
 	}
 
@@ -41,60 +28,11 @@ public class ComputerDaoImpl implements ComputerDao {
 				rs.close();
 			if (ptmt != null)
 				ptmt.close();
-			if (con != null)
-				con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public List<Computer> findComputers() {
-		Computer computer = null;
-		Company company = null;
-		List<Computer> lp = new ArrayList<Computer>();
-		try {
-			con = getConnection();
-			ptmt = con.prepareStatement(SELECT_ALL);
-			rs = ptmt.executeQuery();
-			while (rs.next()) {
-				computer = new Computer();
-				computer.setId(rs.getLong(1));
-				computer.setName(rs.getString(2));
-				computer.setIntroduced(rs.getDate(3));
-				computer.setDiscontinued(rs.getDate(4));
-				company = companydi.findCompanyById(rs.getInt(5));
-				computer.setCompany(company);
-				lp.add(computer);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection();
-		}
-		return lp;
-	}
-
-	public int countComputers() {
-		try {
-			try {
-				con = getConnection();
-				ptmt = con.prepareStatement(COUNT);
-				ResultSet rs = ptmt.executeQuery(COUNT);
-				if (rs.next()) {
-					return rs.getInt(COUNT_PARAM);
-				}
-				rs.close();
-			} catch (SQLException s) {
-				s.printStackTrace();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection();
-		}
-		return -1;
 	}
 
 	public Computer findComputerById(int computer_id) {
@@ -107,11 +45,13 @@ public class ComputerDaoImpl implements ComputerDao {
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
 				computer = new Computer();
-				computer.setId(rs.getLong(1));
-				computer.setName(rs.getString(2));
-				computer.setIntroduced(rs.getDate(3));
-				computer.setDiscontinued(rs.getDate(4));
-				company = companydi.findCompanyById(rs.getInt(5));
+				computer.setId(rs.getInt("c.id"));
+				computer.setName(rs.getString("c.name"));
+				computer.setIntroduced(rs.getDate("c.introduced"));
+				computer.setDiscontinued(rs.getDate("c.discontinued"));
+				company = new Company();
+				company.setId(rs.getInt("c.company_id"));
+				company.setName(rs.getString("cy.name"));
 				computer.setCompany(company);
 			}
 		} catch (SQLException e) {
@@ -124,16 +64,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	@Override
 	public void delete(Computer computer) {
-		try {
-			con = getConnection();
-			ptmt = con.prepareStatement(DELETE);
-			ptmt.setLong(1, computer.getId());
-			ptmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection();
-		}
+		deleteComputerById(computer.getId());
 	}
 
 	@Override
@@ -186,20 +117,20 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	@Override
-	public List<Computer> findOrderByComputers(int p, int req, String orderBy,
-			String search) {
+	public List<Computer> findOrderByComputers(int p, String req,
+			String orderBy, String search) {
 		Computer computer = null;
 		Company company = null;
 		List<Computer> lp = new ArrayList<Computer>();
 		try {
 			con = getConnection();
 			if (search == null || "".equals(search)) {
-				ptmt = con.prepareStatement(String.format(mapQuery.get(req),
-						"", orderBy, orderBy));
+				ptmt = con.prepareStatement(String.format(SELECT_ORDER_BY, "",
+						orderBy, orderBy, req));
 				ptmt.setInt(1, p * 10);
 			} else {
-				ptmt = con.prepareStatement(String.format(mapQuery.get(req),
-						SEARCH, orderBy, orderBy));
+				ptmt = con.prepareStatement(String.format(SELECT_ORDER_BY,
+						SEARCH, orderBy, orderBy, req));
 				ptmt.setString(1,
 						new StringBuilder("%").append(search).append("%")
 								.toString());
@@ -208,11 +139,13 @@ public class ComputerDaoImpl implements ComputerDao {
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
 				computer = new Computer();
-				computer.setId(rs.getLong(1));
-				computer.setName(rs.getString(2));
-				computer.setIntroduced(rs.getDate(3));
-				computer.setDiscontinued(rs.getDate(4));
-				company = companydi.findCompanyById(rs.getInt(5));
+				computer.setId(rs.getInt("c.id"));
+				computer.setName(rs.getString("c.name"));
+				computer.setIntroduced(rs.getDate("c.introduced"));
+				computer.setDiscontinued(rs.getDate("c.discontinued"));
+				company = new Company();
+				company.setId(rs.getInt("c.company_id"));
+				company.setName(rs.getString("cy.name"));
 				computer.setCompany(company);
 				lp.add(computer);
 			}

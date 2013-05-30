@@ -6,8 +6,6 @@ import com.excilys.om.Computer;
 
 public interface ComputerService {
 
-	int countComputers();
-
 	Computer findComputerById(int computer_id);
 
 	void delete(Computer computer);
@@ -18,7 +16,7 @@ public interface ComputerService {
 
 	void deleteComputerById(int computer_id);
 
-	List<Computer> findOrderByComputers(int p, int req, String orderBy,
+	List<Computer> findOrderByComputers(int p, String req, String orderBy,
 			String search);
 
 	int getCurrentCount();
