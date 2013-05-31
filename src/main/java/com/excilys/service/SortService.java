@@ -30,6 +30,8 @@ public class SortService {
 	private String search;
 	private String current;
 
+	private int currentCount;
+
 	public String getComputer_header() {
 		return computer_header;
 	}
@@ -209,6 +211,14 @@ public class SortService {
 
 	public void setCurrent(String current) {
 		this.current = current;
+	}
+
+	public int getCurrentCount() {
+		return currentCount;
+	}
+
+	public void setCurrentCount(int currentCount) {
+		this.currentCount = currentCount;
 	}
 
 }

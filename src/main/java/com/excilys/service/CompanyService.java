@@ -15,5 +15,5 @@ public interface CompanyService {
 	void update(Company company);
 
 	void insert(Company company);
-	
+
 }

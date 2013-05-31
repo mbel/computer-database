@@ -1,6 +1,5 @@
 package com.excilys.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,26 +12,15 @@ public enum CompanyDaoImpl implements CompanyDao {
 
 	INSTANCE;
 
-	private Connection con = null;
-	private PreparedStatement ptmt = null;
-	private ResultSet rs = null;
-
 	private CompanyDaoImpl() {
 	}
 
-	private Connection getConnection() throws SQLException {
-		con = DsFact.INSTANCE.getConnectionThread();
-		return con;
-	}
-
-	private void closeConnection() {
+	public void closeConnection(PreparedStatement ptmt, ResultSet rs) {
 		try {
 			if (rs != null)
 				rs.close();
 			if (ptmt != null)
 				ptmt.close();
-			if (con != null)
-				DsFact.INSTANCE.closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -42,9 +30,11 @@ public enum CompanyDaoImpl implements CompanyDao {
 
 	public Company findCompanyById(int id) {
 		Company company = null;
+		PreparedStatement ptmt = null;
+		ResultSet rs = null;
 		try {
-			con = getConnection();
-			ptmt = con.prepareStatement(SELECT_COMPANY_BY_ID);
+			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
+					SELECT_COMPANY_BY_ID);
 			ptmt.setInt(1, id);
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
@@ -54,8 +44,6 @@ public enum CompanyDaoImpl implements CompanyDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			closeConnection();
 		}
 		return company;
 	}
@@ -63,9 +51,11 @@ public enum CompanyDaoImpl implements CompanyDao {
 	public List<Company> findCompanies() {
 		Company company = null;
 		List<Company> lp = new ArrayList<Company>();
+		PreparedStatement ptmt = null;
+		ResultSet rs = null;
 		try {
-			con = getConnection();
-			ptmt = con.prepareStatement(SELECT_COMPANY);
+			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
+					SELECT_COMPANY);
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
 				company = new Company();
@@ -76,7 +66,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			closeConnection();
+			closeConnection(ptmt, rs);
 		}
 		return lp;
 	}

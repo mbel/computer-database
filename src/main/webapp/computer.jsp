@@ -23,7 +23,7 @@
 	</header>
 
 	<section id="main">
-		<h1 id="homeTitle">${nbComputer} computers found</h1>
+		<h1 id="homeTitle">${ss.currentCount} computers found</h1>
 
 		<c:if test="${us.maj}">
 			<div class="alert-message warning">
@@ -39,8 +39,9 @@
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
-			<a class="btn success" id="add" href="/computer-database/SingleComputer?id=-1">Add
-				a new computer</a>
+			<a class="btn success" id="add"
+				href="/computer-database/SingleComputer?id=-1">Add a new
+				computer</a>
 		</div>
 		<table class="computers zebra-striped">
 			<thead>
@@ -85,16 +86,16 @@
 
 
 				<c:choose>
-					<c:when test="${(p+1)*10 < nbComputer}">
+					<c:when test="${(p+1)*10 < ss.currentCount}">
 						<li class="current"><a>Displaying ${p*10} to ${(p+1)*10}
-								of ${nbComputer}</a></li>
+								of ${ss.currentCount}</a></li>
 						<li class="next"><a
 							href="/computer-database/computer?p=${p}&${ss.current}">Next
 								&rarr;</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="current"><a>Displaying ${p*10} to
-								${nbComputer} of ${nbComputer}</a></li>
+								${ss.currentCount} of ${ss.currentCount}</a></li>
 						<li class="prev disabled"><a>Next &rarr;</a></li>
 					</c:otherwise>
 				</c:choose>

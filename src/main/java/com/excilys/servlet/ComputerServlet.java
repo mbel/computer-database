@@ -60,18 +60,18 @@ public class ComputerServlet extends HttpServlet {
 			sortService.setOrder(request.getParameter("o"));
 			sortService.setSearch(request.getParameter("f"));
 			sortService.setCurrent(sortService.set());
+			sortService.setCurrentCount(computersi.getCurrentCount(p, sortService.getReq(),
+					sortService.getBy(), sortService.getSearch()));
 		}
 
 		List<Computer> lc = computersi.findOrderByComputers(p,
 				sortService.getReq(), sortService.getBy(),
 				sortService.getSearch());
-
 		request.getSession().setAttribute("ss", sortService);
 		request.getSession().removeAttribute("us");
 		request.setAttribute("us", utilsService);
 		request.setAttribute("p", p);
 		request.setAttribute("lc", lc);
-		request.setAttribute("nbComputer", computersi.getCurrentCount());
 		request.getRequestDispatcher("computer.jsp").forward(request, response);
 	}
 

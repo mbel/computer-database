@@ -83,7 +83,6 @@ public class SaveComputer extends HttpServlet {
 				redirect = "SingleComputer?id=" + computer.getId();
 			}
 		}
-		
 		request.getSession().setAttribute("us", utilsService);
 		response.sendRedirect(redirect);
 	}
