@@ -29,8 +29,40 @@ public class SortService {
 	private String by;
 	private String search;
 	private String current;
-
 	private int currentCount;
+
+	public SortService() {
+		this.computer = COMPUTER_ASC;
+		this.introduced = INTRODUCED_ASC;
+		this.discontinued = DISCONTINUED_ASC;
+		this.company = COMPANY_ASC;
+	}
+
+	public String getReq() {
+		if (order != null)
+			return "DESC";
+		return "ASC";
+	}
+
+	public String set() {
+		if (by == null) {
+			by = "c.name";
+		}
+		String sortString = by;
+		switch (sortString) {
+		case "introduced":
+			setBy("c.introduced");
+			return setIntroduced();
+		case "discontinued":
+			setBy("c.discontinued");
+			return setDiscontinued();
+		case "company.name":
+			setBy("cy.name");
+			return setCompany();
+		default:
+			return setComputer();
+		}
+	}
 
 	public String getComputer_header() {
 		return computer_header;
@@ -62,13 +94,6 @@ public class SortService {
 
 	public void setCompany_header(String company_header) {
 		this.company_header = company_header;
-	}
-
-	public SortService() {
-		this.computer = COMPUTER_ASC;
-		this.introduced = INTRODUCED_ASC;
-		this.discontinued = DISCONTINUED_ASC;
-		this.company = COMPANY_ASC;
 	}
 
 	public String getComputer() {
@@ -155,26 +180,6 @@ public class SortService {
 		return this.company;
 	}
 
-	public String set() {
-		if (by == null) {
-			by = "c.name";
-		}
-		String sortString = by;
-		switch (sortString) {
-		case "introduced":
-			setBy("c.introduced");
-			return setIntroduced();
-		case "discontinued":
-			setBy("c.discontinued");
-			return setDiscontinued();
-		case "company.name":
-			setBy("cy.name");
-			return setCompany();
-		default:
-			return setComputer();
-		}
-	}
-
 	public String getBy() {
 		return by;
 	}
@@ -189,12 +194,6 @@ public class SortService {
 
 	public void setOrder(String order) {
 		this.order = order;
-	}
-
-	public String getReq() {
-		if (order != null)
-			return "DESC";
-		return "ASC";
 	}
 
 	public String getSearch() {
