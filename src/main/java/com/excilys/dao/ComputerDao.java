@@ -11,7 +11,7 @@ public interface ComputerDao {
 	String SEARCH = "where c.name like ?";
 	String ROW_CPT = "SELECT FOUND_ROWS() as cpt";
 
-	String SELECT_BY_ID = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id,cy.name FROM computer left join company cy on (cy.id=c.company_id) where id=?";
+	String SELECT_BY_ID = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id,cy.name FROM computer c left join company cy on (cy.id=c.company_id) where c.id=?";
 	String UPDATE = "update computer set name=?,introduced=?,discontinued=?,company_id=? where id=?";
 	String INSERT = "insert into computer(name,introduced,discontinued,company_id) values(?,?,?,?)";
 	String DELETE_BY_ID = "DELETE from computer WHERE id = ?";

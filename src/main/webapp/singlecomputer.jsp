@@ -31,8 +31,8 @@
 				<div class="clearfix ${us.error_name}">
 					<label for="name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name"
-							value="${computer.name}"> <span class="help-inline">Required</span>
+						<input type="text" id="name" name="name" value="${computer.name}">
+						<span class="help-inline">Required</span>
 					</div>
 				</div>
 
@@ -59,18 +59,18 @@
 					<label for="company_id">Company</label>
 					<div class="input">
 						<select id="company_id" name="company_id">
-							<c:choose>
-								<c:when test="${computer.company != null}">
-									<option class="blank" value="${computer.company.id}">
-										${computer.company.name}</option>
-									<option class="blank" value="">-- Choose a company --</option>
-								</c:when>
-								<c:otherwise>
-									<option class="blank" value="">-- Choose a company --</option>
-								</c:otherwise>
-							</c:choose>
+							<option class="blank" value="">-- Choose a company --</option>
 							<c:forEach var="company" items="${lcany}">
-								<option value="${company.id}">${company.name}</option>
+								<c:choose>
+									<c:when test="${computer.company.id == company.id}">
+										<option class="blank" value="${company.id}"
+											selected="selected">${company.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option class="blank" value="${company.id}">
+											${company.name}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</select> <span class="help-inline"></span>
 					</div>
@@ -81,10 +81,12 @@
 				or <a href="/computer-database/computer" class="btn">Cancel</a>
 			</div>
 		</form>
-		<form action="/computer-database/DeleteComputer?id=${computer.id}"
-			method="POST" class="topRight">
-			<input type="submit" value="Delete this computer" class="btn danger">
-		</form>
+		<c:if test="${computer.id != -1}">
+			<form action="/computer-database/DeleteComputer?id=${computer.id}"
+				method="POST" class="topRight">
+				<input type="submit" value="Delete this computer" class="btn danger">
+			</form>
+		</c:if>
 	</section>
 </body>
 </html>

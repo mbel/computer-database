@@ -5,7 +5,7 @@ import java.util.List;
 import com.excilys.om.Company;
 
 public interface CompanyService {
-	
+
 	List<Company> findCompanies();
 
 	Company findCompanyById(int id);
@@ -15,4 +15,5 @@ public interface CompanyService {
 	void update(Company company);
 
 	void insert(Company company);
+	
 }

@@ -10,12 +10,17 @@ import java.util.List;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
 
-public class ComputerDaoImpl implements ComputerDao {
+public enum ComputerDaoImpl implements ComputerDao {
+
+	INSTANCE;
 
 	private PreparedStatement ptmt = null;
 	private ResultSet rs = null;
 	private int currentCount;
 	private Connection con = null;
+
+	private ComputerDaoImpl() {
+	}
 
 	private Connection getConnection() throws SQLException {
 		con = DsFact.INSTANCE.getConnectionThread();

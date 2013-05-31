@@ -9,13 +9,16 @@ import java.util.List;
 
 import com.excilys.om.Company;
 
-public class CompanyDaoImpl implements CompanyDao {
+public enum CompanyDaoImpl implements CompanyDao {
+
+	INSTANCE;
 
 	private Connection con = null;
 	private PreparedStatement ptmt = null;
 	private ResultSet rs = null;
 
-
+	private CompanyDaoImpl() {
+	}
 
 	private Connection getConnection() throws SQLException {
 		con = DsFact.INSTANCE.getConnectionThread();
@@ -29,7 +32,7 @@ public class CompanyDaoImpl implements CompanyDao {
 			if (ptmt != null)
 				ptmt.close();
 			if (con != null)
-				con.close();
+				DsFact.INSTANCE.closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

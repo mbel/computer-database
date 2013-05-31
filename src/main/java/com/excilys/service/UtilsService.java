@@ -45,8 +45,6 @@ public class UtilsService {
 		this.error_name = "";
 		this.comp = null;
 		this.maj = false;
-		this.messaj = null;
-
 	}
 
 	public String getComp() {

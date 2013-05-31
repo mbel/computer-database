@@ -6,12 +6,14 @@ import com.excilys.dao.CompanyDao;
 import com.excilys.dao.CompanyDaoImpl;
 import com.excilys.om.Company;
 
-public class CompanyServiceImpl implements CompanyService{
+public enum CompanyServiceImpl implements CompanyService{
 
-	private CompanyDao companydi;
+	INSTANCE;
 	
-	public CompanyServiceImpl() {
-		companydi = new CompanyDaoImpl();
+	private CompanyDao companydi;
+		
+	private CompanyServiceImpl() {
+		companydi = CompanyDaoImpl.INSTANCE;
 	}
 
 	public List<Company> findCompanies() {

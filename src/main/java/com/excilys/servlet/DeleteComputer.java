@@ -26,7 +26,7 @@ public class DeleteComputer extends HttpServlet {
 	 */
 	public DeleteComputer() {
 		super();
-		computersi = new ComputerServiceImpl();
+		computersi = ComputerServiceImpl.INSTANCE;
 	}
 
 	/**

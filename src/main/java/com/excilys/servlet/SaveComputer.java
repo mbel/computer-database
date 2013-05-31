@@ -35,8 +35,8 @@ public class SaveComputer extends HttpServlet {
 	 */
 	public SaveComputer() {
 		super();
-		computersi = new ComputerServiceImpl();
-		companysi = new CompanyServiceImpl();
+		computersi = ComputerServiceImpl.INSTANCE;
+		companysi = CompanyServiceImpl.INSTANCE;
 	}
 
 	/**
@@ -83,6 +83,7 @@ public class SaveComputer extends HttpServlet {
 				redirect = "SingleComputer?id=" + computer.getId();
 			}
 		}
+		
 		request.getSession().setAttribute("us", utilsService);
 		response.sendRedirect(redirect);
 	}
@@ -122,8 +123,9 @@ public class SaveComputer extends HttpServlet {
 		if (!"".equals(company_id))
 			computer.setCompany(companysi.findCompanyById(Integer
 					.parseInt(company_id)));
-		else
+		else {
 			computer.setCompany(new Company());
+		}
 		return computer;
 	}
 

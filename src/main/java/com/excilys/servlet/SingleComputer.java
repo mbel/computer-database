@@ -32,8 +32,8 @@ public class SingleComputer extends HttpServlet {
 	 */
 	public SingleComputer() {
 		super();
-		companysi = new CompanyServiceImpl();
-		computersi = new ComputerServiceImpl();
+		companysi = CompanyServiceImpl.INSTANCE;
+		computersi = ComputerServiceImpl.INSTANCE;
 	}
 
 	/**
@@ -47,9 +47,17 @@ public class SingleComputer extends HttpServlet {
 		if (utilsService == null)
 			utilsService = new UtilsService();
 		List<Company> lcany = companysi.findCompanies();
+		Computer computer = null;
 		int computer_choose = Integer.parseInt(request.getParameter("id"));
-		Computer computer = computersi.findComputerById(computer_choose);
-		utilsService.setMessaj(UtilsService.UPDATED);
+		if (computer_choose > 0) {
+			computer = computersi.findComputerById(computer_choose);
+			utilsService.setMessaj(UtilsService.UPDATED);
+		} else {
+			computer = new Computer();
+			computer.setId(computer_choose);
+			computer.setName("");
+			utilsService.setMessaj(UtilsService.CREATED);
+		}
 		request.setAttribute("lcany", lcany);
 		request.setAttribute("computer", computer);
 		request.getSession().setAttribute("us", utilsService);

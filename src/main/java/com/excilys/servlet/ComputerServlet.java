@@ -24,13 +24,12 @@ public class ComputerServlet extends HttpServlet {
 
 	private ComputerService computersi;
 
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ComputerServlet() {
 		super();
-		computersi = new ComputerServiceImpl();
+		computersi = ComputerServiceImpl.INSTANCE;
 	}
 
 	/**

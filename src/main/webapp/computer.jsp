@@ -27,7 +27,7 @@
 
 		<c:if test="${us.maj}">
 			<div class="alert-message warning">
-				<strong>Done!</strong> Computer ${us.comp} has been ${us.messaj}
+				<strong>Done!</strong> Computer ${us.comp} has been ${us.messaj} !
 			</div>
 		</c:if>
 
@@ -39,7 +39,7 @@
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
-			<a class="btn success" id="add" href="/computer-database/AddComputer">Add
+			<a class="btn success" id="add" href="/computer-database/SingleComputer?id=-1">Add
 				a new computer</a>
 		</div>
 		<table class="computers zebra-striped">

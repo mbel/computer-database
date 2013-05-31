@@ -6,12 +6,14 @@ import com.excilys.dao.ComputerDao;
 import com.excilys.dao.ComputerDaoImpl;
 import com.excilys.om.Computer;
 
-public class ComputerServiceImpl implements ComputerService {
+public enum ComputerServiceImpl implements ComputerService {
+
+	INSTANCE;
 
 	private ComputerDao computerdi;
 
-	public ComputerServiceImpl() {
-		computerdi = new ComputerDaoImpl();
+	private ComputerServiceImpl() {
+		computerdi = ComputerDaoImpl.INSTANCE;
 	}
 
 	@Override
@@ -40,8 +42,8 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public List<Computer> findOrderByComputers(int p, String req, String orderBy,
-			String search) {
+	public List<Computer> findOrderByComputers(int p, String req,
+			String orderBy, String search) {
 		return computerdi.findOrderByComputers(p, req, orderBy, search);
 	}
 
