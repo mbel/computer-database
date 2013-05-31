@@ -23,7 +23,15 @@
 	</header>
 
 	<section id="main">
-		<h1 id="homeTitle">${ss.currentCount} computers found</h1>
+
+		<c:choose>
+			<c:when test="${ss.currentCount eq 0}">
+				<h1 id="homeTitle">No computers found</h1>
+			</c:when>
+			<c:otherwise>
+				<h1 id="homeTitle">${ss.currentCount} computers found</h1>
+			</c:otherwise>
+		</c:choose>
 
 		<c:if test="${us.maj}">
 			<div class="alert-message warning">
@@ -43,65 +51,77 @@
 				href="/computer-database/SingleComputer?id=-1">Add a new
 				computer</a>
 		</div>
-		<table class="computers zebra-striped">
-			<thead>
-				<tr>
 
-					<th class="name header ${ss.computer_header}"><a
-						href="/computer-database/computer?${ss.computer}">Computer
-							name</a></th>
-					<th class="introduced header ${ss.introduced_header}"><a
-						href="/computer-database/computer?${ss.introduced}">Introduced</a></th>
-					<th class="discontinued header ${ss.discontinued_header}"><a
-						href="/computer-database/computer?${ss.discontinued}">Discontinued</a></th>
-					<th class="company_name header ${ss.company_header}"><a
-						href="/computer-database/computer?${ss.company}">Company</a></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="computer" items="${lc}">
-					<tr>
-						<td><a
-							href="/computer-database/SingleComputer?id=${computer.id}">${computer.name}</a></td>
-						<td>${computer.introduced}</td>
-						<td>${computer.discontinued}</td>
-						<td>${computer.company.name}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<div id="pagination" class="pagination">
-			<ul>
-				<c:choose>
-					<c:when test="${p ne 0}">
-						<li class="prev"><a
-							href="/computer-database/computer?p=${p}&r=true">&larr;
-								Previous</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="prev disabled"><a>&larr; Previous</a></li>
-					</c:otherwise>
-				</c:choose>
+		<c:choose>
+			<c:when test="${ss.currentCount eq 0}">
+				<div class="well">
+					<em>Nothing to display</em>
+				</div>
+
+			</c:when>
+			<c:otherwise>
+				<table class="computers zebra-striped">
+					<thead>
+						<tr>
+
+							<th class="name header ${ss.computer_header}"><a
+								href="/computer-database/computer?${ss.computer}">Computer
+									name</a></th>
+							<th class="introduced header ${ss.introduced_header}"><a
+								href="/computer-database/computer?${ss.introduced}">Introduced</a></th>
+							<th class="discontinued header ${ss.discontinued_header}"><a
+								href="/computer-database/computer?${ss.discontinued}">Discontinued</a></th>
+							<th class="company_name header ${ss.company_header}"><a
+								href="/computer-database/computer?${ss.company}">Company</a></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="computer" items="${lc}">
+							<tr>
+								<td><a
+									href="/computer-database/SingleComputer?id=${computer.id}">${computer.name}</a></td>
+								<td>${computer.introduced}</td>
+								<td>${computer.discontinued}</td>
+								<td>${computer.company.name}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<div id="pagination" class="pagination">
+					<ul>
+						<c:choose>
+							<c:when test="${p ne 0}">
+								<li class="prev"><a
+									href="/computer-database/computer?p=${p}&r=true">&larr;
+										Previous</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="prev disabled"><a>&larr; Previous</a></li>
+							</c:otherwise>
+						</c:choose>
 
 
 
-				<c:choose>
-					<c:when test="${(p+1)*10 < ss.currentCount}">
-						<li class="current"><a>Displaying ${p*10} to ${(p+1)*10}
-								of ${ss.currentCount}</a></li>
-						<li class="next"><a
-							href="/computer-database/computer?p=${p}&${ss.current}">Next
-								&rarr;</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="current"><a>Displaying ${p*10} to
-								${ss.currentCount} of ${ss.currentCount}</a></li>
-						<li class="prev disabled"><a>Next &rarr;</a></li>
-					</c:otherwise>
-				</c:choose>
+						<c:choose>
+							<c:when test="${(p+1)*10 < ss.currentCount}">
+								<li class="current"><a>Displaying ${p*10} to
+										${(p+1)*10} of ${ss.currentCount}</a></li>
+								<li class="next"><a
+									href="/computer-database/computer?p=${p}&${ss.current}">Next
+										&rarr;</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="current"><a>Displaying ${p*10} to
+										${ss.currentCount} of ${ss.currentCount}</a></li>
+								<li class="prev disabled"><a>Next &rarr;</a></li>
+							</c:otherwise>
+						</c:choose>
 
-			</ul>
-		</div>
+					</ul>
+				</div>
+			</c:otherwise>
+		</c:choose>
+
 	</section>
 </body>
 </html>

@@ -13,5 +13,11 @@ public interface CompanyDao {
 	List<Company> findCompanies();
 
 	Company findCompanyById(int id);
+	
+	void delete(Company company);
+
+	void update(Company company);
+
+	void insert(Company company);
 
 }

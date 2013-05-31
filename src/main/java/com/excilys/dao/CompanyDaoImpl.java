@@ -71,4 +71,16 @@ public enum CompanyDaoImpl implements CompanyDao {
 		return lp;
 	}
 
+	@Override
+	public void delete(Company company) {
+	}
+
+	@Override
+	public void update(Company company) {
+	}
+
+	@Override
+	public void insert(Company company) {
+	}
+
 }

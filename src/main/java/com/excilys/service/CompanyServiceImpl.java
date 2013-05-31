@@ -39,20 +39,29 @@ public enum CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public void delete(Company company) {
-		// TODO Auto-generated method stub
-
+		try {
+			companydi.delete(company);
+		} finally {
+			closeConnection();
+		}
 	}
 
 	@Override
 	public void update(Company company) {
-		// TODO Auto-generated method stub
-
+		try {
+			companydi.update(company);
+		} finally {
+			closeConnection();
+		}
 	}
 
 	@Override
 	public void insert(Company company) {
-		// TODO Auto-generated method stub
-
+		try {
+			companydi.insert(company);
+		} finally {
+			closeConnection();
+		}
 	}
 
 }
