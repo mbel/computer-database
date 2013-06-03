@@ -25,6 +25,7 @@ public class SortService {
 	private String introduced_header;
 	private String discontinued_header;
 	private String company_header;
+
 	private String order;
 	private String by;
 	private String search;

@@ -23,7 +23,6 @@
 	</header>
 
 	<section id="main">
-
 		<c:choose>
 			<c:when test="${ss.currentCount eq 0}">
 				<h1 id="homeTitle">No computers found</h1>

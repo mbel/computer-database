@@ -32,7 +32,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 
 	public Computer findComputerById(int computer_id) {
 		Computer computer = null;
-		Company company = null;
 		PreparedStatement ptmt = null;
 		ResultSet rs = null;
 		try {
@@ -41,15 +40,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 			ptmt.setInt(1, computer_id);
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
-				computer = new Computer();
-				computer.setId(rs.getInt("c.id"));
-				computer.setName(rs.getString("c.name"));
-				computer.setIntroduced(rs.getDate("c.introduced"));
-				computer.setDiscontinued(rs.getDate("c.discontinued"));
-				company = new Company();
-				company.setId(rs.getInt("c.company_id"));
-				company.setName(rs.getString("cy.name"));
-				computer.setCompany(company);
+				computer = createComputer(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -120,7 +111,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 	public List<Computer> findOrderByComputers(int p, String req,
 			String orderBy, String search) {
 		Computer computer = null;
-		Company company = null;
 		Connection con = null;
 		PreparedStatement ptmt = null;
 		ResultSet rs = null;
@@ -141,15 +131,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 			}
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
-				computer = new Computer();
-				computer.setId(rs.getInt("c.id"));
-				computer.setName(rs.getString("c.name"));
-				computer.setIntroduced(rs.getDate("c.introduced"));
-				computer.setDiscontinued(rs.getDate("c.discontinued"));
-				company = new Company();
-				company.setId(rs.getInt("c.company_id"));
-				company.setName(rs.getString("cy.name"));
-				computer.setCompany(company);
+				computer = createComputer(rs);
 				lp.add(computer);
 			}
 		} catch (SQLException e) {
@@ -189,6 +171,21 @@ public enum ComputerDaoImpl implements ComputerDao {
 			closeConnection(ptmt, rs);
 		}
 		return currentCount;
+	}
+
+	private Computer createComputer(ResultSet rs) throws SQLException {
+		Computer computer;
+		Company company;
+		computer = new Computer();
+		computer.setId(rs.getInt("c.id"));
+		computer.setName(rs.getString("c.name"));
+		computer.setIntroduced(rs.getDate("c.introduced"));
+		computer.setDiscontinued(rs.getDate("c.discontinued"));
+		company = new Company();
+		company.setId(rs.getInt("c.company_id"));
+		company.setName(rs.getString("cy.name"));
+		computer.setCompany(company);
+		return computer;
 	}
 
 }

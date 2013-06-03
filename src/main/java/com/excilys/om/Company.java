@@ -2,11 +2,6 @@ package com.excilys.om;
 
 public class Company {
 
-	@Override
-	public String toString() {
-		return "Company [id=" + id + ", name=" + name + "]";
-	}
-
 	private int id;
 	private String name;
 
@@ -26,4 +21,8 @@ public class Company {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", name=" + name + "]";
+	}
 }
