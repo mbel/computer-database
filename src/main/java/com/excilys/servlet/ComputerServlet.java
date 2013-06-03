@@ -19,7 +19,7 @@ import com.excilys.service.UtilsService;
  * Servlet implementation class ComputerServlet
  */
 @WebServlet("/computer")
-public class ComputerServlet extends HttpServlet {
+public class ComputerServlet<T> extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private ComputerService computersi;
@@ -38,7 +38,6 @@ public class ComputerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		int p = 0;
 		UtilsService utilsService = (UtilsService) request.getSession()
 				.getAttribute("us");
@@ -56,17 +55,16 @@ public class ComputerServlet extends HttpServlet {
 			else
 				p++;
 		} else {
-			sortService.setBy(request.getParameter("s"));
-			sortService.setOrder(request.getParameter("o"));
-			sortService.setSearch(request.getParameter("f"));
-			sortService.setCurrent(sortService.set());
-			sortService.setCurrentCount(computersi.getCurrentCount(p, sortService.getReq(),
-					sortService.getBy(), sortService.getSearch()));
+			sortService.setPs(request.getParameter("s"),
+					request.getParameter("o"), request.getParameter("f"));
+			sortService.setCurrentCount(computersi.getCurrentCount(p,
+					sortService.getReq(), sortService.getPs().getBy(),
+					sortService.getPs().getSearch()));
 		}
 
-		List<Computer> lc = computersi.findOrderByComputers(p,
-				sortService.getReq(), sortService.getBy(),
-				sortService.getSearch());
+		List<Computer> lc = computersi.findOrderByComputers(p, sortService
+				.getReq(), sortService.getPs().getBy(), sortService.getPs()
+				.getSearch());
 		request.getSession().setAttribute("ss", sortService);
 		request.getSession().removeAttribute("us");
 		request.setAttribute("us", utilsService);
@@ -82,5 +80,5 @@ public class ComputerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 	}
-
+	
 }

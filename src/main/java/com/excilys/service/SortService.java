@@ -25,39 +25,37 @@ public class SortService {
 	private String introduced_header;
 	private String discontinued_header;
 	private String company_header;
-	private String order;
-	private String by;
-	private String search;
-	private String current;
-	private int currentCount;
+
+	private ParamService ps;
 
 	public SortService() {
 		this.computer = COMPUTER_ASC;
 		this.introduced = INTRODUCED_ASC;
 		this.discontinued = DISCONTINUED_ASC;
 		this.company = COMPANY_ASC;
+		this.ps = ParamService.INSTANCE;
 	}
 
 	public String getReq() {
-		if (order != null)
+		if (ps.getOrder() != null)
 			return "DESC";
 		return "ASC";
 	}
 
 	public String set() {
-		if (by == null) {
-			by = "c.name";
+		if (ps.getBy() == null) {
+			ps.setBy("c.name");
 		}
-		String sortString = by;
+		String sortString = ps.getBy();
 		switch (sortString) {
 		case "introduced":
-			setBy("c.introduced");
+			ps.setBy("c.introduced");
 			return setIntroduced();
 		case "discontinued":
-			setBy("c.discontinued");
+			ps.setBy("c.discontinued");
 			return setDiscontinued();
 		case "company.name":
-			setBy("cy.name");
+			ps.setBy("cy.name");
 			return setCompany();
 		default:
 			return setComputer();
@@ -180,44 +178,23 @@ public class SortService {
 		return this.company;
 	}
 
-	public String getBy() {
-		return by;
+	public ParamService getPs() {
+		return ps;
 	}
 
-	public void setBy(String by) {
-		this.by = by;
-	}
-
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
-		this.order = order;
-	}
-
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
-
-	public String getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(String current) {
-		this.current = current;
-	}
-
-	public int getCurrentCount() {
-		return currentCount;
+	public void setPs(ParamService ps) {
+		this.ps = ps;
 	}
 
 	public void setCurrentCount(int currentCount) {
-		this.currentCount = currentCount;
+		ps.setCurrentCount(currentCount);
+	}
+
+	public void setPs(String by, String order, String search) {
+		ps.setBy(by);
+		ps.setOrder(order);
+		ps.setSearch(search);
+		ps.setCurrent(this.set());
 	}
 
 }
