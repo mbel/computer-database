@@ -19,8 +19,18 @@ import com.excilys.service.UtilsService;
  * Servlet implementation class ComputerServlet
  */
 @WebServlet("/computer")
-public class ComputerServlet<T> extends HttpServlet {
+public class ComputerServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+
+	private static final String FILTRE_SEARCH = "f";
+	private static final String FILTRE_ORDER = "o";
+	private static final String FILTRE_BY = "s";
+	private static final String PAGINATION_LEFT_BOOL = "r";
+	private static final String PAGINATION = "p";
+	private static final String SORT_SERVICE = "ss";
+	private static final String UTILS_SERVICE = "us";
+	private static final String LIST_COMPUTERS = "lc";
 
 	private ComputerService computersi;
 
@@ -40,23 +50,24 @@ public class ComputerServlet<T> extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		int p = 0;
 		UtilsService utilsService = (UtilsService) request.getSession()
-				.getAttribute("us");
+				.getAttribute(UTILS_SERVICE);
 		if (utilsService == null)
 			utilsService = new UtilsService();
 		SortService sortService = (SortService) request.getSession()
-				.getAttribute("ss");
+				.getAttribute(SORT_SERVICE);
 		if (sortService == null)
 			sortService = new SortService();
 
-		if (request.getParameter("p") != null) {
-			p = Integer.parseInt(request.getParameter("p"));
-			if (request.getParameter("r") != null)
+		if (request.getParameter(PAGINATION) != null) {
+			p = Integer.parseInt(request.getParameter(PAGINATION));
+			if (request.getParameter(PAGINATION_LEFT_BOOL) != null)
 				p--;
 			else
 				p++;
 		} else {
-			sortService.setPs(request.getParameter("s"),
-					request.getParameter("o"), request.getParameter("f"));
+			sortService.setPs(request.getParameter(FILTRE_BY),
+					request.getParameter(FILTRE_ORDER),
+					request.getParameter(FILTRE_SEARCH));
 			sortService.setCurrentCount(computersi.getCurrentCount(p,
 					sortService.getReq(), sortService.getPs().getBy(),
 					sortService.getPs().getSearch()));
@@ -65,11 +76,11 @@ public class ComputerServlet<T> extends HttpServlet {
 		List<Computer> lc = computersi.findOrderByComputers(p, sortService
 				.getReq(), sortService.getPs().getBy(), sortService.getPs()
 				.getSearch());
-		request.getSession().setAttribute("ss", sortService);
-		request.getSession().removeAttribute("us");
-		request.setAttribute("us", utilsService);
-		request.setAttribute("p", p);
-		request.setAttribute("lc", lc);
+		request.getSession().setAttribute(SORT_SERVICE, sortService);
+		request.getSession().removeAttribute(UTILS_SERVICE);
+		request.setAttribute(UTILS_SERVICE, utilsService);
+		request.setAttribute(PAGINATION, p);
+		request.setAttribute(LIST_COMPUTERS, lc);
 		request.getRequestDispatcher("computer.jsp").forward(request, response);
 	}
 
@@ -80,5 +91,5 @@ public class ComputerServlet<T> extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 	}
-	
+
 }

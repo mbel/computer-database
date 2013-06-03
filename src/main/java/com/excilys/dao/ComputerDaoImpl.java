@@ -32,7 +32,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 
 	public Computer findComputerById(int computer_id) {
 		Computer computer = null;
-		Company company = null;
 		PreparedStatement ptmt = null;
 		ResultSet rs = null;
 		try {
@@ -41,15 +40,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 			ptmt.setInt(1, computer_id);
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
-				computer = new Computer();
-				computer.setId(rs.getInt("c.id"));
-				computer.setName(rs.getString("c.name"));
-				computer.setIntroduced(rs.getDate("c.introduced"));
-				computer.setDiscontinued(rs.getDate("c.discontinued"));
-				company = new Company();
-				company.setId(rs.getInt("c.company_id"));
-				company.setName(rs.getString("cy.name"));
-				computer.setCompany(company);
+				computer = createComputer(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,10 +61,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		try {
 			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
 					UPDATE);
-			ptmt.setString(1, computer.getName());
-			ptmt.setDate(2, computer.getIntroduced());
-			ptmt.setDate(3, computer.getDiscontinued());
-			ptmt.setLong(4, computer.getCompany().getId());
+			majComputer(computer, ptmt);
 			ptmt.setLong(5, computer.getId());
 			ptmt.executeUpdate();
 		} catch (SQLException e) {
@@ -89,10 +77,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		try {
 			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
 					INSERT);
-			ptmt.setString(1, computer.getName());
-			ptmt.setDate(2, computer.getIntroduced());
-			ptmt.setDate(3, computer.getDiscontinued());
-			ptmt.setLong(4, computer.getCompany().getId());
+			majComputer(computer, ptmt);
 			ptmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -120,36 +105,16 @@ public enum ComputerDaoImpl implements ComputerDao {
 	public List<Computer> findOrderByComputers(int p, String req,
 			String orderBy, String search) {
 		Computer computer = null;
-		Company company = null;
 		Connection con = null;
 		PreparedStatement ptmt = null;
 		ResultSet rs = null;
 		List<Computer> lp = new ArrayList<Computer>();
 		try {
 			con = DsFact.INSTANCE.getConnectionThread();
-			if (search == null || "".equals(search)) {
-				ptmt = con.prepareStatement(String.format(SELECT_ORDER_BY, "",
-						orderBy, orderBy, req));
-				ptmt.setInt(1, p * 10);
-			} else {
-				ptmt = con.prepareStatement(String.format(SELECT_ORDER_BY,
-						SEARCH, orderBy, orderBy, req));
-				ptmt.setString(1,
-						new StringBuilder("%").append(search).append("%")
-								.toString());
-				ptmt.setInt(2, p * 10);
-			}
+			ptmt = findRequest(p, req, orderBy, search, con, SELECT_ORDER_BY);
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
-				computer = new Computer();
-				computer.setId(rs.getInt("c.id"));
-				computer.setName(rs.getString("c.name"));
-				computer.setIntroduced(rs.getDate("c.introduced"));
-				computer.setDiscontinued(rs.getDate("c.discontinued"));
-				company = new Company();
-				company.setId(rs.getInt("c.company_id"));
-				company.setName(rs.getString("cy.name"));
-				computer.setCompany(company);
+				computer = createComputer(rs);
 				lp.add(computer);
 			}
 		} catch (SQLException e) {
@@ -167,21 +132,10 @@ public enum ComputerDaoImpl implements ComputerDao {
 		int currentCount = 0;
 		try {
 			con = DsFact.INSTANCE.getConnectionThread();
-			if (search == null || "".equals(search)) {
-				ptmt = con.prepareStatement(String.format(SELECT_COUNT, "",
-						orderBy, orderBy, req));
-				ptmt.setInt(1, p * 10);
-			} else {
-				ptmt = con.prepareStatement(String.format(SELECT_COUNT, SEARCH,
-						orderBy, orderBy, req));
-				ptmt.setString(1,
-						new StringBuilder("%").append(search).append("%")
-								.toString());
-				ptmt.setInt(2, p * 10);
-			}
+			ptmt = findRequest(p, req, orderBy, search, con, SELECT_COUNT);
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
-				currentCount = rs.getInt("cpt");
+				currentCount = rs.getInt(CPT);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -189,6 +143,49 @@ public enum ComputerDaoImpl implements ComputerDao {
 			closeConnection(ptmt, rs);
 		}
 		return currentCount;
+	}
+
+	private PreparedStatement findRequest(int p, String req, String orderBy,
+			String search, Connection con, String request) throws SQLException {
+		PreparedStatement ptmt;
+		if (search == null || "".equals(search)) {
+			ptmt = con.prepareStatement(String.format(request, "", orderBy,
+					orderBy, req));
+			ptmt.setInt(1, p * LIMIT);
+			ptmt.setInt(2, LIMIT);
+		} else {
+			ptmt = con.prepareStatement(String.format(request, SEARCH, orderBy,
+					orderBy, req));
+			ptmt.setString(1,
+					new StringBuilder(PERCENT).append(search).append(PERCENT)
+							.toString());
+			ptmt.setInt(2, p * LIMIT);
+			ptmt.setInt(3, LIMIT);
+		}
+		return ptmt;
+	}
+
+	private Computer createComputer(ResultSet rs) throws SQLException {
+		Computer computer;
+		Company company;
+		computer = new Computer();
+		computer.setId(rs.getInt(Computer.COMPUTER_ID));
+		computer.setName(rs.getString(Computer.COMPUTER_NAME));
+		computer.setIntroduced(rs.getDate(Computer.COMPUTER_INTRODUCED));
+		computer.setDiscontinued(rs.getDate(Computer.COMPUTER_DISCONTINUED));
+		company = new Company();
+		company.setId(rs.getInt(Computer.COMPUTER_COMPANY));
+		company.setName(rs.getString(Company.COMPANY_NAME));
+		computer.setCompany(company);
+		return computer;
+	}
+
+	private void majComputer(Computer computer, PreparedStatement ptmt)
+			throws SQLException {
+		ptmt.setString(1, computer.getName());
+		ptmt.setDate(2, computer.getIntroduced());
+		ptmt.setDate(3, computer.getDiscontinued());
+		ptmt.setLong(4, computer.getCompany().getId());
 	}
 
 }

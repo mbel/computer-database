@@ -2,8 +2,8 @@ package com.excilys.om;
 
 public class Company {
 
-	public static final String COMPANY_ID = "id";
-	public static final String COMPANY_NAME = "name";
+	public static final String COMPANY_ID = "cy.id";
+	public static final String COMPANY_NAME = "cy.name";
 
 	private int id;
 	private String name;

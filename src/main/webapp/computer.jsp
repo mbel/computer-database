@@ -15,7 +15,6 @@
 </head>
 <body>
 
-
 	<header class="topbar">
 		<h1 class="fill">
 			<a href="/computer-database/">My Computer database </a>
@@ -23,7 +22,6 @@
 	</header>
 
 	<section id="main">
-
 		<c:choose>
 			<c:when test="${ss.ps.currentCount eq 0}">
 				<h1 id="homeTitle">No computers found</h1>
@@ -32,14 +30,11 @@
 				<h1 id="homeTitle">${ss.ps.currentCount} computers found</h1>
 			</c:otherwise>
 		</c:choose>
-
 		<c:if test="${us.maj}">
 			<div class="alert-message warning">
 				<strong>Done!</strong> Computer ${us.comp} has been ${us.messaj} !
 			</div>
 		</c:if>
-
-
 		<div id="actions">
 			<form action="/computer-database/computer?s=true" method="GET">
 				<input type="search" id="searchbox" name="f" value=""
@@ -51,19 +46,16 @@
 				href="/computer-database/SingleComputer?id=-1">Add a new
 				computer</a>
 		</div>
-
 		<c:choose>
 			<c:when test="${ss.ps.currentCount eq 0}">
 				<div class="well">
 					<em>Nothing to display</em>
 				</div>
-
 			</c:when>
 			<c:otherwise>
 				<table class="computers zebra-striped">
 					<thead>
 						<tr>
-
 							<th class="name header ${ss.computer_header}"><a
 								href="/computer-database/computer?${ss.computer}">Computer
 									name</a></th>
@@ -99,9 +91,6 @@
 								<li class="prev disabled"><a>&larr; Previous</a></li>
 							</c:otherwise>
 						</c:choose>
-
-
-
 						<c:choose>
 							<c:when test="${(p+1)*10 < ss.ps.currentCount}">
 								<li class="current"><a>Displaying ${p*10} to
@@ -116,7 +105,6 @@
 								<li class="prev disabled"><a>Next &rarr;</a></li>
 							</c:otherwise>
 						</c:choose>
-
 					</ul>
 				</div>
 			</c:otherwise>

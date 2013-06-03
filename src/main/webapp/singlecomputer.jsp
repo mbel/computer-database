@@ -29,17 +29,17 @@
 			<fieldset>
 
 				<div class="clearfix ${us.error_name}">
-					<label for="name">Computer name</label>
+					<label for="c.name">Computer name</label>
 					<div class="input">
-						<input type="text" id="name" name="name" value="${computer.name}">
-						<span class="help-inline">Required</span>
+						<input type="text" id="c.name" name="c.name"
+							value="${computer.name}"> <span class="help-inline">Required</span>
 					</div>
 				</div>
 
 				<div class="clearfix ${us.error_introducted}">
-					<label for="introduced">Introduced date</label>
+					<label for="c.introduced">Introduced date</label>
 					<div class="input">
-						<input type="text" id="introduced" name="introduced"
+						<input type="text" id="c.introduced" name="c.introduced"
 							value="${computer.introduced}"> <span class="help-inline">Date
 							(&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
@@ -47,18 +47,18 @@
 
 
 				<div class="clearfix ${us.error_discontinued}">
-					<label for="discontinued">Discontinued date</label>
+					<label for="c.discontinued">Discontinued date</label>
 					<div class="input">
-						<input type="text" id="discontinued" name="discontinued"
+						<input type="text" id="c.discontinued" name="c.discontinued"
 							value="${computer.discontinued}"> <span
 							class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
 				<div class="clearfix">
-					<label for="company_id">Company</label>
+					<label for="c.company_id">Company</label>
 					<div class="input">
-						<select id="company_id" name="company_id">
+						<select id="c.company_id" name="c.company_id">
 							<option class="blank" value="">-- Choose a company --</option>
 							<c:forEach var="company" items="${lcany}">
 								<c:choose>

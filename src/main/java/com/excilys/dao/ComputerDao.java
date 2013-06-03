@@ -6,8 +6,8 @@ import com.excilys.om.Computer;
 
 public interface ComputerDao {
 
-	String SELECT_ORDER_BY = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id,cy.name FROM computer c left join company cy on (cy.id=c.company_id) %s order by ISNULL(%s),%s %s LIMIT ?,10 ";
-	String SELECT_COUNT =  "SELECT count(c.id) as cpt FROM computer c left join company cy on (cy.id=c.company_id) %s order by ISNULL(%s),%s %s LIMIT ?,10 ";
+	String SELECT_ORDER_BY = "SELECT c.id,c.name,c.introduced,c.discontinued,c.company_id,cy.name FROM computer c left join company cy on (cy.id=c.company_id) %s order by ISNULL(%s),%s %s LIMIT ?,? ";
+	String SELECT_COUNT = "SELECT count(c.id) as cpt FROM computer c left join company cy on (cy.id=c.company_id) %s order by ISNULL(%s),%s %s LIMIT ?,? ";
 	String SEARCH = "where c.name like ?";
 	String ROW_CPT = "SELECT FOUND_ROWS() as cpt";
 
@@ -15,6 +15,10 @@ public interface ComputerDao {
 	String UPDATE = "update computer set name=?,introduced=?,discontinued=?,company_id=? where id=?";
 	String INSERT = "insert into computer(name,introduced,discontinued,company_id) values(?,?,?,?)";
 	String DELETE_BY_ID = "DELETE from computer WHERE id = ?";
+
+	String CPT = "cpt";
+	int LIMIT = 10;
+	String PERCENT = "%";
 
 	Computer findComputerById(int computer_id);
 

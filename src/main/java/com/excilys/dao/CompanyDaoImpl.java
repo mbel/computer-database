@@ -39,8 +39,8 @@ public enum CompanyDaoImpl implements CompanyDao {
 			rs = ptmt.executeQuery();
 			if (rs.next()) {
 				company = new Company();
-				company.setId(rs.getInt(1));
-				company.setName(rs.getString(2));
+				company.setId(rs.getInt(Company.COMPANY_ID));
+				company.setName(rs.getString(Company.COMPANY_NAME));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -59,8 +59,8 @@ public enum CompanyDaoImpl implements CompanyDao {
 			rs = ptmt.executeQuery();
 			while (rs.next()) {
 				company = new Company();
-				company.setId(rs.getInt("id"));
-				company.setName(rs.getString("name"));
+				company.setId(rs.getInt(Company.COMPANY_ID));
+				company.setName(rs.getString(Company.COMPANY_NAME));
 				lp.add(company);
 			}
 		} catch (SQLException e) {

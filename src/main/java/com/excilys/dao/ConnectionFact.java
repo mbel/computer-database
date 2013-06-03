@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class ConnectionFact {
 
-	String driverClassName = "com.mysql.jdbc.Driver";
-	String connectionUrl = "jdbc:mysql://localhost/miniprojet";
-	String dbUser = "root";
-	String dbPwd = "root";
+	private String driverClassName = "com.mysql.jdbc.Driver";
+	private String connectionUrl = "jdbc:mysql://localhost/miniprojet";
+	private String dbUser = "root";
+	private String dbPwd = "root";
 
 	private static ConnectionFact connectionFactory = null;
 
