@@ -4,6 +4,12 @@ import java.sql.Date;
 
 public class Computer {
 
+	public static final String COMPUTER_ID = "id";
+	public static final String COMPUTER_NAME = "name";
+	public static final String COMPUTER_INTRODUCED = "introduced";
+	public static final String COMPUTER_DISCONTINUED = "discontinued";
+	public static final String COMPUTER_COMPANY = "company_id";
+
 	private int id;
 	private String name;
 	private Date introduced;

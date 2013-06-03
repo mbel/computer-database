@@ -25,11 +25,11 @@
 	<section id="main">
 
 		<c:choose>
-			<c:when test="${ss.currentCount eq 0}">
+			<c:when test="${ss.ps.currentCount eq 0}">
 				<h1 id="homeTitle">No computers found</h1>
 			</c:when>
 			<c:otherwise>
-				<h1 id="homeTitle">${ss.currentCount} computers found</h1>
+				<h1 id="homeTitle">${ss.ps.currentCount} computers found</h1>
 			</c:otherwise>
 		</c:choose>
 
@@ -53,7 +53,7 @@
 		</div>
 
 		<c:choose>
-			<c:when test="${ss.currentCount eq 0}">
+			<c:when test="${ss.ps.currentCount eq 0}">
 				<div class="well">
 					<em>Nothing to display</em>
 				</div>
@@ -103,16 +103,16 @@
 
 
 						<c:choose>
-							<c:when test="${(p+1)*10 < ss.currentCount}">
+							<c:when test="${(p+1)*10 < ss.ps.currentCount}">
 								<li class="current"><a>Displaying ${p*10} to
-										${(p+1)*10} of ${ss.currentCount}</a></li>
+										${(p+1)*10} of ${ss.ps.currentCount}</a></li>
 								<li class="next"><a
-									href="/computer-database/computer?p=${p}&${ss.current}">Next
+									href="/computer-database/computer?p=${p}&${ss.ps.current}">Next
 										&rarr;</a></li>
 							</c:when>
 							<c:otherwise>
 								<li class="current"><a>Displaying ${p*10} to
-										${ss.currentCount} of ${ss.currentCount}</a></li>
+										${ss.ps.currentCount} of ${ss.ps.currentCount}</a></li>
 								<li class="prev disabled"><a>Next &rarr;</a></li>
 							</c:otherwise>
 						</c:choose>
