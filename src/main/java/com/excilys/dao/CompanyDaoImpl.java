@@ -12,9 +12,6 @@ public enum CompanyDaoImpl implements CompanyDao {
 
 	INSTANCE;
 
-	private CompanyDaoImpl() {
-	}
-
 	public void closeConnection(PreparedStatement ptmt, ResultSet rs) {
 		try {
 			if (rs != null)

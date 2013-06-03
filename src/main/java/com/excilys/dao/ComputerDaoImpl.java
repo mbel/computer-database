@@ -14,9 +14,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 
 	INSTANCE;
 
-	private ComputerDaoImpl() {
-	}
-
 	private void closeConnection(PreparedStatement ptmt, ResultSet rs) {
 		try {
 			if (rs != null)

@@ -99,8 +99,6 @@
 							</c:otherwise>
 						</c:choose>
 
-
-
 						<c:choose>
 							<c:when test="${(p+1)*10 < ss.currentCount}">
 								<li class="current"><a>Displaying ${p*10} to

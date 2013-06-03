@@ -1,6 +1,8 @@
 package com.excilys.servlet;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,22 +30,23 @@ public class ComputerServlet extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ComputerServlet() {
-		super();
 		computersi = ComputerServiceImpl.INSTANCE;
 	}
 
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		int p = 0;
+		
 		UtilsService utilsService = (UtilsService) request.getSession()
 				.getAttribute("us");
 		if (utilsService == null)
 			utilsService = new UtilsService();
+		
 		SortService sortService = (SortService) request.getSession()
 				.getAttribute("ss");
 		if (sortService == null)
@@ -60,8 +63,9 @@ public class ComputerServlet extends HttpServlet {
 			sortService.setOrder(request.getParameter("o"));
 			sortService.setSearch(request.getParameter("f"));
 			sortService.setCurrent(sortService.set());
-			sortService.setCurrentCount(computersi.getCurrentCount(p, sortService.getReq(),
-					sortService.getBy(), sortService.getSearch()));
+			sortService.setCurrentCount(computersi.getCurrentCount(p,
+					sortService.getReq(), sortService.getBy(),
+					sortService.getSearch()));
 		}
 
 		List<Computer> lc = computersi.findOrderByComputers(p,

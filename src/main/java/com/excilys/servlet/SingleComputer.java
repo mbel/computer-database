@@ -31,7 +31,6 @@ public class SingleComputer extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public SingleComputer() {
-		super();
 		companysi = CompanyServiceImpl.INSTANCE;
 		computersi = ComputerServiceImpl.INSTANCE;
 	}

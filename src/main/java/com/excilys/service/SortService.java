@@ -1,5 +1,8 @@
 package com.excilys.service;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 public class SortService {
 
 	public static final String COMPUTER_ASC = "";
@@ -101,6 +104,23 @@ public class SortService {
 		return computer;
 	}
 
+	private void defaultSet() {
+		this.introduced = INTRODUCED_ASC;
+		this.discontinued = DISCONTINUED_ASC;
+		this.company = COMPANY_ASC;
+		this.computer = COMPUTER_ASC;
+		setIntroduced_header("");
+		setDiscontinued_header("");
+		setCompany_header("");
+		if (this.computer.equals(COMPUTER_ASC)) {
+			setComputer_header(HEADER_DOWN);
+			this.computer = COMPUTER_DESC;
+		} else {
+			setComputer_header(HEADER_UP);
+			this.computer = COMPUTER_ASC;
+		}
+	}
+	
 	public String setComputer() {
 		this.introduced = INTRODUCED_ASC;
 		this.discontinued = DISCONTINUED_ASC;
@@ -221,4 +241,13 @@ public class SortService {
 		this.currentCount = currentCount;
 	}
 
+	public static SortService init(HttpServletRequest request) {
+		SortService sortService = (SortService) request.getSession()
+				.getAttribute("ss");
+
+		if (sortService == null)
+			sortService = new SortService();
+
+		return sortService;
+	}
 }

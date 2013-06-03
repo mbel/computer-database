@@ -34,7 +34,6 @@ public class SaveComputer extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public SaveComputer() {
-		super();
 		computersi = ComputerServiceImpl.INSTANCE;
 		companysi = CompanyServiceImpl.INSTANCE;
 	}
