@@ -63,15 +63,15 @@
 					<thead>
 						<tr>
 
-							<th class="name header ${ss.computer_header}"><a
-								href="/computer-database/computer?${ss.computer}">Computer
+							<th class="name header ${ss.computer_att.header}"><a
+								href="/computer-database/computer?${ss.computer_att.name}">Computer
 									name</a></th>
-							<th class="introduced header ${ss.introduced_header}"><a
-								href="/computer-database/computer?${ss.introduced}">Introduced</a></th>
-							<th class="discontinued header ${ss.discontinued_header}"><a
-								href="/computer-database/computer?${ss.discontinued}">Discontinued</a></th>
-							<th class="company_name header ${ss.company_header}"><a
-								href="/computer-database/computer?${ss.company}">Company</a></th>
+							<th class="introduced header ${ss.introduced_att.header}"><a
+								href="/computer-database/computer?${ss.introduced_att.name}">Introduced</a></th>
+							<th class="discontinued header ${ss.discontinued_att.header}"><a
+								href="/computer-database/computer?${ss.discontinued_att.name}">Discontinued</a></th>
+							<th class="company_name header ${ss.company_att.header}"><a
+								href="/computer-database/computer?${ss.company_att.name}">Company</a></th>
 						</tr>
 					</thead>
 					<tbody>

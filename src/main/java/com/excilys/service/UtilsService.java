@@ -1,5 +1,7 @@
 package com.excilys.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class UtilsService {
 
 	public static final String ERROR = "error";
@@ -71,4 +73,11 @@ public class UtilsService {
 		this.maj = maj;
 	}
 
+	public static UtilsService init(HttpServletRequest request) {
+		UtilsService utilsService = (UtilsService) request.getSession()
+				.getAttribute("us");
+		if (utilsService == null)
+			utilsService = new UtilsService();
+		return utilsService;
+	}
 }

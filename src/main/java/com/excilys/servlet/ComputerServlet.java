@@ -1,8 +1,6 @@
 package com.excilys.servlet;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -33,7 +31,6 @@ public class ComputerServlet extends HttpServlet {
 		computersi = ComputerServiceImpl.INSTANCE;
 	}
 
-	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -41,16 +38,8 @@ public class ComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int p = 0;
-		
-		UtilsService utilsService = (UtilsService) request.getSession()
-				.getAttribute("us");
-		if (utilsService == null)
-			utilsService = new UtilsService();
-		
-		SortService sortService = (SortService) request.getSession()
-				.getAttribute("ss");
-		if (sortService == null)
-			sortService = new SortService();
+		UtilsService utilsService = UtilsService.init(request);
+		SortService sortService = SortService.init(request);
 
 		if (request.getParameter("p") != null) {
 			p = Integer.parseInt(request.getParameter("p"));
@@ -59,6 +48,7 @@ public class ComputerServlet extends HttpServlet {
 			else
 				p++;
 		} else {
+			sortService.defaultSet();
 			sortService.setBy(request.getParameter("s"));
 			sortService.setOrder(request.getParameter("o"));
 			sortService.setSearch(request.getParameter("f"));
