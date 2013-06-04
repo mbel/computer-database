@@ -11,6 +11,8 @@ public enum DsFact {
 
 	INSTANCE;
 
+	private static final String ENV_JDBC = "java:/comp/env/jdbc/miniprojet";
+
 	private DataSource ds;
 	private ThreadLocal<Connection> con;
 
@@ -18,7 +20,7 @@ public enum DsFact {
 		con = new ThreadLocal<Connection>();
 		try {
 			InitialContext context = new InitialContext();
-			ds = (DataSource) context.lookup("java:/comp/env/jdbc/miniprojet");
+			ds = (DataSource) context.lookup(ENV_JDBC);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

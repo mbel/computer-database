@@ -24,7 +24,12 @@ import com.excilys.service.UtilsService;
  */
 @WebServlet("/SaveComputer")
 public class SaveComputer extends HttpServlet {
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
+
 	private static final long serialVersionUID = 1L;
+
+	private static final String UTILS_SERVICE = "us";
+	private static final String ID = "id";
 
 	private ComputerService computersi;
 	private CompanyService companysi;
@@ -54,9 +59,10 @@ public class SaveComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Computer cp = null;
-		utilsService = (UtilsService) request.getSession().getAttribute("us");
+		utilsService = (UtilsService) request.getSession().getAttribute(
+				UTILS_SERVICE);
 		utilsService.init();
-		int computer_id = Integer.parseInt(request.getParameter("id"));
+		int computer_id = Integer.parseInt(request.getParameter(ID));
 		String redirect = "computer";
 		if (computer_id == -1) {
 			cp = generateComputer(request, new Computer());
@@ -82,20 +88,20 @@ public class SaveComputer extends HttpServlet {
 				redirect = "SingleComputer?id=" + computer.getId();
 			}
 		}
-		request.getSession().setAttribute("us", utilsService);
+		request.getSession().setAttribute(UTILS_SERVICE, utilsService);
 		response.sendRedirect(redirect);
 	}
 
 	private Computer generateComputer(HttpServletRequest request,
 			Computer computer) {
-		String name = request.getParameter("name").toString().trim();
+		String name = request.getParameter(Computer.COMPUTER_NAME).toString().trim();
 		if ("".equals(name)) {
 			utilsService.setError_name(UtilsService.ERROR);
 		} else {
 			computer.setName(name);
 			utilsService.setError_name("");
 		}
-		String introducedDate = request.getParameter("introduced");
+		String introducedDate = request.getParameter(Computer.COMPUTER_INTRODUCED);
 		if (!"".equals(introducedDate)) {
 			try {
 				computer.setIntroduced(new java.sql.Date(stringToDate(
@@ -106,7 +112,7 @@ public class SaveComputer extends HttpServlet {
 			}
 		} else
 			computer.setIntroduced(null);
-		String discontinuedDate = request.getParameter("discontinued");
+		String discontinuedDate = request.getParameter(Computer.COMPUTER_DISCONTINUED);
 		if (!"".equals(discontinuedDate)) {
 			try {
 				computer.setDiscontinued(new java.sql.Date(stringToDate(
@@ -117,7 +123,7 @@ public class SaveComputer extends HttpServlet {
 			}
 		} else
 			computer.setDiscontinued(null);
-		String company_id = request.getParameter("company_id");
+		String company_id = request.getParameter(Computer.COMPUTER_COMPANY);
 		if (!"".equals(company_id))
 			computer.setCompany(companysi.findCompanyById(Integer
 					.parseInt(company_id)));
@@ -128,7 +134,7 @@ public class SaveComputer extends HttpServlet {
 	}
 
 	private static Date stringToDate(String sDate) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 		return formatter.parse(sDate);
 	}
 

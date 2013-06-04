@@ -17,7 +17,11 @@ import com.excilys.service.UtilsService;
  */
 @WebServlet("/DeleteComputer")
 public class DeleteComputer extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+
+	private static final String UTILS_SERVICE = "us";
+	private static final String ID = "id";
 
 	private ComputerService computersi;
 
@@ -44,16 +48,16 @@ public class DeleteComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		UtilsService utilsService = (UtilsService) request.getSession()
-				.getAttribute("us");
+				.getAttribute(UTILS_SERVICE);
 		if (utilsService == null)
 			utilsService = new UtilsService();
-		int computer_id = Integer.parseInt(request.getParameter("id"));
+		int computer_id = Integer.parseInt(request.getParameter(ID));
 		utilsService.setMessaj(UtilsService.DELETED);
 		utilsService
 				.setComp(computersi.findComputerById(computer_id).getName());
 		utilsService.setMaj(true);
 		computersi.deleteComputerById(computer_id);
-		request.getSession().setAttribute("us", utilsService);
+		request.getSession().setAttribute(UTILS_SERVICE, utilsService);
 		response.sendRedirect("computer");
 	}
 

@@ -23,11 +23,7 @@ public class SortService {
 	private AttributeUtils discontinued_att;
 	private AttributeUtils company_att;
 
-	private String order;
-	private String by;
-	private String search;
-	private AttributeUtils current;
-	private int currentCount;
+	private ParamService ps;
 
 	public SortService() {
 		computer_att = new AttributeUtils(COMPUTER_ASC, COMPUTER_DESC);
@@ -35,6 +31,7 @@ public class SortService {
 		discontinued_att = new AttributeUtils(DISCONTINUED_ASC,
 				DISCONTINUED_DESC);
 		company_att = new AttributeUtils(COMPANY_ASC, COMPANY_DESC);
+		ps = ParamService.INSTANCE;
 
 	}
 
@@ -71,25 +68,30 @@ public class SortService {
 	}
 
 	public String getReq() {
-		if (order != null)
+		if (ps.getOrder() != null)
 			return "DESC";
 		return "ASC";
 	}
 
 	public AttributeUtils set() {
-		if (by == null) {
-			by = "c.name";
+		if (ps.getBy() == null) {
+			ps.setBy("c.name");
+
 		}
-		String sortString = by;
+		String sortString = ps.getBy();
 		switch (sortString) {
 		case "introduced":
-			setBy("c.introduced");
+			ps.setBy("c.introduced");
 			return setIntroduced_att();
+
 		case "discontinued":
-			setBy("c.discontinued");
+
+			ps.setBy("c.discontinued");
 			return setDiscontinued_att();
+
 		case "company.name":
-			setBy("cy.name");
+
+			ps.setBy("cy.name");
 			return setCompany_att();
 		default:
 			return setComputer_att();
@@ -108,48 +110,27 @@ public class SortService {
 	}
 
 	private void defaulSetCurrent(AttributeUtils au, String name) {
-		if (!au.equals(current))
+		if (!au.equals(ps.getCurrent()))
 			au.init(name);
 	}
 
-	public String getBy() {
-		return by;
+	public ParamService getPs() {
+		return ps;
 	}
 
-	public void setBy(String by) {
-		this.by = by;
-	}
-
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
-		this.order = order;
-	}
-
-	public String getSearch() {
-		return search;
-	}
-
-	public void setSearch(String search) {
-		this.search = search;
-	}
-
-	public AttributeUtils getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(AttributeUtils au) {
-		this.current = au;
-	}
-
-	public int getCurrentCount() {
-		return currentCount;
+	public void setPs(ParamService ps) {
+		this.ps = ps;
 	}
 
 	public void setCurrentCount(int currentCount) {
-		this.currentCount = currentCount;
+		ps.setCurrentCount(currentCount);
+	}
+
+	public void setPs(String by, String order, String search) {
+		ps.setBy(by);
+		ps.setOrder(order);
+		ps.setSearch(search);
+		ps.setCurrent(this.set());
 	}
 
 	public static SortService init(HttpServletRequest request) {

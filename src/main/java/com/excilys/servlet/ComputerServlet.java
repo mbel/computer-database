@@ -20,7 +20,17 @@ import com.excilys.service.UtilsService;
  */
 @WebServlet("/computer")
 public class ComputerServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
+
+	private static final String FILTRE_SEARCH = "f";
+	private static final String FILTRE_ORDER = "o";
+	private static final String FILTRE_BY = "s";
+	private static final String PAGINATION_LEFT_BOOL = "r";
+	private static final String PAGINATION = "p";
+	private static final String SORT_SERVICE = "ss";
+	private static final String UTILS_SERVICE = "us";
+	private static final String LIST_COMPUTERS = "lc";
 
 	private ComputerService computersi;
 
@@ -41,31 +51,30 @@ public class ComputerServlet extends HttpServlet {
 		UtilsService utilsService = UtilsService.init(request);
 		SortService sortService = SortService.init(request);
 
-		if (request.getParameter("p") != null) {
-			p = Integer.parseInt(request.getParameter("p"));
-			if (request.getParameter("r") != null)
+		if (request.getParameter(PAGINATION) != null) {
+			p = Integer.parseInt(request.getParameter(PAGINATION));
+			if (request.getParameter(PAGINATION_LEFT_BOOL) != null)
 				p--;
 			else
 				p++;
 		} else {
 			sortService.defaultSet();
-			sortService.setBy(request.getParameter("s"));
-			sortService.setOrder(request.getParameter("o"));
-			sortService.setSearch(request.getParameter("f"));
-			sortService.setCurrent(sortService.set());
+			sortService.setPs(request.getParameter(FILTRE_BY),
+					request.getParameter(FILTRE_ORDER),
+					request.getParameter(FILTRE_SEARCH));
 			sortService.setCurrentCount(computersi.getCurrentCount(p,
-					sortService.getReq(), sortService.getBy(),
-					sortService.getSearch()));
+					sortService.getReq(), sortService.getPs().getBy(),
+					sortService.getPs().getSearch()));
 		}
 
-		List<Computer> lc = computersi.findOrderByComputers(p,
-				sortService.getReq(), sortService.getBy(),
-				sortService.getSearch());
-		request.getSession().setAttribute("ss", sortService);
-		request.getSession().removeAttribute("us");
-		request.setAttribute("us", utilsService);
-		request.setAttribute("p", p);
-		request.setAttribute("lc", lc);
+		List<Computer> lc = computersi.findOrderByComputers(p, sortService
+				.getReq(), sortService.getPs().getBy(), sortService.getPs()
+				.getSearch());
+		request.getSession().setAttribute(SORT_SERVICE, sortService);
+		request.getSession().removeAttribute(UTILS_SERVICE);
+		request.setAttribute(UTILS_SERVICE, utilsService);
+		request.setAttribute(PAGINATION, p);
+		request.setAttribute(LIST_COMPUTERS, lc);
 		request.getRequestDispatcher("computer.jsp").forward(request, response);
 	}
 
