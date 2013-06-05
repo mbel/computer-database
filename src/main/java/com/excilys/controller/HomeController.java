@@ -29,30 +29,28 @@ public class HomeController {
 
 	@RequestMapping(value = "/computersDis", method = RequestMethod.GET)
 	public String home(Model m, HttpSession session, UrlBind urlBind) {
-
-		ErrorUtils utilsService = ErrorUtils.init(session);
-		SortUtils sortService = SortUtils.init(session);
+		ErrorUtils errorUtils = ErrorUtils.init(session);
+		SortUtils sortUtils = SortUtils.init(session);
 		int p = urlBind.getP();
 		if (p != -1) {
 			p = urlBind.moveP();
 		} else {
 			p = 0;
-			sortService.defaultSet();
-			sortService.setPs(urlBind.getS(), urlBind.getO(), urlBind.getF());
-			sortService.setCurrentCount(computerService.getCurrentCount(p,
-					sortService.getReq(), sortService.getPs().getBy(),
-					sortService.getPs().getSearch()));
+			sortUtils.defaultSet();
+			sortUtils.setPs(urlBind.getS(), urlBind.getO(), urlBind.getF());
+			sortUtils.setCurrentCount(computerService.getCurrentCount(p,
+					sortUtils.getReq(), sortUtils.getPs().getBy(),
+					sortUtils.getPs().getSearch()));
 		}
-		List<Computer> lc = computerService.findOrderByComputers(p, sortService
-				.getReq(), sortService.getPs().getBy(), sortService.getPs()
+		List<Computer> lc = computerService.findOrderByComputers(p, sortUtils
+				.getReq(), sortUtils.getPs().getBy(), sortUtils.getPs()
 				.getSearch());
-		session.setAttribute(SORT_SERVICE, sortService);
+		session.setAttribute(SORT_SERVICE, sortUtils);
 		session.removeAttribute(UTILS_SERVICE);
-		m.addAttribute(UTILS_SERVICE, utilsService);
+		m.addAttribute(UTILS_SERVICE, errorUtils);
 		m.addAttribute(PAGINATION, p);
 		m.addAttribute(LIST_COMPUTERS, lc);
 		return "computer";
 	}
-
 
 }

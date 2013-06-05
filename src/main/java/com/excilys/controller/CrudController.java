@@ -33,51 +33,51 @@ public class CrudController {
 	@Autowired
 	private ComputerService computerService;
 
-	private ErrorUtils utilsService;
+	private ErrorUtils errorUtils;
 
 	@RequestMapping(value = "/SingleComputer", method = RequestMethod.GET)
 	public String single(Model m, HttpSession session,
 			@RequestParam(value = ID, defaultValue = "-1") int id,
 			@ModelAttribute("computer") Computer c) {
-		utilsService = ErrorUtils.init(session);
+		errorUtils = ErrorUtils.init(session);
 		List<Company> lcany = companyService.findCompanies();
 		Computer computer = null;
 		if (id > 0) {
 			computer = computerService.findComputerById(id);
-			utilsService.setMessaj(ErrorUtils.UPDATED);
+			errorUtils.setMessaj(ErrorUtils.UPDATED);
 		} else {
 			computer = new Computer();
 			computer.setId(id);
 			computer.setName("");
-			utilsService.setMessaj(ErrorUtils.CREATED);
+			errorUtils.setMessaj(ErrorUtils.CREATED);
 		}
 		m.addAttribute("lcany", lcany);
 		m.addAttribute("computer", computer);
 		m.addAttribute("com", new ComputerForm());
-		session.setAttribute("us", utilsService);
+		session.setAttribute("us", errorUtils);
 		return "singlecomputer";
 	}
 
 	@RequestMapping(value = "/DeleteComputer", method = RequestMethod.POST)
 	public String delete(Model m, HttpSession session,
 			@RequestParam(value = ID, defaultValue = "-1") int id) {
-		utilsService = ErrorUtils.init(session);
-		utilsService.setMessaj(ErrorUtils.DELETED);
-		utilsService.setComp(computerService.findComputerById(id).getName());
-		utilsService.setMaj(true);
+		errorUtils = ErrorUtils.init(session);
+		errorUtils.setMessaj(ErrorUtils.DELETED);
+		errorUtils.setComp(computerService.findComputerById(id).getName());
+		errorUtils.setMaj(true);
 		computerService.deleteComputerById(id);
-		session.setAttribute(UTILS_SERVICE, utilsService);
+		session.setAttribute(UTILS_SERVICE, errorUtils);
 		return "redirect:/computersDis.html";
 	}
 
 	@RequestMapping(value = "/SaveComputer", method = RequestMethod.POST)
 	public String save(Model m, HttpSession session, ComputerForm com,
 			BindingResult result) {
-		utilsService = (ErrorUtils) session.getAttribute(UTILS_SERVICE);
-		utilsService.init();
+		errorUtils = (ErrorUtils) session.getAttribute(UTILS_SERVICE);
+		errorUtils.init();
 		Computer cp = generateComputer(com);
-		if (!utilsService.getErrors()) {
-			session.setAttribute(UTILS_SERVICE, utilsService);
+		if (!errorUtils.getErrors()) {
+			session.setAttribute(UTILS_SERVICE, errorUtils);
 			return "redirect:/SingleComputer.html?id=" + com.getId();
 		}
 		if (cp.getId() <= 0) {
@@ -85,9 +85,9 @@ public class CrudController {
 		} else {
 			computerService.update(cp);
 		}
-		utilsService.setComp(cp.getName());
-		utilsService.setMaj(true);
-		session.setAttribute(UTILS_SERVICE, utilsService);
+		errorUtils.setComp(cp.getName());
+		errorUtils.setMaj(true);
+		session.setAttribute(UTILS_SERVICE, errorUtils);
 		return "redirect:/computersDis.html";
 	}
 
@@ -98,19 +98,19 @@ public class CrudController {
 		Date discontinued = computerForm.getDiscontinued();
 		int company_id = computerForm.getCompany();
 		if ("".equals(name)) {
-			utilsService.setError_name(ErrorUtils.ERROR);
+			errorUtils.setError_name(ErrorUtils.ERROR);
 		} else {
 			computer.setName(name);
-			utilsService.setError_name("");
+			errorUtils.setError_name("");
 		}
 		if (!"".equals(introduced)) {
 			computer.setIntroduced(introduced);
-			utilsService.setError_introducted("");
+			errorUtils.setError_introducted("");
 		} else
 			computer.setIntroduced(null);
 		if (!"".equals(discontinued)) {
 			computer.setDiscontinued(discontinued);
-			utilsService.setError_discontinued("");
+			errorUtils.setError_discontinued("");
 		} else
 			computer.setDiscontinued(null);
 		if (!"".equals(company_id))

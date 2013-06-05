@@ -4,64 +4,40 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.dao.CompanyDao;
-import com.excilys.dao.DsFact;
 import com.excilys.om.Company;
 import com.excilys.service.CompanyService;
 
-
 @Service("companyServiceImpl")
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	private CompanyDao companydi;
 
-	private void closeConnection() {
-		DsFact.INSTANCE.closeConnection();
-	}
-
 	public List<Company> findCompanies() {
-		try {
-			return companydi.findCompanies();
-		} finally {
-			closeConnection();
-		}
+		return companydi.findCompanies();
 	}
 
 	public Company findCompanyById(int id) {
-		try {
-			return companydi.findCompanyById(id);
-		} finally {
-			closeConnection();
-		}
+		return companydi.findCompanyById(id);
 	}
 
 	@Override
 	public void delete(Company company) {
-		try {
-			companydi.delete(company);
-		} finally {
-			closeConnection();
-		}
+		companydi.delete(company);
 	}
 
 	@Override
 	public void update(Company company) {
-		try {
-			companydi.update(company);
-		} finally {
-			closeConnection();
-		}
+		companydi.update(company);
 	}
 
 	@Override
 	public void insert(Company company) {
-		try {
-			companydi.insert(company);
-		} finally {
-			closeConnection();
-		}
+		companydi.insert(company);
 	}
 
 }

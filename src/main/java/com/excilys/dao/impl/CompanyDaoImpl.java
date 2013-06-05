@@ -1,74 +1,42 @@
 package com.excilys.dao.impl;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.dao.CompanyDao;
-import com.excilys.dao.DsFact;
 import com.excilys.om.Company;
 
 @Repository("companyDaoImpl")
 public class CompanyDaoImpl implements CompanyDao {
 
-	public void closeConnection(PreparedStatement ptmt, ResultSet rs) {
-		try {
-			if (rs != null)
-				rs.close();
-			if (ptmt != null)
-				ptmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private JdbcTemplate jdbcTemplate;
 
+	@Override
 	public Company findCompanyById(int id) {
-		Company company = null;
-		PreparedStatement ptmt = null;
-		ResultSet rs = null;
-		try {
-			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
-					SELECT_COMPANY_BY_ID);
-			ptmt.setInt(1, id);
-			rs = ptmt.executeQuery();
-			if (rs.next()) {
-				company = new Company();
-				company.setId(rs.getInt(Company.COMPANY_ID));
-				company.setName(rs.getString(Company.COMPANY_NAME));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return company;
+		return this.jdbcTemplate.queryForObject(SELECT_COMPANY_BY_ID,
+				new Object[] { id }, Company.class);
 	}
 
+	@Override
 	public List<Company> findCompanies() {
-		Company company = null;
-		List<Company> lp = new ArrayList<Company>();
-		PreparedStatement ptmt = null;
-		ResultSet rs = null;
-		try {
-			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
-					SELECT_COMPANY);
-			rs = ptmt.executeQuery();
-			while (rs.next()) {
-				company = new Company();
-				company.setId(rs.getInt(Company.COMPANY_ID));
-				company.setName(rs.getString(Company.COMPANY_NAME));
-				lp.add(company);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, rs);
-		}
-		return lp;
+		return this.jdbcTemplate.query(SELECT_COMPANY,
+				new RowMapper<Company>() {
+					public Company mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Company company = new Company();
+						company.setId(rs.getInt(Company.COMPANY_ID));
+						company.setName(rs.getString(Company.COMPANY_NAME));
+						return company;
+					}
+				});
 	}
 
 	@Override
@@ -81,6 +49,11 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	@Override
 	public void insert(Company company) {
+	}
+
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 }

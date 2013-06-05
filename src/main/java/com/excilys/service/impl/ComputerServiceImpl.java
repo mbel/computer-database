@@ -2,88 +2,54 @@ package com.excilys.service.impl;
 
 import java.util.List;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.dao.ComputerDao;
-import com.excilys.dao.DsFact;
 import com.excilys.om.Computer;
 import com.excilys.service.ComputerService;
 
 @Service("computerServiceImpl")
+@Transactional
 public class ComputerServiceImpl implements ComputerService {
 
 	@Autowired
 	private ComputerDao computerdi;
 
-
-	private void closeConnection() {
-		DsFact.INSTANCE.closeConnection();
-	}
-
 	@Override
 	public Computer findComputerById(int computer_id) {
-		try {
-			return computerdi.findComputerById(computer_id);
-		} finally {
-			closeConnection();
-		}
+		return computerdi.findComputerById(computer_id);
 	}
 
 	@Override
 	public void delete(Computer computer) {
-		try {
-			computerdi.delete(computer);
-		} finally {
-			closeConnection();
-		}
+		computerdi.delete(computer);
 	}
 
 	@Override
 	public void update(Computer computer) {
-		try {
-			computerdi.update(computer);
-		} finally {
-			closeConnection();
-		}
+		computerdi.update(computer);
 	}
 
 	@Override
 	public void insert(Computer computer) {
-		try {
-			computerdi.insert(computer);
-		} finally {
-			closeConnection();
-		}
+		computerdi.insert(computer);
 	}
 
 	@Override
 	public void deleteComputerById(int computer_id) {
-		try {
-			computerdi.deleteComputerById(computer_id);
-		} finally {
-			closeConnection();
-		}
+		computerdi.deleteComputerById(computer_id);
 	}
 
 	@Override
 	public List<Computer> findOrderByComputers(int p, String req,
 			String orderBy, String search) {
-		try {
-			return computerdi.findOrderByComputers(p, req, orderBy, search);
-		} finally {
-			closeConnection();
-		}
+		return computerdi.findOrderByComputers(p, req, orderBy, search);
 	}
 
 	public int getCurrentCount(int p, String req, String orderBy, String search) {
-		try {
-			return computerdi.getCurrentCount(p, req, orderBy, search);
-		} finally {
-			closeConnection();
-		}
+		return computerdi.getCurrentCount(p, req, orderBy, search);
 	}
 
 }

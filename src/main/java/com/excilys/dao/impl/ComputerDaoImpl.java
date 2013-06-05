@@ -1,55 +1,28 @@
 package com.excilys.dao.impl;
 
-import java.sql.Connection;
-
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.dao.ComputerDao;
-import com.excilys.dao.DsFact;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
 
 @Repository("computerDaoImpl")
 public class ComputerDaoImpl implements ComputerDao {
 
-	private void closeConnection(PreparedStatement ptmt, ResultSet rs) {
-		try {
-			if (rs != null)
-				rs.close();
-			if (ptmt != null)
-				ptmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private JdbcTemplate jdbcTemplate;
 
 	public Computer findComputerById(int computer_id) {
-		Computer computer = null;
-		PreparedStatement ptmt = null;
-		ResultSet rs = null;
-		try {
-			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
-					SELECT_BY_ID);
-			ptmt.setInt(1, computer_id);
-			rs = ptmt.executeQuery();
-			if (rs.next()) {
-				computer = createComputer(rs);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, rs);
-		}
-		return computer;
+		return this.jdbcTemplate.queryForObject(SELECT_BY_ID,
+				new Object[] { computer_id }, Computer.class);
 	}
 
 	@Override
@@ -59,92 +32,39 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	@Override
 	public void update(Computer computer) {
-		PreparedStatement ptmt = null;
-		try {
-			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
-					UPDATE);
-			majComputer(computer, ptmt);
-			ptmt.setLong(5, computer.getId());
-			ptmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, null);
-		}
+		this.jdbcTemplate.update(UPDATE, computer.getName(),
+				computer.getIntroduced(), computer.getDiscontinued(),
+				computer.getCompany(), computer.getId());
 	}
 
 	@Override
 	public void insert(Computer computer) {
-		PreparedStatement ptmt = null;
-		try {
-			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
-					INSERT);
-			majComputer(computer, ptmt);
-			ptmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, null);
-		}
+		this.jdbcTemplate.update(INSERT, majComputer(computer));
 	}
 
 	@Override
 	public void deleteComputerById(int computer_id) {
-		PreparedStatement ptmt = null;
-		try {
-			ptmt = DsFact.INSTANCE.getConnectionThread().prepareStatement(
-					DELETE_BY_ID);
-			ptmt.setInt(1, computer_id);
-			ptmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, null);
-		}
+		this.jdbcTemplate.update(DELETE_BY_ID, computer_id);
 	}
 
 	@Override
 	public List<Computer> findOrderByComputers(int p, String req,
 			String orderBy, String search) {
-		Computer computer = null;
-		Connection con = null;
-		PreparedStatement ptmt = null;
-		ResultSet rs = null;
-		List<Computer> lp = new ArrayList<Computer>();
-		try {
-			con = DsFact.INSTANCE.getConnectionThread();
-			ptmt = findRequest(p, req, orderBy, search, con, SELECT_ORDER_BY);
-			rs = ptmt.executeQuery();
-			while (rs.next()) {
-				computer = createComputer(rs);
-				lp.add(computer);
+		String sql = findStringRequest(p, req, orderBy, search, SELECT_ORDER_BY);
+		RowMapper<Computer> mapper = new RowMapper<Computer>() {
+			public Computer mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				return createComputer(rs);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, rs);
-		}
-		return lp;
+		};
+		return (List<Computer>) jdbcTemplate.query(sql,
+				findObjectRequest(p, search), mapper);
 	}
 
 	public int getCurrentCount(int p, String req, String orderBy, String search) {
-		Connection con = null;
-		PreparedStatement ptmt = null;
-		ResultSet rs = null;
-		int currentCount = 0;
-		try {
-			con = DsFact.INSTANCE.getConnectionThread();
-			ptmt = findRequest(p, req, orderBy, search, con, SELECT_COUNT);
-			rs = ptmt.executeQuery();
-			if (rs.next()) {
-				currentCount = rs.getInt(CPT);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection(ptmt, rs);
-		}
-		return currentCount;
+		String sql = findStringRequest(p, req, orderBy, search, SELECT_COUNT);
+		return jdbcTemplate.queryForObject(sql, findObjectRequest(p, search),
+				Integer.class);
 	}
 
 	private Computer createComputer(ResultSet rs) throws SQLException {
@@ -162,35 +82,31 @@ public class ComputerDaoImpl implements ComputerDao {
 		return computer;
 	}
 
-	private PreparedStatement findRequest(int p, String req, String orderBy,
-			String search, Connection con, String request) throws SQLException {
-		PreparedStatement ptmt;
+	private Object[] findObjectRequest(int p, String search) {
 		if (search == null || "".equals(search)) {
-			ptmt = con.prepareStatement(String.format(request, "", orderBy,
-					orderBy, req));
-			ptmt.setInt(1, p * LIMIT);
-			ptmt.setInt(2, LIMIT);
+			return new Object[] { p * LIMIT, LIMIT };
 		} else {
-			ptmt = con.prepareStatement(String.format(request, SEARCH, orderBy,
-					orderBy, req));
-			ptmt.setString(1,
+			return new Object[] {
 					new StringBuilder(PERCENT).append(search).append(PERCENT)
-							.toString());
-			ptmt.setInt(2, p * LIMIT);
-			ptmt.setInt(3, LIMIT);
+							.toString(), p * LIMIT, LIMIT };
 		}
-		return ptmt;
 	}
 
-	private void majComputer(Computer computer, PreparedStatement ptmt)
-			throws SQLException {
-		ptmt.setString(1, computer.getName());
-		ptmt.setDate(2, computer.getIntroduced());
-		ptmt.setDate(3, computer.getDiscontinued());
-		if (computer.getCompany() == null)
-			ptmt.setNull(4, Types.INTEGER);
-		else
-			ptmt.setLong(4, computer.getCompany().getId());
+	private String findStringRequest(int p, String req, String orderBy,
+			String search, String request) {
+		if (search == null || "".equals(search))
+			return String.format(request, "", orderBy, orderBy, req);
+		return String.format(request, SEARCH, orderBy, orderBy, req);
+	}
+
+	private Object[] majComputer(Computer computer) {
+		return new Object[] { computer.getName(), computer.getIntroduced(),
+				computer.getDiscontinued(), computer.getCompany().getId() };
+	}
+
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 }
