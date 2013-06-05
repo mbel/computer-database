@@ -5,15 +5,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import com.excilys.dao.ComputerDao;
+import com.excilys.dao.DsFact;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
-import com.excilys.utils.DsFact;
 
 @Repository("computerDaoImpl")
 public class ComputerDaoImpl implements ComputerDao {
@@ -186,7 +187,10 @@ public class ComputerDaoImpl implements ComputerDao {
 		ptmt.setString(1, computer.getName());
 		ptmt.setDate(2, computer.getIntroduced());
 		ptmt.setDate(3, computer.getDiscontinued());
-		ptmt.setLong(4, computer.getCompany().getId());
+		if (computer.getCompany() == null)
+			ptmt.setNull(4, Types.INTEGER);
+		else
+			ptmt.setLong(4, computer.getCompany().getId());
 	}
 
 }

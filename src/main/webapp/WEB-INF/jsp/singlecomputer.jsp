@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.excilys.om.Company"%>
 <%@ page import="com.excilys.om.Computer"%>
-<%@ page import="java.util.*"%>
+<%@ page import="java.util.*"%><%@ taglib prefix="spring"
+	uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -24,55 +26,58 @@
 
 	<section id="main">
 		<h1>Edit computer</h1>
-		<form action="<c:url value="/SaveComputer.html?id=${computer.id}" />"
-			method="POST">
+		<c:url value="/SaveComputer.html?id=${computer.id}" var="urlSave" />
+		<form:form action="${urlSave}" method="POST" modelAttribute="com">
 			<fieldset>
-
+				<form:input type="hidden" path="id" value="${computer.id}" />
 				<div class="clearfix ${us.error_name}">
-					<label for="c.name">Computer name</label>
+					<form:label path="name" for="c.name">Computer name</form:label>
 					<div class="input">
-						<input type="text" id="c.name" name="c.name"
-							value="${computer.name}"> <span class="help-inline">Required</span>
+						<form:input path="name" type="text" id="c.name" name="c.name"
+							value="${computer.name}" />
+						<span class="help-inline">Required</span>
 					</div>
 				</div>
 
 				<div class="clearfix ${us.error_introducted}">
-					<label for="c.introduced">Introduced date</label>
+					<form:label path="introduced" for="c.introduced">Introduced date</form:label>
 					<div class="input">
-						<input type="text" id="c.introduced" name="c.introduced"
-							value="${computer.introduced}"> <span class="help-inline">Date
-							(&#x27;yyyy-MM-dd&#x27;)</span>
+						<form:input path="introduced" type="text" id="c.introduced"
+							name="c.introduced" value="${computer.introduced}" />
+						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
 
 				<div class="clearfix ${us.error_discontinued}">
-					<label for="c.discontinued">Discontinued date</label>
+					<form:label path="discontinued" for="c.discontinued">Discontinued date</form:label>
 					<div class="input">
-						<input type="text" id="c.discontinued" name="c.discontinued"
-							value="${computer.discontinued}"> <span
-							class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+						<form:input path="discontinued" type="text" id="c.discontinued"
+							name="c.discontinued" value="${computer.discontinued}" />
+						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
 
 				<div class="clearfix">
 					<label for="c.company_id">Company</label>
 					<div class="input">
-						<select id="c.company_id" name="c.company_id">
-							<option class="blank" value="">-- Choose a company --</option>
+
+						<form:select path="company" id="c.company_id" name="c.company_id">
+							<form:option class="blank" value="" label="Choose a company" />
 							<c:forEach var="company" items="${lcany}">
 								<c:choose>
 									<c:when test="${computer.company.id == company.id}">
-										<option class="blank" value="${company.id}"
-											selected="selected">${company.name}</option>
+										<form:option class="blank" value="${company.id}"
+											selected="selected" label="${company.name}" />
 									</c:when>
 									<c:otherwise>
-										<option class="blank" value="${company.id}">
-											${company.name}</option>
+										<form:option class="blank" value="${company.id}"
+											label="${company.name}" />
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-						</select> <span class="help-inline"></span>
+						</form:select>
+						<span class="help-inline"></span>
 					</div>
 				</div>
 			</fieldset>
@@ -80,12 +85,8 @@
 				<input type="submit" value="Save this computer" class="btn primary">
 				or <a href="<c:url value="/computersDis.html" />" class="btn">Cancel</a>
 			</div>
-
-
-		</form>
+		</form:form>
 		<c:if test="${computer.id != -1}">
-
-
 			<form
 				action="<c:url value="/DeleteComputer.html?id=${computer.id}"/>"
 				method="POST" class="topRight">

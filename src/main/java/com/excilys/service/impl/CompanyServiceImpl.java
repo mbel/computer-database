@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excilys.dao.CompanyDao;
+import com.excilys.dao.DsFact;
 import com.excilys.om.Company;
 import com.excilys.service.CompanyService;
-import com.excilys.utils.DsFact;
 
 
 @Service("companyServiceImpl")

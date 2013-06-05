@@ -36,15 +36,16 @@
 			</div>
 		</c:if>
 		<div id="actions">
-			<form action="/computersDis.html?s=true" method="GET">
+			<form action="<c:url value="/computersDis.html?s=true" /> "
+				method="GET">
 				<input type="search" id="searchbox" name="f" value=""
 					placeholder="Filter by computer name..."> <input
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
 			<a class="btn success" id="add"
-				href="<c:url value="/SingleComputer.html?id=-1" />">Add
-				a new computer</a>
+				href="<c:url value="/SingleComputer.html?id=-1" />">Add a new
+				computer</a>
 		</div>
 		<c:choose>
 			<c:when test="${ss.ps.currentCount eq 0}">

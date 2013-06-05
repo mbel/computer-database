@@ -74,6 +74,11 @@ public class ErrorUtils {
 		this.maj = maj;
 	}
 
+	public boolean getErrors() {
+		return "".equals(getError_name()) && "".equals(getError_introducted())
+				&& "".equals(getError_discontinued());
+	}
+
 	@PostConstruct
 	public static ErrorUtils init(HttpSession session) {
 		ErrorUtils utilsService = (ErrorUtils) session.getAttribute("us");

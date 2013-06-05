@@ -3,6 +3,8 @@ package com.excilys.utils;
 
 public class ParamUtils {
 
+//	private int p;
+//	private boolean r;
 	private String order;
 	private String by;
 	private String search;

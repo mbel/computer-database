@@ -68,5 +68,4 @@ public class HomeController {
 		m.addAttribute(LIST_COMPUTERS, lc);
 		return "computer";
 	}
-
 }

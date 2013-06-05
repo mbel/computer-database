@@ -1,4 +1,4 @@
-package com.excilys.utils;
+package com.excilys.controller.form;
 
 public class FormUrl {
 

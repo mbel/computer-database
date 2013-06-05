@@ -1,8 +1,6 @@
 package com.excilys.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,10 +8,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.excilys.controller.form.ComputerForm;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
 import com.excilys.service.CompanyService;
@@ -25,7 +26,6 @@ public class CrudController {
 
 	private static final String UTILS_SERVICE = "us";
 	private static final String ID = "id";
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	@Autowired
 	private CompanyService companyService;
@@ -37,7 +37,8 @@ public class CrudController {
 
 	@RequestMapping(value = "/SingleComputer", method = RequestMethod.GET)
 	public String single(Model m, HttpSession session,
-			@RequestParam(value = ID, defaultValue = "-1") int id) {
+			@RequestParam(value = ID, defaultValue = "-1") int id,
+			@ModelAttribute("computer") Computer c) {
 		utilsService = ErrorUtils.init(session);
 		List<Company> lcany = companyService.findCompanies();
 		Computer computer = null;
@@ -52,6 +53,7 @@ public class CrudController {
 		}
 		m.addAttribute("lcany", lcany);
 		m.addAttribute("computer", computer);
+		m.addAttribute("com", new ComputerForm());
 		session.setAttribute("us", utilsService);
 		return "singlecomputer";
 	}
@@ -69,52 +71,32 @@ public class CrudController {
 	}
 
 	@RequestMapping(value = "/SaveComputer", method = RequestMethod.POST)
-	public String save(
-			Model m,
-			HttpSession session,
-			@RequestParam(value = ID, defaultValue = "-1") int id,
-			@RequestParam(value = Computer.COMPUTER_NAME, defaultValue = "false") String name,
-			@RequestParam(value = Computer.COMPUTER_INTRODUCED, defaultValue = "c.name") String introduced,
-			@RequestParam(value = Computer.COMPUTER_DISCONTINUED, defaultValue = "DESC") String discontinued,
-			@RequestParam(value = Computer.COMPUTER_COMPANY, defaultValue = "") String company_id) {
-		Computer cp = null;
+	public String save(Model m, HttpSession session, ComputerForm com,
+			BindingResult result) {
 		utilsService = (ErrorUtils) session.getAttribute(UTILS_SERVICE);
 		utilsService.init();
-		String redirect = "redirect:/computersDis.html";
-		if (id == -1) {
-			cp = generateComputer(name, introduced, discontinued, company_id,
-					new Computer());
-			if ("".equals(utilsService.getError_name())
-					&& "".equals(utilsService.getError_introducted())
-					&& "".equals(utilsService.getError_discontinued())) {
-				computerService.insert(cp);
-				utilsService.setComp(cp.getName());
-				utilsService.setMaj(true);
-			} else {
-				redirect = "redirect:/SaveComputer.html?id=-1";
-			}
-		} else {
-			Computer computer = computerService.findComputerById(id);
-			cp = generateComputer(name, introduced, discontinued, company_id,
-					computer);
-			if ("".equals(utilsService.getError_name())
-					&& "".equals(utilsService.getError_introducted())
-					&& "".equals(utilsService.getError_discontinued())) {
-				computerService.update(cp);
-				utilsService.setComp(cp.getName());
-				utilsService.setMaj(true);
-			} else {
-				redirect = "redirect:/SingleComputer.html?id="
-						+ computer.getId();
-			}
+		Computer cp = generateComputer(com);
+		if (!utilsService.getErrors()) {
+			session.setAttribute(UTILS_SERVICE, utilsService);
+			return "redirect:/SingleComputer.html?id=" + com.getId();
 		}
+		if (cp.getId() <= 0) {
+			computerService.insert(cp);
+		} else {
+			computerService.update(cp);
+		}
+		utilsService.setComp(cp.getName());
+		utilsService.setMaj(true);
 		session.setAttribute(UTILS_SERVICE, utilsService);
-		System.out.println(redirect);
-		return redirect;
+		return "redirect:/computersDis.html";
 	}
 
-	private Computer generateComputer(String name, String introduced,
-			String discontinued, String company_id, Computer computer) {
+	private Computer generateComputer(ComputerForm computerForm) {
+		Computer computer = new Computer();
+		String name = computerForm.getName();
+		Date introduced = computerForm.getIntroduced();
+		Date discontinued = computerForm.getDiscontinued();
+		int company_id = computerForm.getCompany();
 		if ("".equals(name)) {
 			utilsService.setError_name(ErrorUtils.ERROR);
 		} else {
@@ -122,36 +104,20 @@ public class CrudController {
 			utilsService.setError_name("");
 		}
 		if (!"".equals(introduced)) {
-			try {
-				computer.setIntroduced(new java.sql.Date(stringToDate(
-						introduced).getTime()));
-				utilsService.setError_introducted("");
-			} catch (ParseException e) {
-				utilsService.setError_introducted(ErrorUtils.ERROR);
-			}
+			computer.setIntroduced(introduced);
+			utilsService.setError_introducted("");
 		} else
 			computer.setIntroduced(null);
 		if (!"".equals(discontinued)) {
-			try {
-				computer.setDiscontinued(new java.sql.Date(stringToDate(
-						discontinued).getTime()));
-				utilsService.setError_discontinued("");
-			} catch (ParseException e) {
-				utilsService.setError_discontinued(ErrorUtils.ERROR);
-			}
+			computer.setDiscontinued(discontinued);
+			utilsService.setError_discontinued("");
 		} else
 			computer.setDiscontinued(null);
 		if (!"".equals(company_id))
-			computer.setCompany(companyService.findCompanyById(Integer
-					.parseInt(company_id)));
+			computer.setCompany(companyService.findCompanyById(company_id));
 		else {
-			computer.setCompany(new Company());
+			computer.setCompany(null);
 		}
 		return computer;
-	}
-
-	private static Date stringToDate(String sDate) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-		return formatter.parse(sDate);
 	}
 }
