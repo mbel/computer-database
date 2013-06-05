@@ -1,21 +1,23 @@
-package com.excilys.service;
+package com.excilys.service.impl;
 
 import java.util.List;
 
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.dao.ComputerDao;
-import com.excilys.dao.ComputerDaoImpl;
-import com.excilys.dao.DsFact;
 import com.excilys.om.Computer;
+import com.excilys.service.ComputerService;
+import com.excilys.utils.DsFact;
 
-public enum ComputerServiceImpl implements ComputerService {
+@Service("computerServiceImpl")
+public class ComputerServiceImpl implements ComputerService {
 
-	INSTANCE;
-
+	@Autowired
 	private ComputerDao computerdi;
 
-	private ComputerServiceImpl() {
-		computerdi = ComputerDaoImpl.INSTANCE;
-	}
 
 	private void closeConnection() {
 		DsFact.INSTANCE.closeConnection();

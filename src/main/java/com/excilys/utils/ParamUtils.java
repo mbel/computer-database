@@ -1,15 +1,12 @@
-package com.excilys.service;
+package com.excilys.utils;
 
-import com.excilys.utils.AttributeUtils;
 
-public enum ParamService {
-
-	INSTANCE;
+public class ParamUtils {
 
 	private String order;
 	private String by;
 	private String search;
-	private AttributeUtils current = new AttributeUtils("", "");
+	private AttributeUtils current;
 	private int currentCount;
 
 	public String getOrder() {

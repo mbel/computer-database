@@ -1,4 +1,4 @@
-package com.excilys.dao;
+package com.excilys.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,11 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+import com.excilys.dao.CompanyDao;
 import com.excilys.om.Company;
+import com.excilys.utils.DsFact;
 
-public enum CompanyDaoImpl implements CompanyDao {
-
-	INSTANCE;
+@Repository("companyDaoImpl")
+public class CompanyDaoImpl implements CompanyDao {
 
 	public void closeConnection(PreparedStatement ptmt, ResultSet rs) {
 		try {

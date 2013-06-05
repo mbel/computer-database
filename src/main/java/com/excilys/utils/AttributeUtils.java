@@ -1,5 +1,6 @@
 package com.excilys.utils;
 
+
 public class AttributeUtils {
 
 	private String name;

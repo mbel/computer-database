@@ -18,13 +18,13 @@
 
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="/computer-database/">My Computer database </a>
+			<a href="<c:url value="/" />">My Computer database </a>
 		</h1>
 	</header>
 
 	<section id="main">
 		<h1>Edit computer</h1>
-		<form action="/computer-database/SaveComputer?id=${computer.id}"
+		<form action="<c:url value="/SaveComputer.html?id=${computer.id}" />"
 			method="POST">
 			<fieldset>
 
@@ -78,11 +78,16 @@
 			</fieldset>
 			<div class="actions">
 				<input type="submit" value="Save this computer" class="btn primary">
-				or <a href="/computer-database/computer" class="btn">Cancel</a>
+				or <a href="<c:url value="/computersDis.html" />" class="btn">Cancel</a>
 			</div>
+
+
 		</form>
 		<c:if test="${computer.id != -1}">
-			<form action="/computer-database/DeleteComputer?id=${computer.id}"
+
+
+			<form
+				action="<c:url value="/DeleteComputer.html?id=${computer.id}"/>"
 				method="POST" class="topRight">
 				<input type="submit" value="Delete this computer" class="btn danger">
 			</form>

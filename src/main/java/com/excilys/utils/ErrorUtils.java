@@ -1,8 +1,9 @@
-package com.excilys.service;
+package com.excilys.utils;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
-public class UtilsService {
+public class ErrorUtils {
 
 	public static final String ERROR = "error";
 	public static final String UPDATED = "updated";
@@ -73,11 +74,11 @@ public class UtilsService {
 		this.maj = maj;
 	}
 
-	public static UtilsService init(HttpServletRequest request) {
-		UtilsService utilsService = (UtilsService) request.getSession()
-				.getAttribute("us");
+	@PostConstruct
+	public static ErrorUtils init(HttpSession session) {
+		ErrorUtils utilsService = (ErrorUtils) session.getAttribute("us");
 		if (utilsService == null)
-			utilsService = new UtilsService();
+			utilsService = new ErrorUtils();
 		return utilsService;
 	}
 }

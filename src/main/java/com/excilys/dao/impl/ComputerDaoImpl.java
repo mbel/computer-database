@@ -1,18 +1,22 @@
-package com.excilys.dao;
+package com.excilys.dao.impl;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+import com.excilys.dao.ComputerDao;
 import com.excilys.om.Company;
 import com.excilys.om.Computer;
+import com.excilys.utils.DsFact;
 
-public enum ComputerDaoImpl implements ComputerDao {
-
-	INSTANCE;
+@Repository("computerDaoImpl")
+public class ComputerDaoImpl implements ComputerDao {
 
 	private void closeConnection(PreparedStatement ptmt, ResultSet rs) {
 		try {

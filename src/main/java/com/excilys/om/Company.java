@@ -1,12 +1,13 @@
 package com.excilys.om;
 
-public class Company {
 
+public class Company {
 
 	public static final String COMPANY_ID = "cy.id";
 	public static final String COMPANY_NAME = "cy.name";
 
 	private int id;
+
 	private String name;
 
 	public int getId() {

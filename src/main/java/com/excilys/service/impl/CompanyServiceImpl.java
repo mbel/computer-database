@@ -1,21 +1,21 @@
-package com.excilys.service;
+package com.excilys.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.dao.CompanyDao;
-import com.excilys.dao.CompanyDaoImpl;
-import com.excilys.dao.DsFact;
 import com.excilys.om.Company;
+import com.excilys.service.CompanyService;
+import com.excilys.utils.DsFact;
 
-public enum CompanyServiceImpl implements CompanyService {
 
-	INSTANCE;
+@Service("companyServiceImpl")
+public class CompanyServiceImpl implements CompanyService {
 
+	@Autowired
 	private CompanyDao companydi;
-
-	private CompanyServiceImpl() {
-		companydi = CompanyDaoImpl.INSTANCE;
-	}
 
 	private void closeConnection() {
 		DsFact.INSTANCE.closeConnection();

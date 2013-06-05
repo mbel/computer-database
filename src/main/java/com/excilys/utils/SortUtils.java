@@ -1,10 +1,9 @@
-package com.excilys.service;
+package com.excilys.utils;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import com.excilys.utils.AttributeUtils;
 
-public class SortService {
+public class SortUtils {
 
 	public static final String COMPUTER_ASC = "";
 	public static final String COMPUTER_DESC = "o=desc";
@@ -19,20 +18,22 @@ public class SortService {
 	public static final String COMPANY_DESC = "s=company.name&o=desc";
 
 	private AttributeUtils computer_att;
+
 	private AttributeUtils introduced_att;
+
 	private AttributeUtils discontinued_att;
+
 	private AttributeUtils company_att;
 
-	private ParamService ps;
+	private ParamUtils ps;
 
-	public SortService() {
+	public SortUtils() {
 		computer_att = new AttributeUtils(COMPUTER_ASC, COMPUTER_DESC);
 		introduced_att = new AttributeUtils(INTRODUCED_ASC, INTRODUCED_DESC);
 		discontinued_att = new AttributeUtils(DISCONTINUED_ASC,
 				DISCONTINUED_DESC);
 		company_att = new AttributeUtils(COMPANY_ASC, COMPANY_DESC);
-		ps = ParamService.INSTANCE;
-
+		ps = new ParamUtils();
 	}
 
 	public AttributeUtils getComputer_att() {
@@ -68,29 +69,24 @@ public class SortService {
 	}
 
 	public String getReq() {
-		if (ps.getOrder() != null)
-			return "DESC";
-		return "ASC";
+		if ("DESC".equals(ps.getOrder()))
+			return "ASC";
+		return "DESC";
 	}
 
 	public AttributeUtils set() {
 		if (ps.getBy() == null) {
 			ps.setBy("c.name");
-
 		}
 		String sortString = ps.getBy();
 		switch (sortString) {
 		case "introduced":
 			ps.setBy("c.introduced");
 			return setIntroduced_att();
-
 		case "discontinued":
-
 			ps.setBy("c.discontinued");
 			return setDiscontinued_att();
-
 		case "company.name":
-
 			ps.setBy("cy.name");
 			return setCompany_att();
 		default:
@@ -114,11 +110,11 @@ public class SortService {
 			au.init(name);
 	}
 
-	public ParamService getPs() {
+	public ParamUtils getPs() {
 		return ps;
 	}
 
-	public void setPs(ParamService ps) {
+	public void setPs(ParamUtils ps) {
 		this.ps = ps;
 	}
 
@@ -133,11 +129,10 @@ public class SortService {
 		ps.setCurrent(this.set());
 	}
 
-	public static SortService init(HttpServletRequest request) {
-		SortService sortService = (SortService) request.getSession()
-				.getAttribute("ss");
+	public static SortUtils init(HttpSession session) {
+		SortUtils sortService = (SortUtils) session.getAttribute("ss");
 		if (sortService == null)
-			sortService = new SortService();
+			sortService = new SortUtils();
 		return sortService;
 	}
 }

@@ -11,8 +11,11 @@ public class Computer {
 	public static final String COMPUTER_COMPANY = "c.company_id";
 
 	private int id;
+
 	private String name;
+
 	private Date introduced;
+
 	private Date discontinued;
 	private Company company;
 
