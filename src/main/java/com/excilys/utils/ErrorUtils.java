@@ -93,6 +93,7 @@ public class ErrorUtils {
 
 	public void setErrors(List<FieldError> list) {
 		for (FieldError oe : list) {
+			System.out.println(oe.getField());
 			if (oe.getField().equals("name")) {
 				this.setError_name(ErrorUtils.ERROR);
 			}

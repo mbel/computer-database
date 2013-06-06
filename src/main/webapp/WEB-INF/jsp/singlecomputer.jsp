@@ -63,7 +63,7 @@
 
 
 						<form:select path="company" id="c.company_id" name="c.company_id">
-							<form:option class="blank" value="0" label="Choose a company" />
+							<form:option class="blank" value="" label="Choose a company" />
 							<c:forEach var="company" items="${lcany}">
 								<c:choose>
 									<c:when test="${computer.company.id == company.id}">

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,6 +24,9 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	private JdbcTemplate jdbcTemplate;
 
+	private static final Logger logger = LoggerFactory
+			.getLogger("ComputerDaoImpl");
+
 	public Computer findComputerById(int computer_id) {
 		Computer computer = this.jdbcTemplate.queryForObject(SELECT_BY_ID,
 				new Object[] { computer_id }, new RowMapper<Computer>() {
@@ -35,18 +40,19 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	@Override
 	public void delete(Computer computer) {
+		logger.info("dao.delete.computer :" + computer);
 		deleteComputerById(computer.getId());
 	}
 
 	@Override
 	public void update(Computer computer) {
-		this.jdbcTemplate.update(UPDATE, computer.getName(),
-				computer.getIntroduced(), computer.getDiscontinued(),
-				computer.getCompany(), computer.getId());
+		logger.info("dao.update.computer:" + computer);
+		this.jdbcTemplate.update(UPDATE, majUpdateComputer(computer));
 	}
 
 	@Override
 	public void insert(Computer computer) {
+		logger.info("dao.insert.computer:" + computer);
 		this.jdbcTemplate.update(INSERT, majComputer(computer));
 	}
 
@@ -58,6 +64,9 @@ public class ComputerDaoImpl implements ComputerDao {
 	@Override
 	public List<Computer> findOrderByComputers(int p, String req,
 			String orderBy, String search) {
+		logger.info(new StringBuilder("dao.find.computers:[by:")
+				.append(orderBy).append(";order:").append(req)
+				.append(";search:").append(search).append("]").toString());
 		String sql = findStringRequest(p, req, orderBy, search, SELECT_ORDER_BY);
 		RowMapper<Computer> mapper = new RowMapper<Computer>() {
 			public Computer mapRow(ResultSet rs, int rowNum)
@@ -116,6 +125,13 @@ public class ComputerDaoImpl implements ComputerDao {
 				.getCompany().getId();
 		return new Object[] { computer.getName(), computer.getIntroduced(),
 				computer.getDiscontinued(), company_id };
+	}
+
+	private Object[] majUpdateComputer(Computer computer) {
+		Integer company_id = (computer.getCompany() == null) ? null : computer
+				.getCompany().getId();
+		return new Object[] { computer.getName(), computer.getIntroduced(),
+				computer.getDiscontinued(), company_id, company_id };
 	}
 
 	@Autowired

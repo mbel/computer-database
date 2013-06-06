@@ -21,8 +21,18 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	@Override
 	public Company findCompanyById(int id) {
-		return this.jdbcTemplate.queryForObject(SELECT_COMPANY_BY_ID,
-				new Object[] { id }, Company.class);
+		Company company = this.jdbcTemplate.queryForObject(
+				SELECT_COMPANY_BY_ID, new Object[] { id },
+				new RowMapper<Company>() {
+					public Company mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Company company = new Company();
+						company.setId(rs.getInt(Company.COMPANY_ID));
+						company.setName(rs.getString(Company.COMPANY_NAME));
+						return company;
+					}
+				});
+		return company;
 	}
 
 	@Override

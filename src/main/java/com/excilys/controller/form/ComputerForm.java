@@ -4,7 +4,7 @@ import java.text.ParseException;
 
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,7 +14,7 @@ public class ComputerForm {
 
 	private int id;
 
-	@NotEmpty
+	@NotBlank
 	@Size(min = 1, max = 20)
 	private String name;
 
