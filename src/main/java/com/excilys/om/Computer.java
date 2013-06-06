@@ -2,6 +2,8 @@ package com.excilys.om;
 
 import java.sql.Date;
 
+import org.joda.time.DateTime;
+
 public class Computer {
 
 	public static final String COMPUTER_ID = "c.id";
@@ -31,16 +33,18 @@ public class Computer {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
-		this.introduced = introduced;
+	public void setIntroduced(DateTime introduced) {
+		if (introduced != null)
+			this.introduced = new Date(introduced.getMillis());
 	}
 
 	public Date getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(Date discontinued) {
-		this.discontinued = discontinued;
+	public void setDiscontinued(DateTime discontinued) {
+		if (introduced != null)
+			this.discontinued = new Date(discontinued.getMillis());
 	}
 
 	public int getId() {

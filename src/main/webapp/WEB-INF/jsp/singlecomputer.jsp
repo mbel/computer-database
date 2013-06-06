@@ -12,9 +12,9 @@
 <head>
 <title>Computers database</title>
 <link rel="stylesheet" type="text/css" media="screen"
-	href="./css/bootstrap.min.css">
+	href="<c:url value="/resources/css/bootstrap.min.css" /> ">
 <link rel="stylesheet" type="text/css" media="screen"
-	href="./css/main.css">
+	href="<c:url value="/resources/css/main.css" /> ">
 </head>
 <body>
 
@@ -23,10 +23,9 @@
 			<a href="<c:url value="/" />">My Computer database </a>
 		</h1>
 	</header>
-
 	<section id="main">
 		<h1>Edit computer</h1>
-		<c:url value="/SaveComputer.html?id=${computer.id}" var="urlSave" />
+		<c:url value="/SaveComputer?id=${computer.id}" var="urlSave" />
 		<form:form action="${urlSave}" method="POST" modelAttribute="com">
 			<fieldset>
 				<form:input type="hidden" path="id" value="${computer.id}" />
@@ -62,8 +61,9 @@
 					<label for="c.company_id">Company</label>
 					<div class="input">
 
+
 						<form:select path="company" id="c.company_id" name="c.company_id">
-							<form:option class="blank" value="" label="Choose a company" />
+							<form:option class="blank" value="0" label="Choose a company" />
 							<c:forEach var="company" items="${lcany}">
 								<c:choose>
 									<c:when test="${computer.company.id == company.id}">
@@ -77,23 +77,26 @@
 								</c:choose>
 							</c:forEach>
 						</form:select>
+
 						<span class="help-inline"></span>
 					</div>
 				</div>
+
+
 			</fieldset>
 			<div class="actions">
 				<input type="submit" value="Save this computer" class="btn primary">
-				or <a href="<c:url value="/computersDis.html" />" class="btn">Cancel</a>
+				or <a href="<c:url value="/computers" />" class="btn">Cancel</a>
 			</div>
 		</form:form>
 		<c:if test="${computer.id != -1}">
-			<form
-				action="<c:url value="/DeleteComputer.html?id=${computer.id}"/>"
+			<form action="<c:url value="/DeleteComputer/${computer.id}"/>"
 				method="POST" class="topRight">
 				<input type="submit" value="Delete this computer" class="btn danger">
 			</form>
 		</c:if>
 	</section>
+
 </body>
 </html>
 

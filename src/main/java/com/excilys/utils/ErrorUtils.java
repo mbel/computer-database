@@ -1,8 +1,13 @@
 package com.excilys.utils;
 
-import javax.annotation.PostConstruct;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Component;
+import org.springframework.validation.FieldError;
+
+@Component
 public class ErrorUtils {
 
 	public static final String ERROR = "error";
@@ -79,11 +84,24 @@ public class ErrorUtils {
 				&& "".equals(getError_discontinued());
 	}
 
-	@PostConstruct
 	public static ErrorUtils init(HttpSession session) {
 		ErrorUtils utilsService = (ErrorUtils) session.getAttribute("us");
 		if (utilsService == null)
 			utilsService = new ErrorUtils();
 		return utilsService;
+	}
+
+	public void setErrors(List<FieldError> list) {
+		for (FieldError oe : list) {
+			if (oe.getField().equals("name")) {
+				this.setError_name(ErrorUtils.ERROR);
+			}
+			if (oe.getField().equals("introduced")) {
+				this.setError_introducted(ErrorUtils.ERROR);
+			}
+			if (oe.getField().equals("discontinued")) {
+				this.setError_discontinued(ErrorUtils.ERROR);
+			}
+		}
 	}
 }

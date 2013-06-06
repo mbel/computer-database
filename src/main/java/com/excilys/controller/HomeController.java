@@ -27,7 +27,7 @@ public class HomeController {
 	@Autowired
 	private ComputerService computerService;
 
-	@RequestMapping(value = "/computersDis", method = RequestMethod.GET)
+	@RequestMapping(value = "/computers", method = RequestMethod.GET)
 	public String home(Model m, HttpSession session, UrlBind urlBind) {
 		ErrorUtils errorUtils = ErrorUtils.init(session);
 		SortUtils sortUtils = SortUtils.init(session);

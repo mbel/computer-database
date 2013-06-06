@@ -1,11 +1,13 @@
 package com.excilys.dao.impl;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,8 +23,14 @@ public class ComputerDaoImpl implements ComputerDao {
 	private JdbcTemplate jdbcTemplate;
 
 	public Computer findComputerById(int computer_id) {
-		return this.jdbcTemplate.queryForObject(SELECT_BY_ID,
-				new Object[] { computer_id }, Computer.class);
+		Computer computer = this.jdbcTemplate.queryForObject(SELECT_BY_ID,
+				new Object[] { computer_id }, new RowMapper<Computer>() {
+					public Computer mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return createComputer(rs);
+					}
+				});
+		return computer;
 	}
 
 	@Override
@@ -73,8 +81,12 @@ public class ComputerDaoImpl implements ComputerDao {
 		computer = new Computer();
 		computer.setId(rs.getInt("c.id"));
 		computer.setName(rs.getString("c.name"));
-		computer.setIntroduced(rs.getDate("c.introduced"));
-		computer.setDiscontinued(rs.getDate("c.discontinued"));
+		Date intro = rs.getDate("c.introduced");
+		Date disco = rs.getDate("c.discontinued");
+		if (intro != null)
+			computer.setIntroduced(new DateTime(intro.getTime()));
+		if (disco != null)
+			computer.setDiscontinued(new DateTime(disco.getTime()));
 		company = new Company();
 		company.setId(rs.getInt("c.company_id"));
 		company.setName(rs.getString("cy.name"));
@@ -100,8 +112,10 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	private Object[] majComputer(Computer computer) {
+		Integer company_id = (computer.getCompany() == null) ? null : computer
+				.getCompany().getId();
 		return new Object[] { computer.getName(), computer.getIntroduced(),
-				computer.getDiscontinued(), computer.getCompany().getId() };
+				computer.getDiscontinued(), company_id };
 	}
 
 	@Autowired

@@ -2,7 +2,6 @@ package com.excilys.utils;
 
 import javax.servlet.http.HttpSession;
 
-
 public class SortUtils {
 
 	public static final String COMPUTER_ASC = "";

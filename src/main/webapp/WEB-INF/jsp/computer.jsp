@@ -9,9 +9,9 @@
 <head>
 <title>Computers database</title>
 <link rel="stylesheet" type="text/css" media="screen"
-	href="./css/bootstrap.min.css">
+	href="<c:url value="/resources/css/bootstrap.min.css" /> ">
 <link rel="stylesheet" type="text/css" media="screen"
-	href="./css/main.css">
+	href="<c:url value="/resources/css/main.css" /> ">
 </head>
 <body>
 
@@ -36,16 +36,14 @@
 			</div>
 		</c:if>
 		<div id="actions">
-			<form action="<c:url value="/computersDis.html?s=true" /> "
-				method="GET">
+			<form action="<c:url value="/computers?s=true" /> " method="GET">
 				<input type="search" id="searchbox" name="f" value=""
 					placeholder="Filter by computer name..."> <input
 					type="submit" id="searchsubmit" value="Filter by name"
 					class="btn primary">
 			</form>
 			<a class="btn success" id="add"
-				href="<c:url value="/SingleComputer.html?id=-1" />">Add a new
-				computer</a>
+				href="<c:url value="/SingleComputer/" />">Add a new computer</a>
 		</div>
 		<c:choose>
 			<c:when test="${ss.ps.currentCount eq 0}">
@@ -58,22 +56,22 @@
 					<thead>
 						<tr>
 							<th class="name header ${ss.computer_att.header}"><a
-								href="<c:url value="/computersDis.html?${ss.computer_att.name}" /> ">Computer
+								href="<c:url value="/computers?${ss.computer_att.name}" /> ">Computer
 									name</a></th>
 							<th class="introduced header ${ss.introduced_att.header}"><a
-								href="<c:url value="/computersDis.html?${ss.introduced_att.name}" />">Introduced</a>
+								href="<c:url value="/computers?${ss.introduced_att.name}" />">Introduced</a>
 							</th>
 							<th class="discontinued header ${ss.discontinued_att.header}"><a
-								href="<c:url value="/computersDis.html?${ss.discontinued_att.name}" />">Discontinued</a></th>
+								href="<c:url value="/computers?${ss.discontinued_att.name}" />">Discontinued</a></th>
 							<th class="company_name header ${ss.company_att.header}"><a
-								href="<c:url value="/computersDis.html?${ss.company_att.name}" />">Company</a></th>
+								href="<c:url value="/computers?${ss.company_att.name}" />">Company</a></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="computer" items="${lc}">
 							<tr>
 								<td><a
-									href="<c:url value="/SingleComputer.html?id=${computer.id}" />">${computer.name}</a></td>
+									href="<c:url value="/SingleComputer/${computer.id}" />">${computer.name}</a></td>
 								<td>${computer.introduced}</td>
 								<td>${computer.discontinued}</td>
 								<td>${computer.company.name}</td>
@@ -86,7 +84,7 @@
 						<c:choose>
 							<c:when test="${p ne 0}">
 								<li class="prev"><a
-									href="<c:url value="/computersDis.html?p=${p}&r=true" /> ">&larr;
+									href="<c:url value="/computers?p=${p}&r=true" /> ">&larr;
 										Previous</a></li>
 							</c:when>
 							<c:otherwise>
@@ -98,7 +96,7 @@
 								<li class="current"><a>Displaying ${p*10} to
 										${(p+1)*10} of ${ss.ps.currentCount}</a></li>
 								<li class="next"><a
-									href="<c:url value="/computersDis.html?p=${p}&${ss.ps.current.name}" /> ">Next
+									href="<c:url value="/computers?p=${p}&${ss.ps.current.name}" /> ">Next
 										&rarr;</a></li>
 							</c:when>
 							<c:otherwise>

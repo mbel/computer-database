@@ -1,17 +1,29 @@
 package com.excilys.controller.form;
 
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ComputerForm {
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	private int id;
+
+	@NotEmpty
+	@Size(min = 1, max = 20)
 	private String name;
-	private Date introduced;
-	private Date discontinued;
+
+	@DateTimeFormat(pattern = DATE_FORMAT)
+	private DateTime introduced;
+
+	@DateTimeFormat(pattern = DATE_FORMAT)
+	private DateTime discontinued;
+
 	private int company;
 
 	public int getId() {
@@ -30,20 +42,20 @@ public class ComputerForm {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public DateTime getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(String introduced) throws ParseException {
-		this.introduced = stringToDate(introduced);
+	public void setIntroduced(DateTime introduced) throws ParseException {
+		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public DateTime getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(String discontinued) throws ParseException {
-		this.discontinued = stringToDate(discontinued);
+	public void setDiscontinued(DateTime discontinued) throws ParseException {
+		this.discontinued = discontinued;
 	}
 
 	public int getCompany() {
@@ -52,11 +64,6 @@ public class ComputerForm {
 
 	public void setCompany(int company) {
 		this.company = company;
-	}
-
-	private static Date stringToDate(String sDate) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-		return (Date) formatter.parse(sDate);
 	}
 
 }
