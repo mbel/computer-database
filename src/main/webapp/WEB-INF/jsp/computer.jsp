@@ -3,6 +3,7 @@
 <%@ page import="com.excilys.om.Computer"%>
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -72,8 +73,10 @@
 							<tr>
 								<td><a
 									href="<c:url value="/SingleComputer/${computer.id}" />">${computer.name}</a></td>
-								<td>${computer.introduced}</td>
-								<td>${computer.discontinued}</td>
+								<td><joda:format value="${computer.introduced}"
+										pattern="yyyy-MM-dd" /></td>
+								<td><joda:format value="${computer.discontinued}"
+										pattern="yyyy-MM-dd" /></td>
 								<td>${computer.company.name}</td>
 							</tr>
 						</c:forEach>
@@ -93,14 +96,14 @@
 						</c:choose>
 						<c:choose>
 							<c:when test="${(p+1)*10 < ss.ps.currentCount}">
-								<li class="current"><a>Displaying ${p*10} to
+								<li class="current"><a>Displaying ${(p*10)+1} to
 										${(p+1)*10} of ${ss.ps.currentCount}</a></li>
 								<li class="next"><a
 									href="<c:url value="/computers?p=${p}&${ss.ps.current.name}" /> ">Next
 										&rarr;</a></li>
 							</c:when>
 							<c:otherwise>
-								<li class="current"><a>Displaying ${p*10} to
+								<li class="current"><a>Displaying ${(p*10)+1} to
 										${ss.ps.currentCount} of ${ss.ps.currentCount}</a></li>
 								<li class="prev disabled"><a>Next &rarr;</a></li>
 							</c:otherwise>

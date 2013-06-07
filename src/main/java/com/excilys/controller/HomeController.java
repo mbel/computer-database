@@ -39,8 +39,8 @@ public class HomeController {
 			sortUtils.defaultSet();
 			sortUtils.setPs(urlBind.getS(), urlBind.getO(), urlBind.getF());
 			sortUtils.setCurrentCount(computerService.getCurrentCount(p,
-					sortUtils.getReq(), sortUtils.getPs().getBy(),
-					sortUtils.getPs().getSearch()));
+					sortUtils.getReq(), sortUtils.getPs().getBy(), sortUtils
+							.getPs().getSearch()));
 		}
 		List<Computer> lc = computerService.findOrderByComputers(p, sortUtils
 				.getReq(), sortUtils.getPs().getBy(), sortUtils.getPs()

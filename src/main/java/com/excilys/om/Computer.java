@@ -1,7 +1,5 @@
 package com.excilys.om;
 
-import java.sql.Date;
-
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,10 +23,10 @@ public class Computer {
 	private String name;
 
 	@DateTimeFormat(pattern = DATE_FORMAT)
-	private Date introduced;
+	private DateTime introduced;
 
 	@DateTimeFormat(pattern = DATE_FORMAT)
-	private Date discontinued;
+	private DateTime discontinued;
 
 	private Company company;
 
@@ -40,22 +38,20 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public DateTime getIntroduced() {
 		return introduced;
 	}
 
 	public void setIntroduced(DateTime introduced) {
-		if (introduced != null)
-			this.introduced = new Date(introduced.getMillis());
+		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public DateTime getDiscontinued() {
 		return discontinued;
 	}
 
 	public void setDiscontinued(DateTime discontinued) {
-		if (introduced != null)
-			this.discontinued = new Date(discontinued.getMillis());
+		this.discontinued = introduced;
 	}
 
 	public int getId() {

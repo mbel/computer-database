@@ -123,15 +123,22 @@ public class ComputerDaoImpl implements ComputerDao {
 	private Object[] majComputer(Computer computer) {
 		Integer company_id = (computer.getCompany() == null) ? null : computer
 				.getCompany().getId();
-		return new Object[] { computer.getName(), computer.getIntroduced(),
-				computer.getDiscontinued(), company_id };
+		Date idate = (computer.getIntroduced() == null) ? null : new Date(
+				computer.getIntroduced().getMillis());
+		Date ddate = (computer.getDiscontinued() == null) ? null : new Date(
+				computer.getDiscontinued().getMillis());
+		return new Object[] { computer.getName(), idate, ddate, company_id };
 	}
 
 	private Object[] majUpdateComputer(Computer computer) {
 		Integer company_id = (computer.getCompany() == null) ? null : computer
 				.getCompany().getId();
-		return new Object[] { computer.getName(), computer.getIntroduced(),
-				computer.getDiscontinued(), company_id, company_id };
+		Date idate = (computer.getIntroduced() == null) ? null : new Date(
+				computer.getIntroduced().getMillis());
+		Date ddate = (computer.getDiscontinued() == null) ? null : new Date(
+				computer.getDiscontinued().getMillis());
+		return new Object[] { computer.getName(), idate, ddate, company_id,
+				company_id };
 	}
 
 	@Autowired
