@@ -12,6 +12,7 @@
 		<module>computer-database-model</module>
 		<module>computer-database-dao</module>
 		<module>computer-database-service</module>
+		<module>computer-database-webapp</module>
 	</modules>
 
 	<properties>
