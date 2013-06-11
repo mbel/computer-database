@@ -3,7 +3,7 @@
 <%@ page import="com.excilys.om.Computer"%>
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -73,9 +73,9 @@
 							<tr>
 								<td><a
 									href="<c:url value="/SingleComputer/${computer.id}" />">${computer.name}</a></td>
-								<td><joda:format value="${computer.introduced}"
+								<td><fmt:formatDate value="${computer.introduced}"
 										pattern="yyyy-MM-dd" /></td>
-								<td><joda:format value="${computer.discontinued}"
+								<td><fmt:formatDate value="${computer.discontinued}"
 										pattern="yyyy-MM-dd" /></td>
 								<td>${computer.company.name}</td>
 							</tr>

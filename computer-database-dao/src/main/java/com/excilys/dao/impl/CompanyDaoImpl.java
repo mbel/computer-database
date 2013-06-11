@@ -1,14 +1,10 @@
 package com.excilys.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.dao.CompanyDao;
@@ -17,36 +13,30 @@ import com.excilys.om.Company;
 @Repository("companyDaoImpl")
 public class CompanyDaoImpl implements CompanyDao {
 
-	private JdbcTemplate jdbcTemplate;
+	private HibernateTemplate hibernateTemplate;
 
-	@Override
-	public Company findCompanyById(int id) {
-		Company company = this.jdbcTemplate.queryForObject(
-				SELECT_COMPANY_BY_ID, new Object[] { id },
-				new RowMapper<Company>() {
-					public Company mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Company company = new Company();
-						company.setId(rs.getInt(Company.COMPANY_ID));
-						company.setName(rs.getString(Company.COMPANY_NAME));
-						return company;
-					}
-				});
-		return company;
+	public HibernateTemplate getHibernateTemplate() {
+		return hibernateTemplate;
+	}
+
+	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
+	}
+
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		hibernateTemplate = new HibernateTemplate(sessionFactory);
 	}
 
 	@Override
+	public Company findCompanyById(int id) {
+		return hibernateTemplate.get(Company.class, id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Company> findCompanies() {
-		return this.jdbcTemplate.query(SELECT_COMPANY,
-				new RowMapper<Company>() {
-					public Company mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Company company = new Company();
-						company.setId(rs.getInt(Company.COMPANY_ID));
-						company.setName(rs.getString(Company.COMPANY_NAME));
-						return company;
-					}
-				});
+		return hibernateTemplate.find(SELECT_COMPANY);
 	}
 
 	@Override
@@ -62,8 +52,8 @@ public class CompanyDaoImpl implements CompanyDao {
 	}
 
 	@Autowired
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	public void init(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
 	}
 
 }

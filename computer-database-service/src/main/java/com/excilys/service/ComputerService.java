@@ -14,12 +14,9 @@ public interface ComputerService {
 
 	void insert(Computer computer);
 
-	void deleteComputerById(int computer_id);
-
 	List<Computer> findOrderByComputers(int p, String req, String orderBy,
 			String search);
 
-	int getCurrentCount(int p, String req, String orderBy,
-			String search);
+	int getCurrentCount(int p, String req, String orderBy, String search);
 
 }

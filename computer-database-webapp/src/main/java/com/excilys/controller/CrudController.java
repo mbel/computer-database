@@ -1,11 +1,14 @@
 package com.excilys.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,9 +39,15 @@ public class CrudController {
 
 	@InitBinder
 	public void initBinderCompany(WebDataBinder binder) {
-		binder.initDirectFieldAccess();
 		binder.registerCustomEditor(Company.class, new CompanyConverter(
 				companyService));
+	}
+
+	@InitBinder
+	public void initBinderDate(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				dateFormat, true));
 	}
 
 	@RequestMapping(value = "/SingleComputer", method = RequestMethod.GET)
@@ -77,9 +86,10 @@ public class CrudController {
 	public String delete(Model m, HttpSession session, @PathVariable int id) {
 		ErrorUtils errorUtils = ErrorUtils.init(session);
 		errorUtils.setMessaj(ErrorUtils.DELETED);
-		errorUtils.setComp(computerService.findComputerById(id).getName());
+		Computer c = computerService.findComputerById(id);
+		errorUtils.setComp(c.getName());
 		errorUtils.setMaj(true);
-		computerService.deleteComputerById(id);
+		computerService.delete(c);
 		session.setAttribute(UTILS_SERVICE, errorUtils);
 		return "redirect:/computers";
 	}

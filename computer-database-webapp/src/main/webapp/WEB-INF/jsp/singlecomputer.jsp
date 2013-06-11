@@ -6,6 +6,8 @@
 	uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -41,8 +43,10 @@
 				<div class="clearfix ${us.error_introducted}">
 					<form:label path="introduced" for="c.introduced">Introduced date</form:label>
 					<div class="input">
+						<fmt:formatDate value="${computer.introduced}"
+							pattern="yyyy-MM-dd" var="introduced" />
 						<form:input path="introduced" type="text" id="c.introduced"
-							name="c.introduced" value="${computer.introduced}" />
+							name="c.introduced" value="${introduced}" />
 						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>
@@ -51,8 +55,10 @@
 				<div class="clearfix ${us.error_discontinued}">
 					<form:label path="discontinued" for="c.discontinued">Discontinued date</form:label>
 					<div class="input">
+						<fmt:formatDate value='${computer.discontinued}'
+							pattern='yyyy-MM-dd' var="discontinued" />
 						<form:input path="discontinued" type="text" id="c.discontinued"
-							name="c.discontinued" value="${computer.discontinued}" />
+							name="c.discontinued" value="${discontinued}" />
 						<span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
 					</div>
 				</div>

@@ -1,11 +1,19 @@
 package com.excilys.om;
 
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+@Entity
 public class Computer {
 
 	public static final String COMPUTER_ID = "c.id";
@@ -14,20 +22,21 @@ public class Computer {
 	public static final String COMPUTER_DISCONTINUED = "c.discontinued";
 	public static final String COMPUTER_COMPANY = "c.company_id";
 
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	@NotBlank
 	@Size(min = 1, max = 50)
 	private String name;
 
-	@DateTimeFormat(pattern = DATE_FORMAT)
-	private DateTime introduced;
+	@DateTimeFormat(iso = ISO.DATE)
+	private Date introduced;
 
-	@DateTimeFormat(pattern = DATE_FORMAT)
-	private DateTime discontinued;
+	@DateTimeFormat(iso = ISO.DATE)
+	private Date discontinued;
 
+	@ManyToOne
 	private Company company;
 
 	public String getName() {
@@ -38,20 +47,20 @@ public class Computer {
 		this.name = name;
 	}
 
-	public DateTime getIntroduced() {
+	public Date getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(DateTime introduced) {
+	public void setIntroduced(Date introduced) {
 		this.introduced = introduced;
 	}
 
-	public DateTime getDiscontinued() {
+	public Date getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(DateTime discontinued) {
-		this.discontinued = introduced;
+	public void setDiscontinued(Date discontinued) {
+		this.discontinued = discontinued;
 	}
 
 	public int getId() {

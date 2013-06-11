@@ -14,7 +14,7 @@
 		</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>/home/mbelhadj/workspaceSpring/computer-database/log/logFile.%d{yyyy-MM-dd}.log
+			<fileNamePattern>/home/mbelhadj/workspaceMiniprojet/computer-database/log/logFile.%d{yyyy-MM-dd}.log
 			</fileNamePattern>
 			<maxHistory>5</maxHistory>
 		</rollingPolicy>
